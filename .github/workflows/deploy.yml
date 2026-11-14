@@ -49,16 +49,27 @@ jobs:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -e
+          # Cada deploy se apila sobre el anterior (historial lineal): así el
+          # "git pull" que hace Hostinger en public_html siempre avanza en
+          # fast-forward. Antes se subía un commit huérfano con --force y el
+          # pull del servidor fallaba con "divergent branches".
+          REMOTO="https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
           publicar () {
-            local carpeta="$1" rama="$2"
-            cd "$carpeta"
-            git init -q -b "$rama"
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add -A
-            git commit -q -m "Deploy de ${GITHUB_SHA::7}: ${GITHUB_REF_NAME}"
-            git push -q --force "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "$rama"
-            cd - > /dev/null
+            local carpeta="$1" rama="$2" tmp
+            tmp="$(mktemp -d)"
+            if git ls-remote --exit-code --heads "$REMOTO" "$rama" > /dev/null; then
+              git clone -q --depth 1 --branch "$rama" "$REMOTO" "$tmp"
+              git -C "$tmp" rm -rq --ignore-unmatch .
+            else
+              git init -q -b "$rama" "$tmp"
+            fi
+            cp -R "$carpeta"/. "$tmp"/
+            git -C "$tmp" config user.name "github-actions[bot]"
+            git -C "$tmp" config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git -C "$tmp" add -A
+            if git -C "$tmp" diff --cached --quiet; then echo "$rama: sin cambios"; return; fi
+            git -C "$tmp" commit -q -m "Deploy de ${GITHUB_SHA::7}: ${GITHUB_REF_NAME}"
+            git -C "$tmp" push -q "$REMOTO" "HEAD:refs/heads/$rama"
           }
           publicar dist/dossier deploy-dossier
           publicar dist/links deploy-links
