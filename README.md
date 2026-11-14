@@ -79,9 +79,26 @@ Cada push a `main` dispara `.github/workflows/deploy.yml`, que:
 2. Controla que no queden rutas a claude.ai, `/_blob/` ni Google Fonts.
 3. Publica dos ramas con el resultado listo para servir: `deploy-dossier` (contenido de `dist/dossier`) y `deploy-links` (contenido de `dist/links`).
 
-En Hostinger, cada sitio baja su rama a su `public_html` (hPanel → Avanzado → Git, o por la API). Si en los *Secrets* del repo se cargan `HOSTINGER_WEBHOOK_DOSSIER` y `HOSTINGER_WEBHOOK_LINKS` (las URL de *auto deployment* que da hPanel → Git), la Action avisa a Hostinger al final y el sitio se actualiza solo.
+En Hostinger ya quedaron registrados los dos repositorios (hPanel → Avanzado → Git):
+
+| Sitio | Rama | Carpeta en el servidor |
+|---|---|---|
+| eljardindelosgatosnegros.com.ar | `deploy-dossier` | `public_html/` |
+| bios.eljardindelosgatosnegros.com.ar | `deploy-links` | `public_html/bios/` |
+
+Para que Hostinger se actualice solo después de cada push, hay que avisarle. Dos formas, cualquiera de las dos sirve:
+
+- **Webhooks de GitHub (recomendado):** en hPanel → Git, cada repositorio muestra una URL de *auto deployment*. En GitHub → Settings → Webhooks → *Add webhook*, cargar esa URL como *Payload URL*, *Content type* `application/json`, evento *push*. Una vez por cada sitio (dos webhooks).
+- **Secrets de la Action:** cargar esas mismas URL en GitHub → Settings → Secrets and variables → Actions como `HOSTINGER_WEBHOOK_DOSSIER` y `HOSTINGER_WEBHOOK_LINKS`; la Action las llama al final.
+
+Mientras no esté ninguna de las dos, el deploy se dispara a mano desde hPanel → Git → *Deploy*, o por la API de Hostinger.
 
 Antes de publicar algo grande, mirarlo en el celular desde `npm run dev`.
+
+## Control de calidad
+
+- `node tools/capturas.mjs` compara píxel a píxel con el original: hoy la diferencia es menor al 1 % (solo recompresión de fotos y antialiasing de letras), con la misma altura de página en 390 y 1280 px.
+- Lighthouse móvil (Chrome DevTools o PageSpeed Insights) sobre las URL publicadas: objetivo 90 o más en las cuatro categorías.
 
 ## Reglas de diseño
 

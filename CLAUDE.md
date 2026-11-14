@@ -96,7 +96,8 @@ Ya está: `lang="es-AR"`, title/description/canonical por página, Open Graph y 
 ## Publicación (GitHub → Hostinger)
 
 - `main` es la fuente. Cada push dispara `.github/workflows/deploy.yml`: build, control de rutas prohibidas y publicación de las ramas `deploy-dossier` y `deploy-links` con el contenido listo para servir.
-- Hostinger baja cada rama a su `public_html` (Git de hPanel o `hosting_git_deploy-website-repository` por la API). Con los secrets `HOSTINGER_WEBHOOK_*` cargados, la Action avisa a Hostinger y se actualiza solo.
+- En Hostinger están registrados los dos repositorios Git: `deploy-dossier` → `public_html/` y `deploy-links` → `public_html/bios/` (el subdominio `bios` vive adentro del `public_html` principal; el `.htaccess` de links redirige cualquier otro host a `https://bios.…/`). Para actualizar: webhooks de GitHub con las URL de *auto deployment* de hPanel → Git, o los secrets `HOSTINGER_WEBHOOK_*` que usa la Action, o a mano con `hosting_git_deploy-website-repository` (API) / botón *Deploy* en hPanel.
+- Si alguna vez hay que volver a registrar el repo raíz, la carpeta tiene que estar vacía (la API no borra archivos; se vació subiendo un zip vacío con `deploy-static-site-archive` y borrando el resto con la API del administrador de archivos).
 - Publicar solo con el OK de Luz y de Coco. Antes, `npm run build` limpio y revisar que no queden rutas a `/_blob/`, claude.ai ni Google Fonts.
 - **Credenciales:** nunca en el código. Las variables secretas de PHP van en un archivo fuera de `public_html`.
 
