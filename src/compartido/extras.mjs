@@ -71,7 +71,7 @@ export function webmanifest(sitio, iconos) {
  * - página 404 propia
  * - cabeceras de seguridad con una CSP acotada a lo que el sitio usa
  */
-export function htaccess(sitio, { host, hashesScript = [] }) {
+export function htaccess(sitio, { host, hashesScript = [], conservarRuta = true }) {
   const csp = [
     "default-src 'self'",
     `script-src 'self' ${hashesScript.map((h) => `'${h}'`).join(' ')}`.trim(),
@@ -98,12 +98,15 @@ AddType image/svg+xml .svg
 AddType application/manifest+json .webmanifest
 AddType video/mp4 .mp4
 
-# Siempre https y sin www
+# Nunca servir la carpeta .git ni archivos ocultos (salvo .well-known, que usa el certificado SSL)
+RedirectMatch 404 /\\.(?!well-known/)
+
+# Siempre https y en el host exacto (sin www ni dominios temporales)
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteCond %{HTTPS} !=on [OR]
-  RewriteCond %{HTTP_HOST} ^www\\. [NC]
-  RewriteRule ^ https://${host}%{REQUEST_URI} [L,R=301]
+  RewriteCond %{HTTP_HOST} !^${host}$ [NC]
+  RewriteRule ^ https://${host}${conservarRuta ? '%{REQUEST_URI}' : '/'} [L,R=301]
 </IfModule>
 
 # Página de error propia
@@ -161,7 +164,7 @@ export async function extrasLinks(salida, sitio, { hashScriptInicial, ctx }) {
   await salida.fijo('robots.txt', Buffer.from(robots(base)));
   await salida.fijo('sitemap.xml', Buffer.from(sitemap([base])));
   await salida.fijo('site.webmanifest', Buffer.from(webmanifest(sitio, iconosDe(salida))));
-  await salida.fijo('.htaccess', Buffer.from(htaccess(sitio, { host, hashesScript: [hashScriptInicial] })));
+  await salida.fijo('.htaccess', Buffer.from(htaccess(sitio, { host, hashesScript: [hashScriptInicial], conservarRuta: false })));
 }
 
 function iconosDe(salida) {
