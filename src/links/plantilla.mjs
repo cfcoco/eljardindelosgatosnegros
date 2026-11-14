@@ -4,7 +4,19 @@
    esa línea no aparece.
    ========================================================================== */
 import path from 'node:path';
+import { promises as fs } from 'node:fs';
 import { esc } from '../dossier/plantilla.mjs';
+
+/** Rutas relativas (con /) de todos los archivos bajo `dir`, en orden estable. */
+async function listarArchivos(dir, base = dir) {
+  let lista = [];
+  for (const ent of (await fs.readdir(dir, { withFileTypes: true })).sort((a, b) => a.name.localeCompare(b.name))) {
+    const abs = path.join(dir, ent.name);
+    if (ent.isDirectory()) lista = lista.concat(await listarArchivos(abs, base));
+    else lista.push(path.relative(base, abs).split(path.sep).join('/'));
+  }
+  return lista;
+}
 import { extrasLinks } from '../compartido/extras.mjs';
 
 /* Íconos con el trazo del logotipo: línea sin relleno, un solo trazo limpio y apenas inclinados, como la letra. */
@@ -28,13 +40,31 @@ export function renderLinks(c, sitio, ctx) {
   const emailHtml = (sitio.email || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace('@', '<wbr>@');
   const og = ctx.url.og ? base + ctx.url.og : null;
 
-  const encuentro = (e.libro || e.autor || e.fecha) ? `
+  /* Bloque del próximo encuentro. Con `titular` + `boton` + formulario, el botón abre el
+     formulario paso a paso (src/links/anotate.js) dentro del mismo recuadro. Si algún día
+     vuelve `botonReserva` sin formulario, el botón lleva a WhatsApp como antes. */
+  const f = c.formulario || {};
+  const conForm = !!(e.boton && f.endpoint);
+  const cfgForm = conForm ? JSON.stringify({
+    endpoint: f.endpoint, origen: f.origen || 'bios',
+    textos: { privacidad: f.privacidad || '', preguntas: f.preguntas || {}, ayudas: f.ayudas || {}, botones: f.botones || {}, errores: f.errores || {}, final: f.final || {} },
+    foto: f.foto ? ctx.media(f.foto, { lazy: true }) : '',
+  }).replace(/</g, '\\u003c') : '';
+  const mensajeWa = e.mensajeReserva || (b.whatsapp && b.whatsapp.mensaje) || '';
+  const encuentro = (e.titular || e.libro || e.autor || e.fecha) ? `
     <section class="bloque bordo encuentro sube" data-d="3500" aria-label="${esc(e.titulo || 'Próximo encuentro')}">
+      <div class="caja" id="anotate">
       <p class="serie"><span class="tz">${esc(e.titulo || 'Próximo encuentro')}</span>${e.numero ? `<span class="n">${esc(e.numero)}</span>` : ''}</p>
-      ${e.libro ? `<h2>${esc(e.libro)}</h2>` : ''}
+      ${e.titular ? `<h2 class="t">${esc(e.titular)}</h2>` : ''}
+      ${e.texto ? `<p class="d">${esc(e.texto)}</p>` : ''}
+      ${e.libro ? `<p class="libro">${esc(e.libro)}</p>` : ''}
       ${e.autor ? `<p class="autor">${esc(e.autor)}</p>` : ''}
       ${(e.fecha || e.lugar) ? `<ul class="datos">${e.fecha ? `<li><b>Cuándo</b><span>${esc(e.fecha)}</span></li>` : ''}${e.lugar ? `<li><b>Dónde</b><span>${esc(e.lugar)}</span></li>` : ''}</ul>` : ''}
-      ${e.botonReserva ? `<a class="reserva" href="${esc(wa(sitio.whatsapp, e.mensajeReserva))}" target="_blank" rel="noopener">${esc(e.botonReserva)} ${icono('fl', 'flr')}</a>` : ''}
+      ${e.cupos ? `<p class="cupos">${esc(e.cupos)}</p>` : ''}
+      ${conForm ? `<button class="cta" type="button" id="abrir-anotate">${esc(e.boton)}</button><noscript><a class="cta" href="${esc(wa(sitio.whatsapp, mensajeWa))}" target="_blank" rel="noopener">${esc(e.boton)}</a></noscript>`
+        : (e.botonReserva ? `<a class="reserva" href="${esc(wa(sitio.whatsapp, e.mensajeReserva))}" target="_blank" rel="noopener">${esc(e.botonReserva)} ${icono('fl', 'flr')}</a>` : '')}
+      </div>
+      ${conForm ? `<input class="hp" type="text" name="web" tabindex="-1" autocomplete="off" aria-hidden="true"><script type="application/json" id="anotate-cfg">${cfgForm}</script>` : ''}
     </section>` : '';
 
 
@@ -126,7 +156,11 @@ export async function construirLinks(t) {
   const salida = new t.Salida(path.join(t.DIST, 'links'));
   await salida.limpiar();
   const comp = await t.recursosCompartidos(salida);
-  const mapa = await t.prepararMedios(salida, c.pie && c.pie.foto ? [c.pie.foto] : []);
+  const medios = [c.pie && c.pie.foto, c.formulario && c.formulario.foto].filter(Boolean);
+  const mapa = await t.prepararMedios(salida, medios);
+  /* Backend en PHP (api/ y admin/): se copia tal cual, sin hash, porque son direcciones fijas. */
+  const phpDir = path.join(t.SRC, 'links/php');
+  for (const rel of await listarArchivos(phpDir)) await salida.fijo(rel, await t.leer(path.join(phpDir, rel)));
   const url = { ...comp.url };
   url.js = await t.jsConHash(salida, path.join(t.SRC, 'links/links.js'), 'links');
   try { url.og = await salida.fijo('og-links.jpg', await t.leer(path.join(t.SRC, 'links/og-links.jpg'))); }

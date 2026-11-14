@@ -5,14 +5,64 @@
     "bienvenida": "¡Bienvenidos al jardín!"
   },
   "encuentro": {
+    "_ayuda": "Bloque bordó del próximo encuentro. Mientras no haya libro, autor/a, fecha ni lugar, dejá esos campos vacíos (\"\") y se muestra el titular con el botón que abre el formulario. Cuando se confirme el encuentro, completá libro/autor/fecha/lugar y aparecen debajo del titular.",
     "titulo": "Próximo encuentro",
     "numero": "Nº 01",
-    "libro": "Nombre del libro",
-    "autor": "Autor o autora",
-    "fecha": "Día y hora",
-    "lugar": "Villa Allende, Córdoba",
-    "botonReserva": "Reservá tu lugar",
-    "mensajeReserva": "¡Hola Luz! Quiero reservar mi lugar para el próximo encuentro del Jardín."
+    "titular": "La primera flor se revela pronto",
+    "texto": "Un libro y una buena tarde en un bar de Villa Allende.",
+    "cupos": "Cupos limitados",
+    "libro": "",
+    "autor": "",
+    "fecha": "",
+    "lugar": "",
+    "boton": "Quiero enterarme primero"
+  },
+  "formulario": {
+    "_ayuda": "Formulario paso a paso que se abre dentro del bloque del encuentro. Guarda cada persona en la base de datos (api/anotate.php) y avisa por mail. {nombre} se reemplaza por el primer nombre de la persona.",
+    "endpoint": "api/anotate.php",
+    "origen": "bios",
+    "privacidad": "Usamos tus datos solo para avisarte novedades del club.",
+    "preguntas": {
+      "nombre": "¡Hola! ¿Cómo te llamás?",
+      "canal": "{nombre}, ¿por dónde te avisamos?",
+      "canalSinNombre": "¿Por dónde te avisamos?",
+      "leer": "¿Qué te gustaría leer en el club?",
+      "bar": "¿Qué bar de Villa Allende nos recomendás?"
+    },
+    "ayudas": {
+      "nombre": "Tu nombre",
+      "whatsapp": "Ej.: 3543 12-3456",
+      "mail": "tu@mail.com",
+      "leer": "Un autor, un género, un libro pendiente…",
+      "bar": "Tu lugar favorito"
+    },
+    "botones": {
+      "seguir": "Seguir",
+      "enviar": "Avisame primero",
+      "saltear": "Saltear",
+      "whatsapp": "WhatsApp",
+      "mail": "Mail",
+      "enviando": "Un momento…"
+    },
+    "errores": {
+      "nombre": "Contanos tu nombre.",
+      "contacto": "Necesitamos un dato para avisarte.",
+      "whatsapp": "Revisá el número: tiene que tener entre 8 y 15 cifras.",
+      "mail": "Revisá el mail: parece que le falta algo.",
+      "envio": "No pudimos guardar tus datos. Probá de nuevo en un momento.",
+      "limite": "Ya recibimos varios envíos desde tu conexión. Probá de nuevo más tarde."
+    },
+    "final": {
+      "gracias": "¡Listo, {nombre}, gracias!",
+      "graciasSinNombre": "¡Listo, gracias!",
+      "texto": "Vas a ser de las primeras personas en enterarte.",
+      "frase": "Nos vemos entre las flores"
+    },
+    "foto": {
+      "src": "img/tabata-hd.webp",
+      "alt": "Tábata, la gata del club, leyendo con lentes",
+      "ancho": 220
+    }
   },
   "botones": {
     "whatsapp": {
@@ -31,7 +81,11 @@
   },
   "pie": {
     "frase": "Nos vemos\nentre las flores",
-    "foto": { "src": "img/tabata-lentes.webp", "alt": "Tabata, gata negra con lentes, leyendo", "ancho": 264 },
+    "foto": {
+      "src": "img/tabata-lentes.webp",
+      "alt": "Tabata, gata negra con lentes, leyendo",
+      "ancho": 264
+    },
     "firma": "Por Luz A. Zapata",
     "rol": "comunicadora social, dueña de cuatro hermosos gatos negros y creadora del club."
   }

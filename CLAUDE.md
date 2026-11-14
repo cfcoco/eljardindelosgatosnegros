@@ -103,6 +103,14 @@ Ya está: `lang="es-AR"`, title/description/canonical por página, Open Graph y 
 - Publicar solo con el OK de Luz y de Coco. Antes, `npm run build` limpio y revisar que no queden rutas a `/_blob/`, claude.ai ni Google Fonts.
 - **Credenciales:** nunca en el código. Las variables secretas de PHP van en un archivo fuera de `public_html`.
 
+## Formulario "Quiero enterarme primero" (página de links) y backend
+
+- El bloque del encuentro en `contenido/links.json` (`encuentro` + `formulario`) abre un formulario paso a paso (opción B, aprobada por Luz el 14/11/2026): nombre → WhatsApp/Mail → qué quiere leer (opcional) → bar recomendado (opcional). Código: `src/links/anotate.js` (lógica), `src/links/links.css` (estilos, medidas copiadas del ejemplo aprobado) y `src/links/plantilla.mjs` (bloque inicial + `#anotate-cfg` con los textos). La pantalla final (`okHTML`, `fitGr`, `nom`, reglas `.ok`) no se toca.
+- Backend en PHP, en `src/links/php/` (se copia tal cual a `dist/links/`): `api/anotate.php` (POST JSON, PDO con sentencias preparadas, campo trampa `web`, mínimo 1,5 s entre abrir y enviar, máximo 5 envíos por hora por IP, aviso por `mail()`) y `admin/interesados.php` (listado con usuario y contraseña, CSV). Direcciones: `https://bios.…/api/anotate.php` y `https://bios.…/admin/interesados.php`. La tabla `interesados` se crea sola la primera vez.
+- Base: MySQL `u770738641_jardin` (usuario igual), creada por API el 14/11/2026. Credenciales en el servidor en `domains/eljardindelosgatosnegros.com.ar/privado/jardin-config.php` (fuera de `public_html`; `api/lib.php` la busca subiendo carpetas). Plantilla: `privado/jardin-config.ejemplo.php`. Copia local en `privado/jardin-config.php` y acceso al panel en `.env.local` (los dos ignorados por git). Para subir el archivo privado se usó la URL de subida (TUS) de la API con la ruta `../privado/jardin-config.php`.
+- En local no hay PHP: `tools/dev.mjs` responde `{ok:true}` de mentira a `POST /links/api/anotate.php` para poder probar el formulario.
+- Para probar el backend antes de publicar la página se usó la rama `deploy-prueba` (solo `api/` y `admin/`) desplegada en `public_html/bios-prueba/`; se puede borrar desde hPanel.
+
 ## Futuro (dejá el terreno preparado, no lo construyas todavía)
 
 - `/api/` en PHP + MySQL (Hostinger: host `127.0.0.1`, puerto 3306) para inscripciones con cupos, lista de interesados y un panel `/admin` con usuario y contraseña donde Luz edite `contenido/*.json`, el próximo encuentro y las fotos desde el celu.

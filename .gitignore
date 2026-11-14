@@ -19,3 +19,7 @@ desktop.ini
 # capturas de comparación y reportes locales
 _capturas/
 lighthouse/
+
+# configuración privada del backend (solo el ejemplo va al repo)
+privado/*
+!privado/jardin-config.ejemplo.php

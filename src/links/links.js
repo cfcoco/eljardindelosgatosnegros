@@ -5,10 +5,12 @@
    que entrar en una sola línea.
    ========================================================================== */
 import { escritorDeLogo } from '../compartido/js/escribir-logo.js';
+import { iniciarAnotate } from './anotate.js';
 
 (function () {
   'use strict';
   var doc = document;
+  try { iniciarAnotate(); } catch (e) { /* el bloque sigue mostrando el botón; el noscript lleva a WhatsApp */ }
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var mark = doc.querySelector('.mark');
   var cat = doc.querySelector('.mark .cat');
