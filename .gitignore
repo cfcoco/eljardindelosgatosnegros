@@ -1,0 +1,21 @@
+# dependencias y salida del build
+node_modules/
+dist/
+.cache/
+
+# archivos temporales y respaldos locales
+_zip_extraido/
+*.zip
+*.log
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# secretos (nunca al repo)
+.env
+.env.*
+*.local
+
+# capturas de comparación y reportes locales
+_capturas/
+lighthouse/

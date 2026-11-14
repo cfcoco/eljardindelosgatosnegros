@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>El Jardín de los Gatos Negros · Dossier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style id="app-style">
+@font-face{font-family:"Trazo";src:url("fonts/trazo.ttf") format("truetype");font-display:swap}
+:root{
+  --crema:#F1F0EB;--negro:#010101;--bordo:#70293C;--verde:#016D71;--frambuesa:#953651;--rosa:#BE9BA5;
+  --gap:6px;--w:1180px;--ui:#1d1a1b;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--crema);color:var(--negro);font-family:Gabarito,system-ui,sans-serif;font-weight:400;font-size:18px;line-height:1.55}
+img,video{display:block;width:100%;height:auto}
+.trazo{font-family:Trazo,Gabarito,serif;font-weight:400;line-height:1.15}
+.eyebrow{font-weight:500;font-size:12px;letter-spacing:.22em;text-transform:uppercase}
+
+/* portada */
+.cover{min-height:100svh;display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding:28px 22px 26px;text-align:center}
+.cover .mark{width:min(58vw,300px);margin:auto 0}
+.cover .mark .cat{width:100%}
+.cover .mark .name{width:100%;margin-top:10%}
+.cover svg.name{display:block;height:auto;overflow:visible}
+.lw-wait .cover img.name{visibility:hidden}
+.cover .down{font-size:13px;color:var(--bordo);letter-spacing:.12em}
+.cover .down .pl{display:block}
+.cover .down span{display:block;font-size:20px;line-height:1;margin-top:6px;animation:bob 2.2s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(5px)}}
+
+/* imágenes de borde a borde */
+.wrap{max-width:var(--w);margin:0 auto}
+.full{margin:var(--gap) 0 0}
+.full.first{margin-top:0}
+.wrap.bleed{max-width:none}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);margin-top:var(--gap)}
+.duo>*{overflow:hidden;background:#e6e3db;position:relative}
+.duo img,.duo video{height:100%;object-fit:cover}
+.duo.sq>*{aspect-ratio:1/1}
+.duo.tall>*{aspect-ratio:4/5}
+.cell-c{display:flex;align-items:center;justify-content:center;background:var(--crema)!important}
+.cell-c img,.cell-c video{width:72%;height:auto!important;object-fit:contain!important}
+.empty{width:100%;height:100%;min-height:160px;display:grid;place-items:center;padding:16px;text-align:center;background:#e6e3db;color:var(--bordo);font-weight:700;font-size:13px;letter-spacing:.04em}
+.full .empty{aspect-ratio:3/2}
+
+/* texto */
+.text{max-width:640px;margin:0 auto;padding:72px 24px}
+.text h2{font-weight:800;font-size:clamp(28px,7vw,40px);line-height:1.08;margin:0 0 18px;letter-spacing:-.01em}
+.text p{margin:0 0 16px}
+.text .lead{font-size:clamp(20px,5vw,24px);line-height:1.45}
+.big-phrase{font-size:clamp(40px,11vw,68px);color:var(--bordo);margin:0 0 26px}
+.color-bordo{color:var(--bordo)}
+.text .honest{margin-top:34px;font-size:19px;line-height:1.55}
+.text .note{font-size:15px;color:#6b655f;margin-top:22px}
+
+/* manifiesto */
+.manif{background:var(--bordo);color:var(--crema);margin-top:var(--gap)}
+.manif .text{padding:80px 26px}
+.manif blockquote{margin:0;font-size:clamp(22px,5.6vw,30px);line-height:1.4;font-weight:400}
+.manif blockquote em{font-style:normal;color:var(--rosa)}
+.manif .firma{margin-top:22px;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--rosa);font-weight:500}
+
+/* lista numerada */
+.steps{list-style:none;padding:0;margin:28px 0 0}
+.steps li{display:grid;grid-template-columns:52px 1fr;gap:4px;padding:18px 0;border-top:1px solid rgba(1,1,1,.14)}
+.steps li:last-child{border-bottom:1px solid rgba(1,1,1,.14)}
+.steps b{display:block;font-weight:700;font-size:19px;margin-bottom:2px}
+.steps .n{font-weight:500;color:var(--bordo);font-size:15px;padding-top:3px}
+.steps span{color:#3d3a37}
+.steps.mk li{grid-template-columns:auto 1fr;column-gap:14px}
+.steps .mk-gato{width:30px;height:30px;margin-top:0;border-radius:50%;background:var(--crema);display:flex;align-items:center;justify-content:center;padding:0}
+.steps .mk-gato img{width:20px;height:auto;margin-top:1px}
+.steps .mk-punto::before,.steps .mk-cuadro::before{content:"";display:block;width:12px;height:12px;background:currentColor;margin-top:8px}
+.steps .mk-punto::before{border-radius:50%}
+
+/* paleta */
+.palette{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);margin-top:var(--gap)}
+.sw{aspect-ratio:1/1.15;padding:14px;display:flex;flex-direction:column;justify-content:flex-end;font-size:13px;line-height:1.3}
+.sw b{font-weight:700;font-size:15px}
+.type{display:grid;grid-template-columns:1fr;gap:var(--gap);margin-top:var(--gap)}
+.type>div{background:#fff8;padding:34px 24px;background:#E8E5DD}
+.type .aa{font-size:72px;line-height:1;color:var(--bordo);margin-bottom:8px}
+.type .lbl{font-weight:500;font-size:12px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:14px;color:#5a5550}
+.type .smp{font-size:22px;line-height:1.35}
+
+/* fondo negro (propuesta) */
+.offer{background:var(--negro);color:var(--crema);margin-top:var(--gap)}
+.offer .text{padding:84px 24px}
+.offer .steps li{border-color:rgba(241,240,235,.18)}
+.offer .steps .n{color:var(--rosa)}
+.offer .steps span{color:#cfccc4}
+.offer .honest{color:var(--crema)}
+.offer .eyebrow{color:var(--rosa)}
+.offer .big-phrase{color:var(--rosa)}
+.offer .note{color:#cfccc4}
+
+/* fondo bordó (bloque de texto) */
+.tbordo{background:var(--bordo);color:var(--crema);margin-top:var(--gap)}
+.tbordo .text{padding:84px 24px}
+.tbordo .eyebrow,.tbordo .big-phrase{color:var(--crema)}
+.tbordo .steps li{border-color:rgba(241,240,235,.22)}
+.tbordo .steps .n{color:var(--crema)}
+.tbordo .steps span{color:#efe6e8}
+.tbordo .note{color:#e6d9dc}
+
+/* texto con foto al costado: en compu, dos columnas; en celu, la foto arriba y el texto abajo */
+.has-side{position:relative}
+.tcrema{margin-top:var(--gap)}
+.has-side .side{margin:0;overflow:hidden;background:#111;position:relative}
+.has-side .side img,.has-side .side video{width:100%;height:100%;aspect-ratio:4/5;object-fit:cover}
+@media (min-width:860px){
+  .has-side{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:stretch}
+  .has-side .text{padding:96px 56px;align-self:center;max-width:620px;margin:0 0 0 auto}
+  .has-side .side img,.has-side .side video{aspect-ratio:auto;min-height:100%;object-position:46% 35%}
+}
+
+/* cierre */
+.close{background:var(--bordo);color:var(--crema);margin-top:var(--gap);text-align:center;padding:90px 24px 70px}
+.close .mark{width:min(52vw,260px);margin:0 auto}
+.close .mark .cat{width:100%;display:block}
+.close .mark .name{width:100%;display:block;margin-top:10%}
+.close .phrase{font-size:clamp(34px,9vw,52px);margin:60px 0 0;color:var(--crema)}
+.close .cta{font-weight:700;font-size:clamp(23px,6vw,30px);line-height:1.3;max-width:540px;margin:76px auto 6px;color:var(--crema);text-wrap:balance}
+.close .cta-sub{font-size:clamp(23px,6vw,30px);line-height:1.3;color:var(--crema);max-width:540px;margin:0 auto 46px}
+.contact{display:grid;gap:14px;max-width:460px;margin:0 auto}
+.contact a,.contact div{display:block;padding:18px 12px;white-space:nowrap;border:1px solid rgba(241,240,235,.45);border-radius:999px;color:var(--crema);text-decoration:none;font-weight:500;font-size:clamp(15.5px,4.1vw,20px)}
+.contact a:active{background:rgba(241,240,235,.12)}
+/* créditos: franja crema al pie, como la firma de una página */
+.credit{background:var(--crema);color:#4a4542;text-align:center;font-size:13px;line-height:1.5;padding:22px 24px calc(22px + env(safe-area-inset-bottom,0px));max-width:none}
+.credit .por,.credit .who{font-family:Trazo,Gabarito,serif;font-weight:400;font-size:20px;line-height:1;color:var(--bordo)}
+.close{padding-bottom:64px}
+
+/* aparición suave */
+.rv{opacity:0;transform:translateY(36px);transition:opacity 1s ease,transform 1.2s cubic-bezier(.16,1,.3,1)}
+.rv.in{opacity:1;transform:none}
+.rv2{opacity:0;transform:translateY(44px);transition:opacity .9s ease,transform 1.2s cubic-bezier(.16,1,.3,1)}
+.text .trazo.rv2,.text h2.rv2,.close .phrase.rv2{transform:translateY(60px)}
+.text .trazo.rv2.in,.text h2.rv2.in,.close .phrase.rv2.in{transform:none}
+.rv2.in{opacity:1;transform:none}
+.steps > li.rv2{transform:translateX(-72px)}
+.steps > li.rv2 .n{opacity:0;transform:scale(.5);transition:opacity .6s ease .35s,transform .7s cubic-bezier(.34,1.4,.64,1) .35s}
+.steps > li.rv2.in .n{opacity:1;transform:none}
+.steps > li.rv2.in{transform:none}
+@media (prefers-reduced-motion:reduce){.rv,.rv2,.rv2 .n{opacity:1!important;transform:none!important;transition:none!important}.cover .down span{animation:none}}
+
+@media (min-width:760px){
+  :root{--gap:8px}
+  .palette{grid-template-columns:repeat(6,1fr)}
+  .type{grid-template-columns:1fr 1fr}
+  .text{padding:110px 24px}
+}
+
+/* menú de secciones (tres puntitos) */
+.menu-btn{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));right:calc(12px + env(safe-area-inset-right,0px));z-index:70;width:44px;height:44px;border-radius:50%;border:0;padding:0;background:rgba(241,240,235,.94);box-shadow:0 2px 14px rgba(1,1,1,.16);display:flex;align-items:center;justify-content:center;gap:4px;cursor:pointer;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);transition:transform .2s ease}
+.menu-btn span{width:5px;height:5px;border-radius:50%;background:var(--bordo);transition:transform .3s ease}
+.menu-btn[aria-expanded="true"]{transform:rotate(90deg)}
+.menu-btn:focus-visible{outline:2px solid var(--frambuesa);outline-offset:3px}
+.menu{position:fixed;top:calc(64px + env(safe-area-inset-top,0px));right:calc(12px + env(safe-area-inset-right,0px));z-index:70;background:var(--crema);border-radius:18px;box-shadow:0 12px 44px rgba(1,1,1,.2);padding:8px;min-width:240px;max-width:calc(100vw - 24px);max-height:calc(100vh - 96px);overflow:auto;transform-origin:top right;animation:menuIn .32s cubic-bezier(.16,1,.3,1)}
+.menu[hidden]{display:none}
+.is-bot .menu-btn{display:none}
+@keyframes menuIn{from{opacity:0;transform:scale(.9) translateY(-8px)}}
+.menu a{display:block;padding:14px 16px;border-radius:12px;color:var(--bordo);text-decoration:none;font-weight:500;font-size:12.5px;letter-spacing:.18em;text-transform:uppercase}
+.menu a+a{border-top:1px solid rgba(112,41,60,.1)}
+.menu a:hover,.menu a:focus-visible{background:rgba(112,41,60,.08);outline:none}
+@media (prefers-reduced-motion:reduce){.menu{animation:none}}
+
+/* ===== modo edición (solo lo ve quien puede editar) ===== */
+.blk{position:relative}
+.bar{position:fixed;right:calc(12px + env(safe-area-inset-right,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:60;display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end;max-width:calc(100vw - 24px)}
+.bar[hidden],.bar [hidden]{display:none!important}
+.btn{font:700 13px/1 Gabarito,system-ui,sans-serif;letter-spacing:.02em;border:0;border-radius:999px;padding:12px 16px;background:var(--ui);color:var(--crema);cursor:pointer;box-shadow:0 4px 18px rgba(1,1,1,.2)}
+.btn.pri{background:var(--bordo)}
+.btn.ghost{background:var(--crema);color:var(--negro)}
+.btn.pen{padding:10px 13px;opacity:.55;font-size:12px}
+.btn.pen:hover,.btn.pen:focus-visible{opacity:1}
+.btn:disabled{opacity:.45;cursor:default}
+.st{font:600 12px/1.2 Gabarito,system-ui,sans-serif;background:var(--crema);color:var(--negro);padding:9px 12px;border-radius:999px;box-shadow:0 2px 10px rgba(1,1,1,.14)}
+.mini{font:700 12px/1 Gabarito,system-ui,sans-serif;border:0;border-radius:999px;padding:10px 12px;min-width:36px;min-height:36px;background:var(--ui);color:var(--crema);cursor:pointer;box-shadow:0 0 0 1px rgba(241,240,235,.35)}
+.mini.rojo{background:var(--frambuesa)}
+.mini.linea{background:transparent;color:inherit;box-shadow:inset 0 0 0 1px currentColor;margin-top:14px}
+.btn:focus-visible,.mini:focus-visible{outline:2px solid var(--frambuesa);outline-offset:2px}
+.tools{display:none}
+.editing .tools{display:flex;gap:6px;flex-wrap:wrap;position:absolute;top:10px;left:10px;z-index:6;max-width:calc(100% - 20px)}
+.editing .slot-t{top:auto;left:auto;bottom:10px;right:10px;justify-content:flex-end}
+.editing .blk{outline:1px dashed rgba(112,41,60,.5);outline-offset:-1px}
+.editing .rv,.editing .rv2,.editing .rv2 .n{opacity:1;transform:none;transition:none}
+.editing .text{padding-top:84px}
+.ed{outline:1px dashed var(--frambuesa);outline-offset:5px;border-radius:2px;cursor:text;min-height:1em}
+.manif .ed,.offer .ed,.tbordo .ed,.close .ed{outline-color:var(--rosa)}
+.ed:focus{outline-style:solid}
+.ed.vacio{display:block;font:500 13px/1.4 Gabarito,system-ui,sans-serif!important;letter-spacing:0!important;text-transform:none!important;opacity:.6;margin:0 0 14px!important;padding:0!important}
+.ed.vacio::before{content:attr(data-ph)}
+.ps-ed{white-space:pre-wrap;margin:0 0 16px}
+.step-x{margin-top:8px;padding:7px 10px;min-height:0;font-size:11px}
+.add{display:none}
+.editing .add{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;padding:10px 12px}
+.add .mini{background:transparent;color:var(--bordo);box-shadow:inset 0 0 0 1px var(--bordo)}
+.busy::after{content:"Subiendo…";position:absolute;inset:0;display:grid;place-items:center;background:rgba(241,240,235,.85);color:var(--bordo);font:700 14px Gabarito,system-ui,sans-serif;z-index:7}
+.pick{position:fixed;left:0;top:0;width:1px;height:1px;opacity:0;pointer-events:none;overflow:hidden}
+label.mini{display:inline-flex;align-items:center;justify-content:center;user-select:none;-webkit-user-select:none}
+.ayuda{display:none}
+.editing .ayuda{display:block;max-width:640px;margin:0 auto;padding:14px 20px;font-size:14px;line-height:1.45;color:var(--bordo);text-align:center}
+</style>
+</head>
+<body>
+<div id="app"><header class="cover"><div class="eyebrow">Club de lectura</div><div class="mark"><img class="cat" src="img/isologo-anim-v2.webp" alt="Gato negro, isologo del club"><img class="name" src="img/logotipo-negro.svg" alt="El jardín de los gatos negros"></div><div class="down"><div class="pl">Villa Allende · Córdoba</div><span>↓</span></div></header>
+<div class="blk" data-i="0"><div class="wrap"><figure class="full rv first"><img src="img/senalador-sol.jpg" alt="Señalador con forma de gato sobre un libro abierto, al sol" width="1400" height="1208" decoding="async"></figure></div></div>
+<div class="blk" data-i="1"><section class="text"><p class="trazo big-phrase">Quizás usted también sea un gato negro. </p><h2>Te damos la bienvenida al jardín.</h2></section></div>
+<div class="blk" data-i="2"><section class="tbordo"><div class="text"><div class="eyebrow" style="margin-bottom:14px">SOBRE EL CLUB</div><h2>Un club de lectura (y quizás algo más)</h2><p>Queremos crear un espacio de encuentro presencial en Villa Allende donde disfrutar del buen gusto por la literatura y todo aquello que florece alrededor de un buen libro.</p></div></section></div>
+<div class="blk" data-i="3"><div class="wrap"><figure class="full rv"><img src="img/afiche.jpg" alt="Afiche del club entre amapolas" width="1400" height="2099" loading="lazy" decoding="async"></figure></div></div>
+<div class="blk" data-i="4"><section class="manif"><div class="text"><blockquote>Abrir un libro es sostener un jardín.</blockquote><div class="firma">POR LUZ ALTAMIRANO ZAPATA </div></div></section></div>
+<div class="blk" data-i="5"><div class="wrap"><figure class="full rv"><video src="img/stickers-v3.mp4" width="1600" height="800" poster="img/stickers-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Stickers animados del club, de a dos"></video></figure></div></div>
+<div class="blk" data-i="6"><section class="offer has-side"><div class="text"><div class="eyebrow" style="margin-bottom:14px">NUESTRO MANIFIESTO </div><p class="trazo big-phrase">Una invitación a saltar el muro</p><p class="honest">Creemos que nos parecemos mucho a los gatos negros: celosos de nuestra soledad y, muchas veces, incomprendidos. Pero el instinto siempre nos empuja a saltar el muro y encontrarnos en un jardín nuevo, entre flores que no son otra cosa que las lecturas que elegimos para sentirnos menos solos.</p><p class="note">El jardín es el encuentro; los gatos negros, quienes leemos; y las flores, los libros.</p></div><figure class="side rv"><img src="img/gata-manifiesto-v2.jpg" alt="Gata negra de Luz, de perfil, con collar rojo" width="1450" height="1812" loading="lazy" decoding="async"></figure></section></div>
+<div class="blk" data-i="7"><section class="text"><div class="eyebrow color-bordo" style="margin-bottom:14px">​LA EXPERIENCIA</div><p class="trazo big-phrase">Nuestros encuentros en el jardín</p><p class="lead">Una propuesta para lectores a partir de 18 años. El plan perfecto para tener una tarde agradable, conversar sobre libros y autores, y conocer gente nueva.</p><ul class="steps"><li><span class="n">01</span><div><b>Un libro por ciclo &amp; encuentro </b><span>Clásicos y contemporáneos, elegidos con una curaduría de la curiosidad, sin la prisa de las tendencias literarias.</span></div></li><li><span class="n">02</span><div><b>Un momento para disfrutar</b><span>Dinámicas para abrir la charla y pequeños regalos de la marca. Un ambiente accesible y adaptable, donde podés participar tanto si te encanta debatir como si preferís sumarte a escuchar.</span></div></li><li><span class="n">03</span><div><b>Cupos limitados</b><span>​Mesas de 5 a 10 personas para asegurar comodidad. Trabajamos con una contribución de compromiso que asegura tu lugar en el jardín.</span></div></li><li><span class="n">04</span><div><b>Espacios con mucho encanto</b><span>
+​Elegimos cafés y bares acogedores en Villa Allende y cercanías de Sierras Chicas, para que tanto el desayuno como la merienda también se disfruten.</span></div></li></ul></section></div>
+<div class="blk" data-i="8"><div class="wrap"><figure class="full rv"><img src="img/cartel.jpg" alt="Cartel del club en un jardín: nos vemos adentro" width="1400" height="933" loading="lazy" decoding="async"></figure></div></div>
+<div class="blk" data-i="9"><div class="wrap"><div class="duo sq rv"><div data-slot="9-0"><img src="img/mesa.jpg" alt="Tarjetas de mesa con nombre y ficha de notas de lectura" loading="lazy" decoding="async"></div><div data-slot="9-1"><img src="img/pases.jpg" alt="Pases, tarjetas y stickers del club sobre una mesa de café" loading="lazy" decoding="async"></div></div></div></div>
+<div class="blk" data-i="10"><section class="text"><div class="eyebrow color-bordo" style="margin-bottom:14px">CICLOS DE LECTURA </div><p class="trazo big-phrase">Las flores que encontraremos</p><p class="lead">Cada trimestre elegimos tres lecturas (nuestras flores), una por mes, bajo estas tres miradas:</p><ul class="steps mk"><li><span class="n mk-punto"></span><div><b>Un jardín </b><span>Historias donde la naturaleza toma vida como paisaje, refugio o personaje.</span></div></li><li><span class="n mk-punto"></span><div><b>Un gato</b><span>Obras donde un felino es el centro del relato o una pieza clave de la trama.</span></div></li><li><span class="n mk-punto"></span><div><b>Una vida</b><span>Lecturas profundas y existenciales que nos interpelan y nos representan, con nuestra parte gatuna incluida.</span></div></li></ul></section></div>
+<div class="blk" data-i="11"><div class="wrap"><figure class="full rv"><img src="img/senalador-libro.jpg" alt="Señalador del club dentro de un libro" width="1400" height="934" loading="lazy" decoding="async"></figure></div></div>
+<div class="blk" data-i="12"><section class="tbordo"><div class="text"><div class="eyebrow" style="margin-bottom:14px">DETALLES DEL JARDÍN</div><p class="trazo big-phrase">Lo que a los gatos negros les gusta</p><p>Señaladores, stickers, libretas y sorteos diseñados con la estética de la marca para acompañar la lectura y para que la experiencia del club siga en tu casa.</p></div></section></div>
+<div class="blk" data-i="13"><div class="wrap"><div class="duo tall rv"><div data-slot="13-0"><video src="img/bolsas.mp4" poster="img/bolsas-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Bolsas de papel del club en kraft, blanco y bordó"></video></div><div data-slot="13-1"><img src="img/sobre-sorteo-v2.jpg" alt="Sobre del sorteo con stickers y sello del club" width="1400" height="2100" loading="lazy" decoding="async"></div></div></div></div>
+<div class="blk" data-i="14"><div class="wrap"><div class="duo tall rv"><div data-slot="14-0"><img src="img/senaladores.jpg" alt="Señaladores rosa y negro del club" loading="lazy" decoding="async"></div><div data-slot="14-1"><img src="img/tote.jpg" alt="Tote bordó con el logo, en el pasto junto a un gato negro" loading="lazy" decoding="async"></div></div></div></div>
+<div class="blk" data-i="15"><div class="wrap"><div class="duo sq rv"><div data-slot="15-0"><img src="img/posavasos.jpg" alt="Posavasos con gatos sobre una mesa al sol" loading="lazy" decoding="async"></div><div data-slot="15-1"><img src="img/libretas.jpg" alt="Libretas bordó, rosa y verde con el gato del club" loading="lazy" decoding="async"></div></div></div></div>
+<div class="blk" data-i="16"><div class="wrap"><figure class="full rv"><img src="img/remera-v2.jpg" alt="Remera bordó del club colgada entre cactus" width="1600" height="2000" loading="lazy" decoding="async"></figure></div></div>
+<div class="blk" data-i="17"><section class="offer"><div class="text"><div class="eyebrow" style="margin-bottom:14px">ALIANZAS &amp; COLABORACIONES</div><p class="trazo big-phrase">Ingresá al jardín</p><p>Colaborar en el club te permite potenciar tu marca o tu negocio ante una nueva comunidad de la zona que quiere encuentros con calidad y disfrute.</p><ul class="steps mk"><li><span class="n mk-gato"><img src="img/isologo.svg" alt=""></span><div><b>Si sos escritor o escritora </b><span>Presentás tu libro en un espacio íntimo donde podés conversar cara a cara con nuevos lectores y potenciar tu marca personal. </span></div></li><li><span class="n mk-gato"><img src="img/isologo.svg" alt=""></span><div><b>Si tenés una editorial o librería </b><span>Compartís títulos de tu catálogo para la lectura del mes e impulsás la llegada de nuevos clientes directos a tu espacio, ofreciendo un descuento exclusivo para los miembros del club.</span></div></li><li><span class="n mk-gato"><img src="img/isologo.svg" alt=""></span><div><b>Si gestionás un espacio gastronómico </b><span>Convertís tu café en sede anfitriona y promovés el consumo de un grupo cerrado, además de generar visibilidad en redes sociales y sumar nuevas reseñas.</span></div></li></ul><p class="honest">El jardín apenas está floreciendo. Todavía no tenemos una gran comunidad para ofrecerte, pero sí un proyecto joven, cuidado y con muchísimas ganas de sumar gatos negros.</p><p class="note">También buscamos emprendimientos para merchandising o que quieran potenciar la experiencia.</p></div></section></div>
+<div class="blk" data-i="18"><div class="wrap bleed"><figure class="full first"><video src="img/marquesina.mp4" width="1920" height="360" poster="img/marquesina-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Marquesina animada con el logo del club"></video></figure></div></div>
+<div class="blk" data-i="19"><div class="wrap"><figure class="full rv"><img src="img/web.jpg" alt="Web del club en una notebook sobre una silla de esterilla" width="1400" height="963" loading="lazy" decoding="async"></figure></div></div>
+<footer class="close"><div class="mark"><img class="cat" src="img/isologo-anim-v2.webp" alt="Gato negro del club"><img class="name" src="img/logotipo-crema.svg" alt="El jardín de los gatos negros"></div><p class="cta">¿Te gustaría que tu obra, catálogo o espacio formen parte de nuestros encuentros?</p><p class="cta-sub">¡Escribinos y coordinemos juntos!</p><div class="contact"><a href="https://www.instagram.com/eljardindelosgatosnegros/" target="_blank" rel="noopener">Instagram · @eljardindelosgatosnegros</a><a href="https://wa.me/5493543699326?text=Hola%20Luz%2C%20vi%20el%20dossier%20de%20El%20Jard%C3%ADn%20de%20los%20Gatos%20Negros." target="_blank" rel="noopener">WhatsApp · 3543 69-9326</a></div><p class="trazo phrase">Nos vemos entre las flores</p></footer><div class="credit"><span class="por">Por </span><b class="who">Luz A.Zapata</b><span> · </span><span class="what">comunicadora social, dueña de cuatro hermosos gatos negros y creadora del club.</span></div></div>
+<button class="menu-btn" id="mb" type="button" aria-label="Ir a una sección" aria-expanded="false"><span></span><span></span><span></span></button>
+<nav class="menu" id="mn" hidden aria-label="Secciones"></nav>
+<div class="bar" id="bar">
+  <span class="st" id="st" hidden></span>
+  <button class="btn ghost" id="ds" type="button" hidden>Descartar</button>
+  <button class="btn pri" id="sv" type="button" hidden>Guardar</button>
+  <button class="btn pen" id="ed" type="button" hidden>✎ Editar</button>
+</div>
+<input type="file" id="pick" class="pick" accept="image/*,video/*" tabindex="-1" aria-hidden="true">
+<script type="application/json" id="state">{"cover":{"eb":"Club de lectura","place":"Villa Allende · Córdoba"},"blocks":[{"id":"b1","type":"full","imgs":[{"src":"img/senalador-sol.jpg","alt":"Señalador con forma de gato sobre un libro abierto, al sol","w":1400,"h":1208}]},{"id":"b2","type":"text","theme":"crema","phrase":"Quizás usted también sea un gato negro. ","lead":"","body":"","eb":"","h2":"Te damos la bienvenida al jardín."},{"id":"b64587","type":"text","theme":"bordo","eb":"SOBRE EL CLUB","h2":"Un club de lectura (y quizás algo más)","body":"Queremos crear un espacio de encuentro presencial en Villa Allende donde disfrutar del buen gusto por la literatura y todo aquello que florece alrededor de un buen libro.","phrase":"","lead":""},{"id":"b7","type":"full","imgs":[{"src":"img/afiche.jpg","alt":"Afiche del club entre amapolas","w":1400,"h":2099}]},{"id":"b894455","type":"manif","eb":"","q":"Abrir un libro es sostener un jardín.","qa":"","firma":"POR LUZ ALTAMIRANO ZAPATA "},{"id":"bstk","type":"full","imgs":[{"src":"vid:img/stickers-v3.mp4","poster":"img/stickers-poster.jpg","alt":"Stickers animados del club, de a dos","w":1600,"h":800}]},{"id":"b685641","type":"text","theme":"negro","eb":"NUESTRO MANIFIESTO ","h2":"","body":"","phrase":"Una invitación a saltar el muro","lead":"","after":"Creemos que nos parecemos mucho a los gatos negros: celosos de nuestra soledad y, muchas veces, incomprendidos. Pero el instinto siempre nos empuja a saltar el muro y encontrarnos en un jardín nuevo, entre flores que no son otra cosa que las lecturas que elegimos para sentirnos menos solos.","note":"El jardín es el encuentro; los gatos negros, quienes leemos; y las flores, los libros.","side":{"src":"img/gata-manifiesto-v2.jpg","alt":"Gata negra de Luz, de perfil, con collar rojo","w":1450,"h":1812}},{"id":"b5","type":"text","theme":"crema","eb":"​LA EXPERIENCIA","h2":"","body":"","steps":[{"t":"Un libro por ciclo & encuentro ","d":"Clásicos y contemporáneos, elegidos con una curaduría de la curiosidad, sin la prisa de las tendencias literarias."},{"t":"Un momento para disfrutar","d":"Dinámicas para abrir la charla y pequeños regalos de la marca. Un ambiente accesible y adaptable, donde podés participar tanto si te encanta debatir como si preferís sumarte a escuchar."},{"t":"Cupos limitados","d":"​Mesas de 5 a 10 personas para asegurar comodidad. Trabajamos con una contribución de compromiso que asegura tu lugar en el jardín."},{"t":"Espacios con mucho encanto","d":"\n​Elegimos cafés y bares acogedores en Villa Allende y cercanías de Sierras Chicas, para que tanto el desayuno como la merienda también se disfruten."}],"phrase":"Nuestros encuentros en el jardín","lead":"Una propuesta para lectores a partir de 18 años. El plan perfecto para tener una tarde agradable, conversar sobre libros y autores, y conocer gente nueva."},{"id":"b21","type":"full","imgs":[{"src":"img/cartel.jpg","alt":"Cartel del club en un jardín: nos vemos adentro","w":1400,"h":933}]},{"id":"b6","type":"duo","r":"sq","imgs":[{"src":"img/mesa.jpg","alt":"Tarjetas de mesa con nombre y ficha de notas de lectura"},{"src":"img/pases.jpg","alt":"Pases, tarjetas y stickers del club sobre una mesa de café"}]},{"id":"b894456","type":"text","theme":"crema","eb":"CICLOS DE LECTURA ","h2":"","body":"","phrase":"Las flores que encontraremos","lead":"Cada trimestre elegimos tres lecturas (nuestras flores), una por mes, bajo estas tres miradas:","steps":[{"t":"Un jardín ","d":"Historias donde la naturaleza toma vida como paisaje, refugio o personaje."},{"t":"Un gato","d":"Obras donde un felino es el centro del relato o una pieza clave de la trama."},{"t":"Una vida","d":"Lecturas profundas y existenciales que nos interpelan y nos representan, con nuestra parte gatuna incluida."}],"mk":"punto"},{"id":"b15","type":"full","imgs":[{"src":"img/senalador-libro.jpg","alt":"Señalador del club dentro de un libro","w":1400,"h":934}]},{"id":"b13","type":"text","theme":"bordo","eb":"DETALLES DEL JARDÍN","h2":"","body":"Señaladores, stickers, libretas y sorteos diseñados con la estética de la marca para acompañar la lectura y para que la experiencia del club siga en tu casa.","phrase":"Lo que a los gatos negros les gusta","after":""},{"id":"b14","type":"duo","r":"tall","imgs":[{"src":"vid:img/bolsas.mp4","alt":"Bolsas de papel del club en kraft, blanco y bordó","poster":"img/bolsas-poster.jpg"},{"src":"img/sobre-sorteo-v2.jpg","alt":"Sobre del sorteo con stickers y sello del club","w":1400,"h":2100}]},{"id":"b19","type":"duo","r":"tall","imgs":[{"src":"img/senaladores.jpg","alt":"Señaladores rosa y negro del club"},{"src":"img/tote.jpg","alt":"Tote bordó con el logo, en el pasto junto a un gato negro"}]},{"id":"bmerch","type":"duo","r":"sq","imgs":[{"src":"img/posavasos.jpg","alt":"Posavasos con gatos sobre una mesa al sol"},{"src":"img/libretas.jpg","alt":"Libretas bordó, rosa y verde con el gato del club"}]},{"id":"b16","type":"full","imgs":[{"src":"img/remera-v2.jpg","alt":"Remera bordó del club colgada entre cactus","w":1600,"h":2000}]},{"id":"b22","type":"text","theme":"negro","eb":"ALIANZAS & COLABORACIONES","h2":"","steps":[{"t":"Si sos escritor o escritora ","d":"Presentás tu libro en un espacio íntimo donde podés conversar cara a cara con nuevos lectores y potenciar tu marca personal. "},{"t":"Si tenés una editorial o librería ","d":"Compartís títulos de tu catálogo para la lectura del mes e impulsás la llegada de nuevos clientes directos a tu espacio, ofreciendo un descuento exclusivo para los miembros del club."},{"t":"Si gestionás un espacio gastronómico ","d":"Convertís tu café en sede anfitriona y promovés el consumo de un grupo cerrado, además de generar visibilidad en redes sociales y sumar nuevas reseñas."}],"after":"El jardín apenas está floreciendo. Todavía no tenemos una gran comunidad para ofrecerte, pero sí un proyecto joven, cuidado y con muchísimas ganas de sumar gatos negros. ","note":"También buscamos emprendimientos para merchandising o que quieran potenciar la experiencia.","phrase":"Ingresá al jardín","lead":"","body":"Colaborar en el club te permite potenciar tu marca o tu negocio ante una nueva comunidad de la zona que quiere encuentros con calidad y disfrute.","mk":"gato"},{"id":"bmarq","type":"full","imgs":[{"src":"vid:img/marquesina.mp4","poster":"img/marquesina-poster.jpg","alt":"Marquesina animada con el logo del club","w":1920,"h":360}],"bleed":true,"flush":true},{"id":"bweb","type":"full","imgs":[{"src":"img/web.jpg","alt":"Web del club en una notebook sobre una silla de esterilla","w":1400,"h":963}]}],"close":{"phrase":"Nos vemos entre las flores","ig":"eljardindelosgatosnegros","wa":"3543 69-9326","name":"Luz A.Zapata","role":"comunicadora social, dueña de cuatro hermosos gatos negros y creadora del club.","q":"¿Te gustaría que tu obra, catálogo o espacio formen parte de nuestros encuentros?","qs":"¡Escribinos y coordinemos juntos!"}}</script>
+<script id="app-script">
+(function(){
+  'use strict';
+  var SC='scr'+'ipt', KEY='jgn-dossier-sin-guardar';
+  var HEAD='<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n<title>El Jardín de los Gatos Negros · Dossier</title>\n<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@400;500;700;800&display=swap" rel="stylesheet">\n';
+  var BAR='<button class="menu-btn" id="mb" type="button" aria-label="Ir a una sección" aria-expanded="false"><span></span><span></span><span></span></button>\n<nav class="menu" id="mn" hidden aria-label="Secciones"></nav>\n<div class="bar" id="bar">\n  <span class="st" id="st" hidden></span>\n  <button class="btn ghost" id="ds" type="button" hidden>Descartar</button>\n  <button class="btn pri" id="sv" type="button" hidden>Guardar</button>\n  <button class="btn pen" id="ed" type="button" hidden>✎ Editar</button>\n</div>\n<input type="file" id="pick" class="pick" accept="image/*,video/*" tabindex="-1" aria-hidden="true">\n';
+  var WA_MSG='Hola Luz, vi el dossier de El Jardín de los Gatos Negros.';
+
+  /* Robots que sacan la captura para la vista previa del link: ven la portada completa al instante, sin animaciones. */
+  var BOT=false;try{BOT=!!navigator.webdriver||/HeadlessChrome|Headless|bot|crawler|spider|preview|facebookexternalhit|WhatsApp|Slackbot|TelegramBot|Twitterbot|LinkedInBot|Discordbot|Lighthouse|Puppeteer|Playwright/i.test(navigator.userAgent||'');}catch(_){}
+  if(BOT)try{document.documentElement.classList.add('is-bot');}catch(_){}
+  try{if(!BOT&&!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches))document.documentElement.classList.add('lw-wait');setTimeout(function(){document.documentElement.classList.remove('lw-wait');},2500);}catch(_){}
+  var S=JSON.parse(document.getElementById('state').textContent);
+  var SAVED=JSON.stringify(S), restored=false;
+  try{var k=sessionStorage.getItem(KEY);if(k){sessionStorage.removeItem(KEY);if(k!==SAVED){S=JSON.parse(k);restored=true;}}}catch(e){}
+
+  var app=document.getElementById('app'),st=document.getElementById('st'),ed=document.getElementById('ed'),
+      sv=document.getElementById('sv'),ds=document.getElementById('ds'),pick=document.getElementById('pick');
+  var editing=false,dirty=false,assets=null,artifact=null,target=null,uid=Date.now()%1e6;
+  var CE='plaintext-only';
+  try{var t=document.createElement('div');t.contentEditable='plaintext-only';if(t.contentEditable!=='plaintext-only')CE='true';}catch(e){CE='true';}
+
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function pad(n){return ('0'+n).slice(-2);}
+  function paras(s){return String(s||'').split(/\n\s*\n/).map(function(x){return x.trim();}).filter(Boolean);}
+  function isVid(s){return /^vid:/.test(s)||/\.(mp4|webm)$/i.test(s);}
+  function srcOf(s){return String(s).replace(/^vid:/,'');}
+
+  /* Campo de texto: en modo vista se muestra solo si tiene algo; en modo edición se puede tocar y escribir. */
+  function F(tag,cls,path,val,ph,attrs){
+    attrs=attrs||'';
+    if(!editing){if(!val)return '';return '<'+tag+(cls?' class="'+cls+'"':'')+attrs+'>'+esc(val)+'</'+tag+'>';}
+    return '<'+tag+' class="'+(cls?cls+' ':'')+'ed'+(val?'':' vacio')+'"'+attrs+' data-p="'+path+'" data-ph="'+esc(ph)+'" contenteditable="'+CE+'" spellcheck="true">'+esc(val||'')+'</'+tag+'>';
+  }
+  /* Texto de varios párrafos: una línea en blanco separa párrafos. */
+  function PS(cls,path,val,ph){
+    if(!editing)return paras(val).map(function(p){return '<p'+(cls?' class="'+cls+'"':'')+'>'+esc(p)+'</p>';}).join('');
+    return '<div class="ps-ed '+(cls?cls+' ':'')+'ed'+(val?'':' vacio')+'" data-p="'+path+'" data-ph="'+esc(ph)+'" contenteditable="'+CE+'" spellcheck="true">'+esc(val||'')+'</div>';
+  }
+  function media(m,lazy){
+    if(!m||!m.src)return '<div class="empty">'+(editing?'Tocá “Cambiar” para subir una foto':'')+'</div>';
+    var wh=(m.w&&m.h)?' width="'+(+m.w)+'" height="'+(+m.h)+'"':'';
+    if(isVid(m.src))return '<video src="'+esc(srcOf(m.src))+'"'+wh+(m.poster?' poster="'+esc(m.poster)+'"':'')+' autoplay muted loop playsinline preload="metadata"'+(m.alt?' aria-label="'+esc(m.alt)+'"':'')+'></video>';
+    return '<img src="'+esc(m.src)+'" alt="'+esc(m.alt||'')+'"'+wh+(lazy?' loading="lazy"':'')+' decoding="async">';
+  }
+  function pickBtn(i,j,label){return '<label class="mini" for="pick" role="button" data-a="pick" data-i="'+i+'" data-j="'+j+'">'+label+'</label>';}
+  function btn(a,i,label,extra,cls){return '<button class="mini'+(cls?' '+cls:'')+'" type="button" data-a="'+a+'" data-i="'+i+'"'+(extra||'')+'>'+label+'</button>';}
+  var THEMES={crema:'Fondo: crema',bordo:'Fondo: bordó',negro:'Fondo: negro'};
+  var MARKS={num:'Lista: 01 02 03',gato:'Lista: gatitos',punto:'Lista: puntos',cuadro:'Lista: cuadraditos'},MK_ORDER=['num','gato','punto','cuadro'];
+  function tools(i,b){
+    if(!editing)return '';
+    var x='<div class="tools">'+btn('up',i,'↑',' aria-label="Subir bloque"')+btn('down',i,'↓',' aria-label="Bajar bloque"');
+    if(b.type==='full')x+=pickBtn(i,0,'Cambiar foto');
+    if(b.type==='duo')x+=btn('shape',i,b.r==='tall'?'Forma: alta 4:5':'Forma: cuadrada');
+    if(b.type==='text')x+=btn('theme',i,THEMES[b.theme||'crema']);
+    if(b.type==='text'&&b.steps&&b.steps.length)x+=btn('mk',i,MARKS[b.mk||'num']);
+    if(b.type==='text'&&!(b.side&&b.side.src))x+=pickBtn(i,'side','+ Foto al costado');
+    x+=btn('dup',i,'Duplicar')+btn('del',i,'Borrar','','rojo')+'</div>';
+    return x;
+  }
+  function slotTools(i,j,m){
+    if(!editing)return '';
+    return '<div class="tools slot-t">'+(j>0?btn('left',i,'←',' data-j="'+j+'" aria-label="Mover a la izquierda"'):'')+(j<1?btn('right',i,'→',' data-j="'+j+'" aria-label="Mover a la derecha"'):'')+
+      btn('fit',i,m&&m.fit==='contain'?'Centrada':'Recortada',' data-j="'+j+'"')+pickBtn(i,j,'Cambiar')+'</div>';
+  }
+  function addRow(i){
+    if(!editing)return '';
+    return '<div class="add">'+btn('add',i,'+ Foto ancha',' data-t="full"')+btn('add',i,'+ Dupla de fotos',' data-t="duo"')+btn('add',i,'+ Texto',' data-t="text"')+btn('add',i,'+ Cita bordó',' data-t="manif"')+'</div>';
+  }
+
+  function textBlock(b,i){
+    var p='b.'+i+'.', th=b.theme||'crema', h='';
+    h+=F('div','eyebrow'+(th==='crema'?' color-bordo':''),p+'eb',b.eb,'Etiqueta chica (opcional)',' style="margin-bottom:14px"');
+    h+=F('p','trazo big-phrase',p+'phrase',b.phrase,'Frase en Trazo (opcional)');
+    h+=F('h2','',p+'h2',b.h2,'Título (opcional)');
+    h+=F('p','lead',p+'lead',b.lead,'Bajada destacada (opcional)');
+    h+=PS('',p+'body',b.body,'Texto (opcional). Dejá una línea en blanco entre párrafos.');
+    var s=b.steps||[];
+    if(s.length){
+      var mk=b.mk||'num';
+      h+='<ul class="steps'+(mk!=='num'?' mk':'')+'">';
+      s.forEach(function(x,k){
+        var n=mk==='gato'?'<span class="n mk-gato"><img src="img/isologo.svg" alt=""></span>':mk==='punto'?'<span class="n mk-punto"></span>':mk==='cuadro'?'<span class="n mk-cuadro"></span>':'<span class="n">'+pad(k+1)+'</span>';
+        h+='<li>'+n+'<div>'+F('b','',p+'steps.'+k+'.t',x.t,'Título del punto')+F('span','',p+'steps.'+k+'.d',x.d,'Descripción del punto')+
+          (editing?btn('delstep',i,'Quitar este punto',' data-k="'+k+'"','rojo step-x'):'')+'</div></li>';
+      });
+      h+='</ul>';
+    }
+    if(editing)h+=btn('addstep',i,'+ Punto en lista','','linea');
+    h+=PS('honest',p+'after',b.after,'Texto después de la lista (opcional)');
+    h+=F('p','note',p+'note',b.note,'Nota chica al final (opcional)');
+    var side='';
+    if(b.side&&b.side.src){side='<figure class="side rv">'+media(b.side,true)+(editing?'<div class="tools slot-t">'+pickBtn(i,'side','Cambiar foto')+btn('noside',i,'Quitar foto','','rojo')+'</div>':'')+'</figure>';}
+    var cls=side?' has-side':'';
+    if(th==='negro')return '<section class="offer'+cls+'"><div class="text">'+h+'</div>'+side+'</section>';
+    if(th==='bordo')return '<section class="tbordo'+cls+'"><div class="text">'+h+'</div>'+side+'</section>';
+    if(side)return '<section class="tcrema'+cls+'"><div class="text">'+h+'</div>'+side+'</section>';
+    return '<section class="text">'+h+'</section>';
+  }
+  function manifBlock(b,i){
+    var p='b.'+i+'.';
+    var q=editing?F('span','',p+'q',b.q,'Cita')+' '+F('em','',p+'qa',b.qa,'Final destacado en rosa (opcional)'):esc(b.q||'')+(b.qa?' <em>'+esc(b.qa)+'</em>':'');
+    return '<section class="manif"><div class="text">'+F('div','eyebrow',p+'eb',b.eb,'Etiqueta chica (opcional)',' style="color:var(--rosa);margin-bottom:24px"')+
+      '<blockquote>'+q+'</blockquote>'+F('div','firma',p+'firma',b.firma,'Firma (opcional)')+'</div></section>';
+  }
+  var PALETTE='<div class="palette rv">\n    <div class="sw" style="background:#F1F0EB;outline:1px solid rgba(1,1,1,.12);outline-offset:-1px"><b>Crema</b>#F1F0EB</div>\n    <div class="sw" style="background:#010101;color:#F1F0EB"><b>Negro</b>#010101</div>\n    <div class="sw" style="background:#70293C;color:#F1F0EB"><b>Bordó</b>#70293C</div>\n    <div class="sw" style="background:#016D71;color:#F1F0EB"><b>Verde petróleo</b>#016D71</div>\n    <div class="sw" style="background:#953651;color:#F1F0EB"><b>Frambuesa</b>#953651</div>\n    <div class="sw" style="background:#BE9BA5;color:#010101"><b>Rosa viejo</b>#BE9BA5</div>\n  </div>';
+  var FONTS='<div class="type rv">\n    <div><div class="lbl">Trazo · letra propia</div><div class="aa trazo">Aa</div><div class="smp trazo">nos vemos entre las flores</div></div>\n    <div><div class="lbl">Gabarito · textos</div><div class="aa" style="font-weight:800">Aa</div><div class="smp" style="font-weight:500">Encuentro Nº 01 · Sábado 17 h · Villa Allende</div></div>\n  </div>';
+
+  function waLink(n){var d=String(n||'').replace(/\D/g,'').replace(/^0+/,'');if(!d)return '';if(d.indexOf('54')!==0)d='549'+d;return 'https://wa.me/'+d+'?text='+encodeURIComponent(WA_MSG);}
+  function igHandle(s){return String(s||'').trim().replace(/^@/,'').replace(/^https?:\/\/(www\.)?instagram\.com\//i,'').replace(/[\/?#].*$/,'');}
+
+  function html(){
+    var h='', c=S.cover, z=S.close;
+    h+='<header class="cover">'+F('div','eyebrow','v.eb',c.eb,'Texto de arriba (opcional)')+
+      '<div class="mark"><img class="cat" src="img/isologo-anim-v2.webp" alt="Gato negro, isologo del club"><img class="name" src="img/logotipo-negro.svg" alt="El jardín de los gatos negros"></div>'+
+      '<div class="down">'+F('div','pl','v.place',c.place,'Lugar (opcional)')+'<span>↓</span></div></header>\n';
+    if(editing)h+='<p class="ayuda">Tocá cualquier texto para cambiarlo. Los botones de cada bloque sirven para moverlo, duplicarlo o borrarlo. Cuando termines, tocá <b>Guardar</b>.</p>';
+    S.blocks.forEach(function(b,i){
+      h+=addRow(i);
+      var inner='';
+      if(b.type==='text')inner=textBlock(b,i);
+      else if(b.type==='manif')inner=manifBlock(b,i);
+      else if(b.type==='palette')inner='<div class="wrap">'+PALETTE+'</div>';
+      else if(b.type==='fonts')inner='<div class="wrap">'+FONTS+'</div>';
+      else if(b.type==='full'){
+        inner='<div class="wrap'+(b.bleed?' bleed':'')+'"><figure class="full'+(b.flush?'':' rv')+(i===0||b.flush?' first':'')+'">'+media(b.imgs&&b.imgs[0],i>1)+'</figure></div>';
+      }else if(b.type==='duo'){
+        inner='<div class="wrap"><div class="duo '+(b.r==='sq'?'sq':'tall')+' rv">';
+        for(var j=0;j<2;j++){var m=b.imgs[j]||{};inner+='<div'+(m.fit==='contain'?' class="cell-c"':'')+' data-slot="'+i+'-'+j+'">'+media(m,i>1)+slotTools(i,j,m)+'</div>';}
+        inner+='</div></div>';
+      }
+      h+='<div class="blk" data-i="'+i+'">'+inner+tools(i,b)+'</div>\n';
+    });
+    h+=addRow(S.blocks.length);
+    var ig=igHandle(z.ig), wl=waLink(z.wa), contact='';
+    if(editing){
+      contact='<div>Instagram · @'+F('span','','c.ig',z.ig,'usuario')+'</div><div>WhatsApp · '+F('span','','c.wa',z.wa,'número')+'</div>';
+    }else{
+      if(ig)contact+='<a href="https://www.instagram.com/'+esc(ig)+'/" target="_blank" rel="noopener">Instagram · @'+esc(ig)+'</a>';
+      if(wl)contact+='<a href="'+esc(wl)+'" target="_blank" rel="noopener">WhatsApp · '+esc(z.wa)+'</a>';
+    }
+    h+='<footer class="close"><div class="mark"><img class="cat" src="img/isologo-anim-v2.webp" alt="Gato negro del club"><img class="name" src="img/logotipo-crema.svg" alt="El jardín de los gatos negros"></div>'+
+      F('p','cta','c.q',z.q,'Pregunta para invitar (opcional)')+F('p','cta-sub','c.qs',z.qs,'Bajada de la pregunta (opcional)')+
+      '<div class="contact">'+contact+'</div>'+F('p','trazo phrase','c.phrase',z.phrase,'Frase de cierre')+'</footer>'+
+      '<div class="credit">'+(z.name||editing?'<span class="por">Por </span>':'')+F('b','who','c.name',z.name,'Nombre')+((z.name&&z.role)||editing?'<span> · </span>':'')+F('span','what','c.role',z.role,'Quién sos')+'</div>';
+    return h;
+  }
+
+  var io=null,ioOut=null;
+  function reveal(animate){
+    var els=app.querySelectorAll('.rv:not(.in)');
+    var mm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(!animate||mm||BOT||!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in');});return;}
+    /* Textos: cada línea (etiqueta, frase, título, párrafo, punto de lista) aparece suave a medida que se scrollea. */
+    var tx=app.querySelectorAll('.text > *:not(.steps), .text .steps > li, .close .cta, .close .cta-sub, .close .phrase, .close .contact > *');
+    tx.forEach(function(e){e.classList.add('rv2');});
+    /* Entra cuando ya está adentro de la pantalla; se "rearma" cuando sale del todo, así vuelve a moverse al pasar de nuevo (bajando o subiendo). */
+    io=new IntersectionObserver(function(es){var k=0;es.forEach(function(e){if(e.isIntersecting&&!e.target.classList.contains('in')){if(e.target.classList.contains('rv2')){var d=(k++*(e.target.tagName==='LI'?200:130));e.target.style.transitionDelay=d+'ms';var nn=e.target.querySelector(':scope > .n');if(nn)nn.style.transitionDelay=(d+350)+'ms';}e.target.classList.add('in');}});},{rootMargin:'0px 0px -16% 0px'});
+    ioOut=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting&&e.target.classList.contains('in')){e.target.style.transitionDelay='0ms';var nn=e.target.querySelector(':scope > .n');if(nn)nn.style.transitionDelay='0ms';e.target.classList.remove('in');}});},{rootMargin:'0px'});
+    els.forEach(function(e){io.observe(e);ioOut.observe(e);});tx.forEach(function(e){io.observe(e);ioOut.observe(e);});
+  }
+
+  /* Logotipo de la portada: se escribe letra por letra, como a mano (barrido de izquierda a derecha en cada letra). */
+  var logoSvgTxt=null,logoRun=0;
+  function writeLogo(animate){
+    var img=app.querySelector('.cover img.name');if(!img){document.documentElement.classList.remove('lw-wait');return;}
+    var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var src=img.getAttribute('src');
+    var get=logoSvgTxt?Promise.resolve(logoSvgTxt):fetch(src).then(function(r){if(!r.ok)throw 0;return r.text();});
+    get.then(function(txt){
+      logoSvgTxt=txt;
+      var doc=new DOMParser().parseFromString(txt,'image/svg+xml');var svg=doc.documentElement;
+      if(!svg||svg.nodeName.toLowerCase()!=='svg')throw 0;
+      svg=document.importNode(svg,true);svg.removeAttribute('width');svg.removeAttribute('height');
+      svg.setAttribute('class','name');svg.setAttribute('role','img');svg.setAttribute('aria-label',img.getAttribute('alt')||'');
+      img.parentNode.replaceChild(svg,img);document.documentElement.classList.remove('lw-wait');
+      if(!animate||reduce)return;
+      var NS='http://www.w3.org/2000/svg',defs=document.createElementNS(NS,'defs');svg.insertBefore(defs,svg.firstChild);
+      var paths=[].slice.call(svg.querySelectorAll('path')),rects=[],run=++logoRun;
+      paths.forEach(function(pth,k){
+        var bb=pth.getBBox(),pad=bb.height*0.25,m=document.createElementNS(NS,'mask'),r=document.createElementNS(NS,'rect');
+        m.setAttribute('id','lw'+run+'_'+k);m.setAttribute('maskUnits','userSpaceOnUse');
+        m.setAttribute('x',bb.x-pad);m.setAttribute('y',bb.y-pad);m.setAttribute('width',bb.width+2*pad);m.setAttribute('height',bb.height+2*pad);
+        r.setAttribute('x',bb.x-pad);r.setAttribute('y',bb.y-pad);r.setAttribute('height',bb.height+2*pad);r.setAttribute('width',0);r.setAttribute('fill','#fff');
+        m.appendChild(r);defs.appendChild(m);pth.setAttribute('mask','url(#lw'+run+'_'+k+')');
+        var sw=pth.getBoundingClientRect().width||20;rects.push({r:r,w:bb.width+2*pad,dur:90+sw*2.4});
+      });
+      /* palabras: El | jardín | de | los // gatos | negros  (pausas entre palabras y al cambiar de renglón) */
+      var gapAfter={1:70,7:70,9:70,12:170,17:70};
+      var t=0;rects.forEach(function(o,k){o.start=t;t+=o.dur*0.55+(gapAfter[k]||0);});
+      var t0=null,delay=380;
+      function frame(ts){
+        if(run!==logoRun)return;
+        if(t0===null)t0=ts;var el=ts-t0-delay,done=true;
+        rects.forEach(function(o){var q=Math.min(1,Math.max(0,(el-o.start)/o.dur));q=1-Math.pow(1-q,2);o.r.setAttribute('width',o.w*q);if(q<1)done=false;});
+        if(!done)requestAnimationFrame(frame);
+      }
+      /* El gato parpadea al empezar y al terminar de escribirse el nombre, y se queda quieto mientras tanto. */
+      var cat=app.querySelector('.cover .mark .cat'),started=false;
+      function go(){if(started||run!==logoRun)return;started=true;requestAnimationFrame(frame);
+        setTimeout(function(){if(run===logoRun&&cat)cat.setAttribute('src','img/isologo-anim-v2.webp');},9665);}
+      if(cat){cat.onload=go;cat.onerror=go;cat.setAttribute('src','img/isologo-intro2.webp?r='+run);setTimeout(go,900);}else go();
+    }).catch(function(){document.documentElement.classList.remove('lw-wait');});
+  }
+  /* Se vuelve a escribir cuando la portada sale de la pantalla y vuelve a entrar. */
+  var coverSeen=true,coverIO=null;
+  function watchCover(){
+    if(coverIO)coverIO.disconnect();var cv=app.querySelector('.cover');if(!cv||!('IntersectionObserver' in window))return;
+    coverIO=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting){coverSeen=false;}else if(!coverSeen&&!editing){coverSeen=true;var sv=cv.querySelector('svg.name');if(sv){var im=document.createElement('img');im.className='name';im.setAttribute('src','img/logotipo-negro.svg');im.setAttribute('alt','El jardín de los gatos negros');sv.parentNode.replaceChild(im,sv);}writeLogo(true);}});},{threshold:0});
+    coverIO.observe(cv);
+  }
+  /* Los videos solo corren cuando están en pantalla: el scroll queda más liviano en el celu. */
+  var vio=null;
+  function watchVideos(){
+    if(vio)vio.disconnect();
+    if(!('IntersectionObserver' in window))return;
+    vio=new IntersectionObserver(function(es){es.forEach(function(e){var v=e.target;if(e.isIntersecting){var pr=v.play();if(pr&&pr.catch)pr.catch(function(){});}else{v.pause();}});},{rootMargin:'200px 0px'});
+    app.querySelectorAll('video').forEach(function(v){vio.observe(v);});
+  }
+  function render(){
+    if(io){io.disconnect();io=null;}if(ioOut){ioOut.disconnect();ioOut=null;}
+    app.innerHTML=html();
+    app.classList.toggle('editing',editing);
+    buildMenu();
+    if(!editing)writeLogo(false);
+    reveal(false);
+    watchVideos();
+  }
+
+  /* Menú de secciones: se arma solo con las etiquetas de cada bloque de texto. */
+  var mb=document.getElementById('mb'),mn=document.getElementById('mn'),menuEls=[];
+  function clean(t){return String(t||'').replace(/[\u200b\u00a0]/g,' ').replace(/\s+/g,' ').trim();}
+  function buildMenu(){
+    if(!mn)return;
+    menuEls=[{t:'Inicio',el:app.querySelector('.cover')}];
+    S.blocks.forEach(function(b,i){var t=clean(b.eb);if((b.type==='text'||b.type==='manif')&&t)menuEls.push({t:t,el:app.querySelector('.blk[data-i="'+i+'"]')});});
+    menuEls.push({t:'Contacto',el:app.querySelector('.close')});
+    mn.innerHTML=menuEls.map(function(m,k){return '<a href="#" data-k="'+k+'">'+esc(m.t)+'</a>';}).join('');
+  }
+  function menuOpen(o){if(!mn)return;mn.hidden=!o;mb.setAttribute('aria-expanded',o?'true':'false');}
+  if(mb){
+    mb.addEventListener('click',function(e){e.stopPropagation();menuOpen(mn.hidden);});
+    mn.addEventListener('click',function(e){var a=e.target.closest('a[data-k]');if(!a)return;e.preventDefault();var m=menuEls[+a.getAttribute('data-k')];menuOpen(false);if(m&&m.el){var go=function(sm){var y=m.el.getBoundingClientRect().top+window.scrollY-(m.t==='Inicio'?0:8);try{window.scrollTo({top:y,behavior:sm?'smooth':'auto'});}catch(_){window.scrollTo(0,y);}};go(true);[900,1800].forEach(function(t){setTimeout(function(){if(Math.abs(m.el.getBoundingClientRect().top-8)>40&&(window.innerHeight+window.scrollY<document.documentElement.scrollHeight-2))go(true);},t);});}});
+    document.addEventListener('click',function(e){if(!mn.hidden&&!e.target.closest('#mn'))menuOpen(false);});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')menuOpen(false);});
+  }
+  function say(t){st.textContent=t||'';st.hidden=!t;}
+  function ui(){
+    ed.textContent=editing?'Ver cómo queda':'✎ Editar';
+    ed.classList.toggle('pen',!editing);
+    sv.hidden=!(editing||dirty);sv.disabled=!dirty;ds.hidden=!dirty;
+  }
+  function mark(){dirty=true;ui();say('Hay cambios sin guardar');}
+
+  function setPath(path,val){
+    var parts=path.split('.'), root={b:S.blocks,c:S.close,v:S.cover}[parts[0]], o=root;
+    for(var n=1;n<parts.length-1;n++)o=o[isNaN(+parts[n])?parts[n]:+parts[n]];
+    o[parts[parts.length-1]]=val;
+  }
+  app.addEventListener('input',function(e){
+    var el=e.target.closest('[data-p]');if(!el||!editing)return;
+    var v=el.innerText.replace(/ /g,' ').replace(/\n+$/,'');
+    if(!/\S/.test(v))v='';
+    setPath(el.getAttribute('data-p'),v);
+    el.classList.toggle('vacio',!v);
+    mark();
+  });
+  app.addEventListener('paste',function(e){
+    if(CE!=='true'||!e.target.closest('[data-p]'))return;
+    e.preventDefault();var t=(e.clipboardData||window.clipboardData).getData('text/plain');document.execCommand('insertText',false,t);
+  });
+
+  function newBlock(t){
+    var b={id:'b'+(uid++),type:t};
+    if(t==='full')b.imgs=[{src:'',alt:''}];
+    else if(t==='duo'){b.r='tall';b.imgs=[{src:'',alt:''},{src:'',alt:''}];}
+    else if(t==='text'){b.theme='crema';b.eb='Etiqueta';b.h2='Título';b.body='Escribí acá el texto.';}
+    else if(t==='manif'){b.eb='Del manifiesto';b.q='Escribí acá la cita.';b.qa='';b.firma='Por Luz';}
+    return b;
+  }
+  app.addEventListener('click',function(e){
+    var b=e.target.closest('button[data-a],label[data-a]');if(!b||!editing)return;
+    var a=b.getAttribute('data-a'),i=+b.getAttribute('data-i'),j=+b.getAttribute('data-j'),L=S.blocks,keep=null;
+    if(a==='up'&&i>0){L.splice(i-1,0,L.splice(i,1)[0]);keep=i-1;}
+    else if(a==='down'&&i<L.length-1){L.splice(i+1,0,L.splice(i,1)[0]);keep=i+1;}
+    else if(a==='dup'){var c=JSON.parse(JSON.stringify(L[i]));c.id='b'+(uid++);L.splice(i+1,0,c);keep=i+1;}
+    else if(a==='del'){
+      if(!b.getAttribute('data-ok')){b.setAttribute('data-ok','1');b.textContent='¿Seguro? Tocá de nuevo';setTimeout(function(){if(b.isConnected){b.removeAttribute('data-ok');b.textContent='Borrar';}},4000);return;}
+      L.splice(i,1);
+    }
+    else if(a==='mk'){L[i].mk=MK_ORDER[(MK_ORDER.indexOf(L[i].mk||'num')+1)%MK_ORDER.length];if(L[i].mk==='num')delete L[i].mk;keep=i;}
+    else if(a==='shape'){L[i].r=L[i].r==='tall'?'sq':'tall';keep=i;}
+    else if(a==='theme'){var o=['crema','bordo','negro'];L[i].theme=o[(o.indexOf(L[i].theme||'crema')+1)%3];keep=i;}
+    else if(a==='left'||a==='right'){var im=L[i].imgs,k2=a==='left'?j-1:j+1,tmp=im[j];im[j]=im[k2];im[k2]=tmp;keep=i;}
+    else if(a==='fit'){var m=L[i].imgs[j];if(m.fit==='contain')delete m.fit;else m.fit='contain';keep=i;}
+    else if(a==='add'){L.splice(i,0,newBlock(b.getAttribute('data-t')));keep=i;}
+    else if(a==='addstep'){(L[i].steps=L[i].steps||[]).push({t:'Nuevo punto',d:'Descripción.'});keep=i;}
+    else if(a==='delstep'){
+      if(!b.getAttribute('data-ok')){b.setAttribute('data-ok','1');b.textContent='¿Seguro? Tocá de nuevo';return;}
+      L[i].steps.splice(+b.getAttribute('data-k'),1);if(!L[i].steps.length)delete L[i].steps;keep=i;
+    }
+    else if(a==='pick'){var jj=b.getAttribute('data-j');target={i:i,j:jj==='side'?'side':(+jj||0)};try{pick.value='';}catch(_){}return;}
+    else if(a==='noside'){if(!b.getAttribute('data-ok')){b.setAttribute('data-ok','1');b.textContent='¿Seguro? Tocá de nuevo';return;}delete L[i].side;keep=i;}
+    else return;
+    var y=window.scrollY,before=keep!=null?app.querySelector('.blk[data-i="'+(a==='up'||a==='down'?i:keep)+'"]'):null,top0=before?before.getBoundingClientRect().top:0;
+    mark();render();
+    if(keep!=null){var el=app.querySelector('.blk[data-i="'+keep+'"]');if(el){window.scrollTo(0,y+el.getBoundingClientRect().top-top0);}}
+  });
+
+  /* Fotos: las que pasan 2400 px de ancho o 4 MB se achican (JPEG de alta calidad) para que el dossier cargue rápido en el celular.
+     GIF y WebP (pueden ser animados) y videos se suben tal cual, hasta 20 MB. */
+  function loadImg(file){return new Promise(function(res,rej){var u=URL.createObjectURL(file),im=new Image();im.onload=function(){res({im:im,u:u});};im.onerror=function(){URL.revokeObjectURL(u);rej({code:'formato'});};im.src=u;});}
+  function vidDims(f){return new Promise(function(res){try{var u=URL.createObjectURL(f),v=document.createElement('video');v.preload='metadata';v.muted=true;v.onloadedmetadata=function(){res([v.videoWidth,v.videoHeight]);URL.revokeObjectURL(u);};v.onerror=function(){res([0,0]);URL.revokeObjectURL(u);};setTimeout(function(){res([0,0]);},4000);v.src=u;}catch(e){res([0,0]);}});}
+  async function prep(f){
+    var MB=1024*1024,ty=f.type||'';
+    if(/^video\//.test(ty)){if(!/mp4|webm/.test(ty))throw {code:'formato_video'};if(f.size>20*MB)throw {code:'too_large'};var vd=await vidDims(f);return {blob:f,vid:true,w:vd[0],h:vd[1]};}
+    if(/image\/(gif|webp)/.test(ty)){if(f.size>20*MB)throw {code:'too_large'};var gd=await loadImg(f).then(function(r){URL.revokeObjectURL(r.u);return [r.im.naturalWidth,r.im.naturalHeight];},function(){return [0,0];});return {blob:f,w:gd[0],h:gd[1]};}
+    if(/image\/svg/.test(ty)){if(f.size>2*MB)throw {code:'too_large'};return {blob:f};}
+    var r=await loadImg(f),im=r.im,w=im.naturalWidth,hh=im.naturalHeight;
+    var okType=/image\/(jpeg|png)/.test(ty);
+    if(okType&&w<=2400&&f.size<=4*MB){URL.revokeObjectURL(r.u);return {blob:f,w:w,h:hh};}
+    var sc=Math.min(1,2400/w),c=document.createElement('canvas');c.width=Math.round(w*sc);c.height=Math.round(hh*sc);
+    var g=c.getContext('2d');
+    var png=ty==='image/png';
+    if(!png){g.fillStyle='#ffffff';g.fillRect(0,0,c.width,c.height);}
+    g.drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(r.u);
+    var blob=await new Promise(function(res){c.toBlob(res,png?'image/png':'image/jpeg',png?undefined:.9);});
+    if(png&&blob&&blob.size>8*MB)blob=await new Promise(function(res){g.globalCompositeOperation='destination-over';g.fillStyle='#F1F0EB';g.fillRect(0,0,c.width,c.height);c.toBlob(res,'image/jpeg',.9);});
+    if(!blob)throw {code:'formato'};
+    return {blob:blob,w:c.width,h:c.height};
+  }
+  pick.addEventListener('change',async function(){
+    var f=pick.files&&pick.files[0];if(!f||!target)return;if(!assets){say('Desde esta vista no se pueden subir fotos. Probá desde la compu o desde el navegador.');return;}
+    var t=target,b=S.blocks[t.i],el=t.j==='side'?app.querySelector('.blk[data-i="'+t.i+'"] section'):b.type==='full'?app.querySelector('.blk[data-i="'+t.i+'"] figure'):app.querySelector('[data-slot="'+t.i+'-'+t.j+'"]');
+    if(el)el.classList.add('busy');
+    try{
+      var p=await prep(f),r=await assets.upload(p.blob);
+      if(t.j==='side'){b.side={src:(p.vid?'vid:':'')+'/_blob/'+r.id,alt:''};if(p.w&&p.h){b.side.w=p.w;b.side.h=p.h;}}
+      else{
+      var old=b.imgs[t.j]||{};
+      b.imgs[t.j]={src:(p.vid?'vid:':'')+'/_blob/'+r.id,alt:old.src?'':(old.alt||'')};
+      if(p.w&&p.h){b.imgs[t.j].w=p.w;b.imgs[t.j].h=p.h;}
+      if(old.fit)b.imgs[t.j].fit=old.fit;}
+      mark();render();
+    }catch(err){
+      if(el)el.classList.remove('busy');
+      var c=err&&err.code;
+      say(c==='too_large'?'Ese archivo pasa los 20 MB: exportalo más liviano.':c==='quota_or_state'?'No queda más espacio para archivos en esta página.':c==='formato'?'Ese formato no se puede abrir acá: exportalo como JPG o PNG.':c==='formato_video'?'El video tiene que ser MP4.':'No se pudo subir. Probá de nuevo.');
+    }
+  });
+
+  function doc(){
+    var keepEd=editing;editing=false;var body=html();editing=keepEd;
+    var data=JSON.stringify(S,null,0).replace(/</g,'\\u003c');
+    return '<!DOCTYPE html>\n<html lang="es">\n<head>\n'+HEAD+'<style id="app-style">'+document.getElementById('app-style').textContent+'</style>\n</head>\n<body>\n<div id="app">'+body+'</div>\n'+BAR+
+      '<'+SC+' type="application/json" id="state">'+data+'</'+SC+'>\n<'+SC+' id="app-script">'+document.getElementById('app-script').textContent+'</'+SC+'>\n</body>\n</html>\n';
+  }
+  window.__jgnDoc=doc;
+
+  sv.addEventListener('click',async function(){
+    if(!artifact||!dirty)return;
+    if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();
+    sv.disabled=true;say('Guardando…');
+    var page=doc();
+    try{sessionStorage.setItem(KEY,JSON.stringify(S));}catch(e){}
+    try{
+      try{await artifact.publish({'index.html':{content:page,contentType:'text/html'}});}
+      catch(e1){if(e1&&(e1.code==='capability_disabled'||e1.code==='capability_removed')){await artifact.publish(page);}else throw e1;}
+      try{sessionStorage.removeItem(KEY);}catch(e){}
+      SAVED=JSON.stringify(S);dirty=false;ui();say('Guardado ✓ El link ya muestra esta versión.');
+      setTimeout(function(){if(!dirty)say('');},4000);
+    }catch(err){
+      var c=err&&err.code;
+      if(c==='conflict'){say('Había otra versión guardada: se recarga y tus cambios vuelven a aparecer.');return;}
+      try{sessionStorage.removeItem(KEY);}catch(e){}
+      if(c==='not_writer'||c==='not_granted'){say('Desde acá solo se puede mirar.');ed.hidden=true;sv.hidden=true;ds.hidden=true;editing=false;render();return;}
+      sv.disabled=false;
+      say(c==='too_large'?'La página quedó demasiado pesada para guardarse.':c==='rate_limited'?'Esperá unos segundos y guardá de nuevo.':'No se pudo guardar. Probá de nuevo.');
+    }
+  });
+  ds.addEventListener('click',function(){
+    if(!ds.getAttribute('data-ok')){ds.setAttribute('data-ok','1');ds.textContent='¿Descartar todo? Tocá de nuevo';setTimeout(function(){ds.removeAttribute('data-ok');ds.textContent='Descartar';},4000);return;}
+    ds.removeAttribute('data-ok');ds.textContent='Descartar';
+    S=JSON.parse(SAVED);dirty=false;ui();say('');render();
+  });
+  ed.addEventListener('click',function(){editing=!editing;ui();render();if(editing)say(dirty?'Hay cambios sin guardar':'');});
+  window.addEventListener('beforeunload',function(e){if(dirty){e.preventDefault();e.returnValue='';}});
+
+  if(restored||!app.firstElementChild){render();reveal(true);}else{buildMenu();reveal(true);watchVideos();if(!BOT)writeLogo(true);}
+  watchCover();
+  if(restored){app.querySelectorAll('.rv').forEach(function(e){e.classList.add('in');});}
+  if(window.claude&&claude.use){
+    Promise.all([claude.use('assets'),claude.use('artifact')]).then(function(r){
+      assets=r[0];artifact=r[1];
+      if(assets&&artifact){ed.hidden=false;if(restored){dirty=true;ui();say('Tenés cambios sin guardar');}}
+    }).catch(function(){});
+  }
+})();
+</script>
+</body>
+</html>
