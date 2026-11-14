@@ -1,0 +1,59 @@
+/* ==========================================================================
+   Página de links (bio de Instagram): estilos propios, sobre la base compartida.
+   ========================================================================== */
+
+*{margin:0;padding:0}
+html,body{background:var(--negro);color:var(--crema)}
+body{min-height:100vh;-webkit-font-smoothing:antialiased}
+.cab{background:var(--crema);padding:34px 16px 34px;display:flex;flex-direction:column;align-items:center}
+main{width:100%;max-width:440px;margin:0 auto;padding:28px 16px 0;display:flex;flex-direction:column;align-items:center}
+
+/* ---------- cabecera ---------- */
+.eyebrow{font-weight:500;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--bordo);text-align:center;line-height:1.6}
+.mark{width:min(64vw,250px);margin-top:22px;cursor:pointer}
+.mark .cat{width:100%;display:block;opacity:0;transition:opacity .7s ease}
+.mark .cat.ve{opacity:1}
+.mark svg.name{width:100%;display:block;height:auto;margin-top:10%;overflow:visible;color:var(--negro)}
+.lw-wait .mark svg.name{visibility:hidden}
+.fit{white-space:nowrap;width:100%}
+.eyebrow.fit{text-align:center}
+.bienvenida{font-family:Trazo,serif;color:var(--bordo);font-size:34px;line-height:1.1;text-align:center;margin-top:28px}
+
+/* ---------- bloques de color (próximo encuentro y links) ---------- */
+.bloques{width:100%;display:grid;gap:10px}
+.bloque{border-radius:6px;color:var(--crema)}
+.bordo{background:var(--bordo);color:var(--crema)}
+
+.encuentro{padding:28px 22px 26px}
+.encuentro .serie{display:flex;align-items:baseline;gap:10px;white-space:nowrap}
+.encuentro .serie .tz,.encuentro .serie .n{font-family:Trazo,serif;color:var(--rosa);font-size:clamp(24px,7.4vw,32px);line-height:1}
+.encuentro h2{font-weight:800;font-size:28px;line-height:1.08;margin-top:14px}
+.encuentro .autor{font-size:16px;margin-top:4px}
+.datos{list-style:none;margin-top:16px;display:grid;gap:6px;font-size:15px}
+.datos b{font-weight:500;font-size:11px;letter-spacing:.16em;text-transform:uppercase;display:inline-block;width:76px;opacity:.8}
+.reserva{display:inline-flex;align-items:center;gap:12px;margin-top:22px;background:var(--crema);color:var(--bordo);text-decoration:none;font-weight:500;font-size:14px;letter-spacing:.14em;text-transform:uppercase;padding:16px 26px 16px 20px;border-radius:2px 999px 999px 2px;transition:transform .18s ease}
+.reserva svg{width:20px;height:20px}
+.reserva:hover{transform:translateX(4px)}
+
+a.link{display:flex;align-items:center;gap:16px;padding:22px 22px;text-decoration:none;transition:transform .18s ease}
+a.link .ico{width:30px;height:30px;flex:none;color:var(--rosa)}
+a.link .txt{flex:1;display:flex;flex-direction:column;gap:4px;min-width:0}
+a.link .t{font-weight:500;font-size:15px;letter-spacing:.14em;text-transform:uppercase}
+a.link .s{font-size:14px;opacity:.85}
+a.link .fl{width:22px;height:22px;flex:none;transition:transform .18s ease}
+a.link:hover .fl{transform:translateX(5px)}
+a:focus-visible{outline:3px solid var(--verde);outline-offset:3px}
+
+/* ---------- pie ---------- */
+footer{width:100%;background:var(--crema);color:var(--negro);text-align:center;padding:34px 22px 30px;margin-top:40px}
+.pie{width:100%;max-width:440px;margin:0 auto}
+.chau{display:flex;align-items:flex-end;justify-content:center;gap:4px}
+.chau p{font-family:Trazo,serif;font-size:32px;line-height:1.05;color:var(--bordo);text-align:right;padding-bottom:14px}
+.chau img{width:132px;height:auto;flex:none;margin-right:-6px}
+.credit{margin-top:26px;text-align:left;font-size:13px;line-height:1.6;color:var(--negro)}
+.credit .por{font-family:Trazo,serif;font-size:19px;color:var(--negro);line-height:1}
+
+/* ---------- entrada suave ---------- */
+.sube{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+.sube.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.sube{opacity:1;transform:none;transition:none}.reserva:hover,a.link:hover .fl{transform:none}}

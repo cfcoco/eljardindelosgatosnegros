@@ -1,0 +1,280 @@
+{
+  "_ayuda": "Contenido del dossier. Se edita este archivo y se corre `npm run build`. Las fotos van en contenido/img/. Tipos de bloque: full (foto ancha), duo (dos fotos, r = sq o tall), text (theme = crema, bordo o negro; mk = num, gato, punto o cuadro), manif (cita bordó).",
+  "cover": {
+    "eb": "Club de lectura",
+    "place": "Villa Allende · Córdoba"
+  },
+  "blocks": [
+    {
+      "id": "b1",
+      "type": "full",
+      "imgs": [
+        {
+          "src": "img/senalador-sol.jpg",
+          "alt": "Señalador con forma de gato sobre un libro abierto, al sol"
+        }
+      ]
+    },
+    {
+      "id": "b2",
+      "type": "text",
+      "theme": "crema",
+      "phrase": "Quizás usted también sea un gato negro.",
+      "h2": "Te damos la bienvenida al jardín."
+    },
+    {
+      "id": "b64587",
+      "type": "text",
+      "theme": "bordo",
+      "eb": "SOBRE EL CLUB",
+      "h2": "Un club de lectura (y quizás algo más)",
+      "body": "Queremos crear un espacio de encuentro presencial en Villa Allende donde disfrutar del buen gusto por la literatura y todo aquello que florece alrededor de un buen libro."
+    },
+    {
+      "id": "b7",
+      "type": "full",
+      "imgs": [
+        {
+          "src": "img/afiche.jpg",
+          "alt": "Afiche del club entre amapolas"
+        }
+      ]
+    },
+    {
+      "id": "b894455",
+      "type": "manif",
+      "q": "Abrir un libro es sostener un jardín.",
+      "firma": "POR LUZ ALTAMIRANO ZAPATA"
+    },
+    {
+      "id": "bstk",
+      "type": "full",
+      "imgs": [
+        {
+          "video": "img/stickers-v3.mp4",
+          "poster": "img/stickers-poster.jpg",
+          "alt": "Stickers animados del club, de a dos"
+        }
+      ]
+    },
+    {
+      "id": "b685641",
+      "type": "text",
+      "theme": "negro",
+      "eb": "NUESTRO MANIFIESTO",
+      "phrase": "Una invitación a saltar el muro",
+      "after": "Creemos que nos parecemos mucho a los gatos negros: celosos de nuestra soledad y, muchas veces, incomprendidos. Pero el instinto siempre nos empuja a saltar el muro y encontrarnos en un jardín nuevo, entre flores que no son otra cosa que las lecturas que elegimos para sentirnos menos solos.",
+      "note": "El jardín es el encuentro; los gatos negros, quienes leemos; y las flores, los libros.",
+      "side": {
+        "src": "img/gata-manifiesto-v2.jpg",
+        "alt": "Gata negra de Luz, de perfil, con collar rojo"
+      }
+    },
+    {
+      "id": "b5",
+      "type": "text",
+      "theme": "crema",
+      "eb": "LA EXPERIENCIA",
+      "phrase": "Nuestros encuentros en el jardín",
+      "lead": "Una propuesta para lectores a partir de 18 años. El plan perfecto para tener una tarde agradable, conversar sobre libros y autores, y conocer gente nueva.",
+      "steps": [
+        {
+          "t": "Un libro por ciclo & encuentro",
+          "d": "Clásicos y contemporáneos, elegidos con una curaduría de la curiosidad, sin la prisa de las tendencias literarias."
+        },
+        {
+          "t": "Un momento para disfrutar",
+          "d": "Dinámicas para abrir la charla y pequeños regalos de la marca. Un ambiente accesible y adaptable, donde podés participar tanto si te encanta debatir como si preferís sumarte a escuchar."
+        },
+        {
+          "t": "Cupos limitados",
+          "d": "Mesas de 5 a 10 personas para asegurar comodidad. Trabajamos con una contribución de compromiso que asegura tu lugar en el jardín."
+        },
+        {
+          "t": "Espacios con mucho encanto",
+          "d": "Elegimos cafés y bares acogedores en Villa Allende y cercanías de Sierras Chicas, para que tanto el desayuno como la merienda también se disfruten."
+        }
+      ],
+      "mk": "num"
+    },
+    {
+      "id": "b21",
+      "type": "full",
+      "imgs": [
+        {
+          "src": "img/cartel.jpg",
+          "alt": "Cartel del club en un jardín: nos vemos adentro"
+        }
+      ]
+    },
+    {
+      "id": "b6",
+      "type": "duo",
+      "r": "sq",
+      "imgs": [
+        {
+          "src": "img/mesa.jpg",
+          "alt": "Tarjetas de mesa con nombre y ficha de notas de lectura"
+        },
+        {
+          "src": "img/pases.jpg",
+          "alt": "Pases, tarjetas y stickers del club sobre una mesa de café"
+        }
+      ]
+    },
+    {
+      "id": "b894456",
+      "type": "text",
+      "theme": "crema",
+      "eb": "CICLOS DE LECTURA",
+      "phrase": "Las flores que encontraremos",
+      "lead": "Cada trimestre elegimos tres lecturas (nuestras flores), una por mes, bajo estas tres miradas:",
+      "steps": [
+        {
+          "t": "Un jardín",
+          "d": "Historias donde la naturaleza toma vida como paisaje, refugio o personaje."
+        },
+        {
+          "t": "Un gato",
+          "d": "Obras donde un felino es el centro del relato o una pieza clave de la trama."
+        },
+        {
+          "t": "Una vida",
+          "d": "Lecturas profundas y existenciales que nos interpelan y nos representan, con nuestra parte gatuna incluida."
+        }
+      ],
+      "mk": "punto"
+    },
+    {
+      "id": "b15",
+      "type": "full",
+      "imgs": [
+        {
+          "src": "img/senalador-libro.jpg",
+          "alt": "Señalador del club dentro de un libro"
+        }
+      ]
+    },
+    {
+      "id": "b13",
+      "type": "text",
+      "theme": "bordo",
+      "eb": "DETALLES DEL JARDÍN",
+      "phrase": "Lo que a los gatos negros les gusta",
+      "body": "Señaladores, stickers, libretas y sorteos diseñados con la estética de la marca para acompañar la lectura y para que la experiencia del club siga en tu casa."
+    },
+    {
+      "id": "b14",
+      "type": "duo",
+      "r": "tall",
+      "imgs": [
+        {
+          "video": "img/bolsas.mp4",
+          "poster": "img/bolsas-poster.jpg",
+          "alt": "Bolsas de papel del club en kraft, blanco y bordó"
+        },
+        {
+          "src": "img/sobre-sorteo-v2.jpg",
+          "alt": "Sobre del sorteo con stickers y sello del club"
+        }
+      ]
+    },
+    {
+      "id": "b19",
+      "type": "duo",
+      "r": "tall",
+      "imgs": [
+        {
+          "src": "img/senaladores.jpg",
+          "alt": "Señaladores rosa y negro del club"
+        },
+        {
+          "src": "img/tote.jpg",
+          "alt": "Tote bordó con el logo, en el pasto junto a un gato negro"
+        }
+      ]
+    },
+    {
+      "id": "bmerch",
+      "type": "duo",
+      "r": "sq",
+      "imgs": [
+        {
+          "src": "img/posavasos.jpg",
+          "alt": "Posavasos con gatos sobre una mesa al sol"
+        },
+        {
+          "src": "img/libretas.jpg",
+          "alt": "Libretas bordó, rosa y verde con el gato del club"
+        }
+      ]
+    },
+    {
+      "id": "b16",
+      "type": "full",
+      "imgs": [
+        {
+          "src": "img/remera-v2.jpg",
+          "alt": "Remera bordó del club colgada entre cactus"
+        }
+      ]
+    },
+    {
+      "id": "b22",
+      "type": "text",
+      "theme": "negro",
+      "eb": "ALIANZAS & COLABORACIONES",
+      "phrase": "Ingresá al jardín",
+      "body": "Colaborar en el club te permite potenciar tu marca o tu negocio ante una nueva comunidad de la zona que quiere encuentros con calidad y disfrute.",
+      "steps": [
+        {
+          "t": "Si sos escritor o escritora",
+          "d": "Presentás tu libro en un espacio íntimo donde podés conversar cara a cara con nuevos lectores y potenciar tu marca personal."
+        },
+        {
+          "t": "Si tenés una editorial o librería",
+          "d": "Compartís títulos de tu catálogo para la lectura del mes e impulsás la llegada de nuevos clientes directos a tu espacio, ofreciendo un descuento exclusivo para los miembros del club."
+        },
+        {
+          "t": "Si gestionás un espacio gastronómico",
+          "d": "Convertís tu café en sede anfitriona y promovés el consumo de un grupo cerrado, además de generar visibilidad en redes sociales y sumar nuevas reseñas."
+        }
+      ],
+      "mk": "gato",
+      "after": "El jardín apenas está floreciendo. Todavía no tenemos una gran comunidad para ofrecerte, pero sí un proyecto joven, cuidado y con muchísimas ganas de sumar gatos negros.",
+      "note": "También buscamos emprendimientos para merchandising o que quieran potenciar la experiencia."
+    },
+    {
+      "id": "bmarq",
+      "type": "full",
+      "imgs": [
+        {
+          "video": "img/marquesina.mp4",
+          "poster": "img/marquesina-poster.jpg",
+          "alt": "Marquesina animada con el logo del club"
+        }
+      ],
+      "bleed": true,
+      "flush": true
+    },
+    {
+      "id": "bweb",
+      "type": "full",
+      "imgs": [
+        {
+          "src": "img/web.jpg",
+          "alt": "Web del club en una notebook sobre una silla de esterilla"
+        }
+      ]
+    }
+  ],
+  "close": {
+    "phrase": "Nos vemos entre las flores",
+    "name": "Luz A.Zapata",
+    "role": "comunicadora social, dueña de cuatro hermosos gatos negros y creadora del club.",
+    "q": "¿Te gustaría que tu obra, catálogo o espacio formen parte de nuestros encuentros?",
+    "qs": "¡Escribinos y coordinemos juntos!",
+    "waMensaje": "Hola Luz, vi el dossier de El Jardín de los Gatos Negros.",
+    "_ayuda": "Cierre bordó. El Instagram y el WhatsApp salen de sitio.json."
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "_ayuda": "Datos generales del sitio: dominio, subdominio, redes, contacto y textos para buscadores. Si se cambia el nombre del subdominio, se cambia solo acá.",
+  "nombre": "El Jardín de los Gatos Negros",
+  "dominio": "eljardindelosgatosnegros.com.ar",
+  "subdominioLinks": "bios",
+  "lang": "es-AR",
+  "locale": "es_AR",
+  "lugar": {
+    "localidad": "Villa Allende",
+    "provincia": "Córdoba",
+    "pais": "AR"
+  },
+  "instagram": "eljardindelosgatosnegros",
+  "whatsapp": "5493543699326",
+  "whatsappVisible": "3543 69-9326",
+  "email": "eljardindelosgatosnegros@gmail.com",
+  "colorTema": "#70293C",
+  "autora": {
+    "nombre": "Luz A. Zapata",
+    "rol": "comunicadora social, dueña de cuatro hermosos gatos negros y creadora del club."
+  },
+  "seo": {
+    "dossier": {
+      "titulo": "El Jardín de los Gatos Negros · Club de lectura en Villa Allende, Córdoba",
+      "descripcion": "Club de lectura presencial en Villa Allende, Córdoba. Clásicos y contemporáneos, encuentros en cafés con encanto y una comunidad de gatos negros. Dossier para alianzas y colaboraciones."
+    },
+    "links": {
+      "titulo": "El Jardín de los Gatos Negros · Links",
+      "descripcion": "Próximo encuentro del club de lectura de Villa Allende, WhatsApp, email y cómo colaborar con el club."
+    }
+  }
+}

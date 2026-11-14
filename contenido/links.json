@@ -1,0 +1,38 @@
+{
+  "_ayuda": "Página de links para la bio de Instagram. Si un campo queda vacío (\"\"), esa línea no aparece. El botón del dossier lleva al dominio raíz automáticamente.",
+  "cabecera": {
+    "eb": "Club de lectura · Villa Allende, Córdoba",
+    "bienvenida": "¡Bienvenidos al jardín!"
+  },
+  "encuentro": {
+    "titulo": "Próximo encuentro",
+    "numero": "Nº 01",
+    "libro": "Nombre del libro",
+    "autor": "Autor o autora",
+    "fecha": "Día y hora",
+    "lugar": "Villa Allende, Córdoba",
+    "botonReserva": "Reservá tu lugar",
+    "mensajeReserva": "¡Hola Luz! Quiero reservar mi lugar para el próximo encuentro del Jardín."
+  },
+  "botones": {
+    "whatsapp": {
+      "titulo": "WhatsApp",
+      "bajada": "Consultas y novedades del club",
+      "mensaje": "¡Hola Luz! Vengo del Instagram del Jardín y quiero saber más del club."
+    },
+    "dossier": {
+      "titulo": "Colaborá con el club",
+      "bajada": "Librerías, editoriales y espacios · dossier"
+    },
+    "email": {
+      "titulo": "Email",
+      "asunto": "Hola desde el Jardín"
+    }
+  },
+  "pie": {
+    "frase": "Nos vemos\nentre las flores",
+    "foto": { "src": "img/tabata-lentes.webp", "alt": "Tabata, gata negra con lentes, leyendo" },
+    "firma": "Por Luz A. Zapata",
+    "rol": "comunicadora social, dueña de cuatro hermosos gatos negros y creadora del club."
+  }
+}

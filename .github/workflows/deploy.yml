@@ -1,0 +1,73 @@
+# Cada vez que se sube algo a main, GitHub arma el sitio (npm run build) y deja
+# el resultado listo para Hostinger en dos ramas:
+#   deploy-dossier → contenido de dist/dossier (dominio raíz)
+#   deploy-links   → contenido de dist/links   (subdominio)
+# Hostinger baja esas ramas a cada public_html (Git en hPanel o por la API).
+# Si en los Secrets del repo existen HOSTINGER_WEBHOOK_DOSSIER / HOSTINGER_WEBHOOK_LINKS
+# (las URL de "auto deployment" de hPanel → Git), al final se avisa a Hostinger
+# para que actualice solo.
+name: Build y deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: deploy
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Armar el sitio
+        run: npm run build
+
+      - name: Controlar que no queden rastros de claude.ai ni de Google Fonts
+        run: |
+          if grep -rIl -e "/_blob/" -e "claude.ai" -e "googleapis" dist/ ; then
+            echo "::error::Quedaron rutas que no deberían publicarse"; exit 1
+          fi
+          echo "OK"
+
+      - name: Publicar ramas de deploy
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          publicar () {
+            local carpeta="$1" rama="$2"
+            cd "$carpeta"
+            git init -q -b "$rama"
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add -A
+            git commit -q -m "Deploy de ${GITHUB_SHA::7}: ${GITHUB_REF_NAME}"
+            git push -q --force "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "$rama"
+            cd - > /dev/null
+          }
+          publicar dist/dossier deploy-dossier
+          publicar dist/links deploy-links
+
+      - name: Avisar a Hostinger (si están configurados los webhooks)
+        env:
+          W1: ${{ secrets.HOSTINGER_WEBHOOK_DOSSIER }}
+          W2: ${{ secrets.HOSTINGER_WEBHOOK_LINKS }}
+        run: |
+          for w in "$W1" "$W2"; do
+            if [ -n "$w" ]; then curl -fsS -X POST "$w" > /dev/null && echo "webhook avisado" || echo "::warning::no se pudo avisar a un webhook"; fi
+          done

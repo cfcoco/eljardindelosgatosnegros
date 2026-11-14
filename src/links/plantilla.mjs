@@ -1,0 +1,145 @@
+/* ==========================================================================
+   Página de links (subdominio) · plantilla HTML y armado.
+   Datos: contenido/links.json + contenido/sitio.json. Si un campo está vacío,
+   esa línea no aparece.
+   ========================================================================== */
+import path from 'node:path';
+import { esc } from '../dossier/plantilla.mjs';
+import { extrasLinks } from '../compartido/extras.mjs';
+
+/* Íconos con el trazo del logotipo: línea sin relleno, un solo trazo limpio y apenas inclinados, como la letra. */
+const ICONOS = {
+  wa: 'M4 20.5l1.2-3.8A8.3 8.3 0 1 1 8.2 19.4z M9.3 8.8c.2 2.6 2.6 5.2 5.8 6.1 M9.3 8.8l1.1-.5 M15.1 14.9l.5-1.1',
+  libro: 'M12 20.2C6.5 16.4 3.5 13.2 3.5 9.4 3.5 6.6 5.6 4.6 8 4.6c1.7 0 3.1.9 4 2.4.9-1.5 2.3-2.4 4-2.4 2.4 0 4.5 2 4.5 4.8 0 3.8-3 7-8.5 10.8z',
+  carta: 'M7 9.5V3.5h10v6 M9.5 6h5 M3.5 9.5h17v10.5h-17z M3.5 9.5l8.5 6 8.5-6',
+  fl: 'M5 12h14 M13.5 6.5L19 12l-5.5 5.5',
+};
+const icono = (nombre, clase) =>
+  `<svg class="${clase}" viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(1.7 0) skewX(-8)"><path d="${ICONOS[nombre]}" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></g></svg>`;
+
+const wa = (numero, texto) => `https://wa.me/${numero}?text=${encodeURIComponent(texto || '')}`;
+
+export function renderLinks(c, sitio, ctx) {
+  const seo = sitio.seo.links;
+  const host = `${sitio.subdominioLinks}.${sitio.dominio}`;
+  const base = `https://${host}/`;
+  const dossierUrl = `https://${sitio.dominio}/`;
+  const e = c.encuentro || {}, b = c.botones || {}, pie = c.pie || {}, cab = c.cabecera || {};
+  const emailHtml = (sitio.email || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace('@', '<wbr>@');
+  const og = ctx.url.og ? base + ctx.url.og : null;
+
+  const encuentro = (e.libro || e.autor || e.fecha) ? `
+    <section class="bloque bordo encuentro sube" data-d="3500" aria-label="${esc(e.titulo || 'Próximo encuentro')}">
+      <p class="serie"><span class="tz">${esc(e.titulo || 'Próximo encuentro')}</span>${e.numero ? `<span class="n">${esc(e.numero)}</span>` : ''}</p>
+      ${e.libro ? `<h2>${esc(e.libro)}</h2>` : ''}
+      ${e.autor ? `<p class="autor">${esc(e.autor)}</p>` : ''}
+      ${(e.fecha || e.lugar) ? `<ul class="datos">${e.fecha ? `<li><b>Cuándo</b><span>${esc(e.fecha)}</span></li>` : ''}${e.lugar ? `<li><b>Dónde</b><span>${esc(e.lugar)}</span></li>` : ''}</ul>` : ''}
+      ${e.botonReserva ? `<a class="reserva" href="${esc(wa(sitio.whatsapp, e.mensajeReserva))}" target="_blank" rel="noopener">${esc(e.botonReserva)} ${icono('fl', 'flr')}</a>` : ''}
+    </section>` : '';
+
+
+  const botones = [
+    b.whatsapp && sitio.whatsapp ? `
+    <a class="bloque bordo link sube" data-d="3650" href="${esc(wa(sitio.whatsapp, b.whatsapp.mensaje))}" target="_blank" rel="noopener">
+      ${icono('wa', 'ico')}
+      <span class="txt"><span class="t">${esc(b.whatsapp.titulo || 'WhatsApp')}</span>${b.whatsapp.bajada ? `<span class="s">${esc(b.whatsapp.bajada)}</span>` : ''}</span>
+      ${icono('fl', 'fl')}</a>` : '',
+    b.dossier ? `
+    <a class="bloque bordo link sube" data-d="3750" href="${dossierUrl}">
+      ${icono('libro', 'ico')}
+      <span class="txt"><span class="t">${esc(b.dossier.titulo || 'Colaborá con el club')}</span>${b.dossier.bajada ? `<span class="s">${esc(b.dossier.bajada)}</span>` : ''}</span>
+      ${icono('fl', 'fl')}</a>` : '',
+    b.email && sitio.email ? `
+    <a class="bloque bordo link sube" data-d="3850" href="mailto:${esc(sitio.email)}?subject=${encodeURIComponent(b.email.asunto || '')}">
+      ${icono('carta', 'ico')}
+      <span class="txt"><span class="t">${esc(b.email.titulo || 'Email')}</span><span class="s">${emailHtml}</span></span>
+      ${icono('fl', 'fl')}</a>` : '',
+  ].join('');
+
+  const ld = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: seo.titulo,
+    url: base,
+    description: seo.descripcion,
+    isPartOf: { '@type': 'WebSite', name: sitio.nombre, url: dossierUrl },
+    about: { '@type': 'Organization', name: sitio.nombre, url: dossierUrl, sameAs: sitio.instagram ? [`https://www.instagram.com/${sitio.instagram}/`] : undefined },
+  };
+
+  return `<!DOCTYPE html>
+<html lang="${sitio.lang}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${esc(seo.titulo)}</title>
+<meta name="description" content="${esc(seo.descripcion)}">
+<link rel="canonical" href="${base}">
+<meta name="theme-color" content="${sitio.colorTema}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="${esc(sitio.nombre)}">
+<meta property="og:locale" content="${sitio.locale}">
+<meta property="og:url" content="${base}">
+<meta property="og:title" content="${esc(seo.titulo)}">
+<meta property="og:description" content="${esc(seo.descripcion)}">
+${og ? `<meta property="og:image" content="${og}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="${esc(sitio.nombre)} · Club de lectura · ${esc(sitio.lugar.localidad)}, ${esc(sitio.lugar.provincia)}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="${og}">` : '<meta name="twitter:card" content="summary">'}
+<meta name="twitter:title" content="${esc(seo.titulo)}">
+<meta name="twitter:description" content="${esc(seo.descripcion)}">
+${ctx.head.iconos}
+<link rel="preload" href="${ctx.url.gabarito}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="${ctx.url.trazo}" as="font" type="font/woff2" crossorigin>
+<style>${ctx.css}</style>
+<script>${ctx.scriptInicial}</script>
+<script defer src="${ctx.url.js}"></script>
+<script type="application/ld+json">${JSON.stringify(ld)}</script>
+</head>
+<body data-cat='${JSON.stringify({ intro: ctx.url.catIntro, anim: ctx.url.catAnim })}'>
+<header class="cab">
+  ${cab.eb ? `<p class="eyebrow fit">${esc(cab.eb)}</p>` : ''}
+  <div class="mark" title="Tocá para verlo escribirse de nuevo">
+    <img class="cat" src="${ctx.url.catIntro}" alt="Gato negro del Jardín" width="${ctx.cat.width}" height="${ctx.cat.height}" fetchpriority="high">
+    <svg class="name" role="img" aria-label="El jardín de los gatos negros" viewBox="${ctx.logo.viewBox}" fill="currentColor">${ctx.logo.interior}</svg>
+  </div>
+  ${cab.bienvenida ? `<p class="bienvenida sube" data-d="3200">${esc(cab.bienvenida)}</p>` : ''}
+</header>
+<main>
+  <div class="bloques">${encuentro}${botones}
+  </div>
+</main>
+<footer><div class="pie sube" data-d="4100">
+  <div class="chau">${pie.frase ? `<p>${esc(pie.frase).replace(/\n/g, '<br>')}</p>` : ''}${pie.foto ? ctx.media(pie.foto, { lazy: true }) : ''}</div>
+  ${pie.firma ? `<p class="credit fit"><span class="por">${esc(pie.firma)}</span>${pie.rol ? ` · <span>${esc(pie.rol)}</span>` : ''}</p>` : ''}
+</div></footer>
+<noscript><style>.sube{opacity:1;transform:none}.mark .cat{opacity:1}</style></noscript>
+</body>
+</html>
+`;
+}
+
+/** Armado completo de dist/links. Recibe las herramientas del build principal. */
+export async function construirLinks(t) {
+  const sitio = await t.leerJson(path.join(t.CONTENIDO, 'sitio.json'));
+  const c = await t.leerJson(path.join(t.CONTENIDO, 'links.json'));
+  const salida = new t.Salida(path.join(t.DIST, 'links'));
+  await salida.limpiar();
+  const comp = await t.recursosCompartidos(salida);
+  const mapa = await t.prepararMedios(salida, c.pie && c.pie.foto ? [c.pie.foto] : []);
+  const url = { ...comp.url };
+  url.js = await t.jsConHash(salida, path.join(t.SRC, 'links/links.js'), 'links');
+  try { url.og = await salida.fijo('og-links.jpg', await t.leer(path.join(t.SRC, 'links/og-links.jpg'))); }
+  catch { console.warn('  (aviso) falta src/links/og-links.jpg: la vista previa al compartir queda sin imagen. Corré node tools/og.mjs'); }
+  const ctx = {
+    url, cat: comp.cat, logo: comp.logo,
+    media: t.mediaRenderer(mapa, esc),
+    css: await t.cssInline([path.join(t.SRC, 'compartido/css/base.css'), path.join(t.SRC, 'links/links.css')], url),
+    scriptInicial: t.SCRIPT_INICIAL,
+    head: { iconos: t.headIconos(comp.iconos, sitio) },
+  };
+  await salida.fijo('index.html', Buffer.from(renderLinks(c, sitio, ctx)));
+  await extrasLinks(salida, sitio, { hashScriptInicial: t.hashScriptInicial, ctx });
+  return salida;
+}
