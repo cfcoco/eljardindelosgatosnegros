@@ -91,7 +91,6 @@ ${og ? `<meta property="og:image" content="${og}">
 <meta name="twitter:description" content="${esc(seo.descripcion)}">
 ${ctx.head.iconos}
 <link rel="preload" href="${ctx.url.gabarito}" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="${ctx.url.trazo}" as="font" type="font/woff2" crossorigin>
 <style>${ctx.css}</style>
 <script>${ctx.scriptInicial}</script>
 <script defer src="${ctx.url.js}"></script>
@@ -101,7 +100,7 @@ ${ctx.head.iconos}
 <header class="cab">
   ${cab.eb ? `<p class="eyebrow fit">${esc(cab.eb)}</p>` : ''}
   <div class="mark" title="Tocá para verlo escribirse de nuevo">
-    <img class="cat" src="${ctx.url.catIntro}" alt="Gato negro del Jardín" width="${ctx.cat.width}" height="${ctx.cat.height}" fetchpriority="high">
+    <span class="cat-box"><img class="cat" src="${ctx.url.catQuieto}" alt="Gato negro del Jardín" width="${ctx.cat.width}" height="${ctx.cat.height}" fetchpriority="high"><img class="cat-anim" alt="" aria-hidden="true" width="${ctx.cat.width}" height="${ctx.cat.height}" hidden></span>
     <svg class="name" role="img" aria-label="El jardín de los gatos negros" viewBox="${ctx.logo.viewBox}" fill="currentColor">${ctx.logo.interior}</svg>
   </div>
   ${cab.bienvenida ? `<p class="bienvenida sube" data-d="3200">${esc(cab.bienvenida)}</p>` : ''}
@@ -114,7 +113,7 @@ ${ctx.head.iconos}
   <div class="chau">${pie.frase ? `<p>${esc(pie.frase).replace(/\n/g, '<br>')}</p>` : ''}${pie.foto ? ctx.media(pie.foto, { lazy: true }) : ''}</div>
   ${pie.firma ? `<p class="credit fit"><span class="por">${esc(pie.firma)}</span>${pie.rol ? ` · <span>${esc(pie.rol)}</span>` : ''}</p>` : ''}
 </div></footer>
-<noscript><style>.sube{opacity:1;transform:none}.mark .cat{opacity:1}</style></noscript>
+<noscript><style>.sube{opacity:1;transform:none}</style></noscript>
 </body>
 </html>
 `;

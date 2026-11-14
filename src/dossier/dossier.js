@@ -61,6 +61,7 @@ import { escritorDeLogo } from '../compartido/js/escribir-logo.js';
   var logo = escritorDeLogo({
     svg: app.querySelector('.cover svg.name'),
     cat: app.querySelector('.cover .mark .cat'),
+    catAnim: app.querySelector('.cover .mark .cat-anim'),
     intro: CAT.intro, anim: CAT.anim,
     retraso: 380,
     cambioGato: { fijo: 9665 },

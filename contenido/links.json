@@ -31,7 +31,7 @@
   },
   "pie": {
     "frase": "Nos vemos\nentre las flores",
-    "foto": { "src": "img/tabata-lentes.webp", "alt": "Tabata, gata negra con lentes, leyendo" },
+    "foto": { "src": "img/tabata-lentes.webp", "alt": "Tabata, gata negra con lentes, leyendo", "ancho": 264 },
     "firma": "Por Luz A. Zapata",
     "rol": "comunicadora social, dueña de cuatro hermosos gatos negros y creadora del club."
   }

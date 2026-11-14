@@ -104,7 +104,7 @@ export function cuerpoDossier(c, sitio, ctx) {
 
   h += `<header class="cover" id="inicio">` +
     (c.cover.eb ? `<div class="eyebrow">${esc(c.cover.eb)}</div>` : '') +
-    `<div class="mark"><img class="cat" src="${ctx.url.catIntro}" alt="Gato negro, isologo del club" width="${ctx.cat.width}" height="${ctx.cat.height}" fetchpriority="high">` +
+    `<div class="mark"><span class="cat-box"><img class="cat" src="${ctx.url.catQuieto}" alt="Gato negro, isologo del club" width="${ctx.cat.width}" height="${ctx.cat.height}" fetchpriority="high"><img class="cat-anim" alt="" aria-hidden="true" width="${ctx.cat.width}" height="${ctx.cat.height}" hidden></span>` +
     `<svg class="name" role="img" aria-label="El jardín de los gatos negros" viewBox="${ctx.logo.viewBox}" fill="currentColor">${ctx.logo.interior}</svg></div>` +
     `<div class="down">${c.cover.place ? `<div class="pl">${esc(c.cover.place)}</div>` : ''}<span aria-hidden="true">↓</span></div></header>\n`;
 
@@ -186,16 +186,15 @@ ${og ? `<meta property="og:image" content="${og}">
 <meta name="twitter:description" content="${esc(seo.descripcion)}">
 ${ctx.head.iconos}
 <link rel="preload" href="${ctx.url.gabarito}" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="${ctx.url.trazo}" as="font" type="font/woff2" crossorigin>
 <style>${ctx.css}</style>
 <script>${ctx.scriptInicial}</script>
 <script defer src="${ctx.url.js}"></script>
 <script type="application/ld+json">${JSON.stringify(ld)}</script>
 </head>
 <body>
-<div id="app" data-cat='${JSON.stringify({ intro: ctx.url.catIntro, anim: ctx.url.catAnim })}'>
+<main id="app" data-cat='${JSON.stringify({ intro: ctx.url.catIntro, anim: ctx.url.catAnim })}'>
 ${cuerpo}
-</div>
+</main>
 ${nav}
 <noscript><style>.rv,.rv2{opacity:1;transform:none}.menu-btn{display:none}</style></noscript>
 </body>

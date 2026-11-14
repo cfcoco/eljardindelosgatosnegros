@@ -10,6 +10,9 @@ body{background:var(--crema);color:var(--negro);font-size:18px;line-height:1.55}
 .cover{min-height:100svh;display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding:28px 22px 26px;text-align:center}
 .cover .mark{width:min(58vw,300px);margin:auto 0}
 .cover .mark .cat{width:100%}
+.cat-box{position:relative;display:block;width:100%}
+.cat-box .cat-anim{position:absolute;inset:0;margin:auto;width:99%;height:auto}
+.cat-box .cat-anim[hidden]{display:none}
 .cover .mark .name{width:100%;margin-top:10%}
 .cover svg.name{display:block;height:auto;overflow:visible}
 .lw-wait .cover .name{visibility:hidden}

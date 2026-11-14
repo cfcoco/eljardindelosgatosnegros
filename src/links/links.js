@@ -50,10 +50,11 @@ import { escritorDeLogo } from '../compartido/js/escribir-logo.js';
   var logo = escritorDeLogo({
     svg: doc.querySelector('.mark svg.name'),
     cat: cat,
+    catAnim: doc.querySelector('.mark .cat-anim'),
     intro: CAT.intro, anim: CAT.anim,
     retraso: 1000,
     cambioGato: { alTerminar: 1400 },
-    alEmpezar: function (rapido) { if (cat) cat.classList.add('ve'); mostrarResto(rapido); },
+    alEmpezar: function (rapido) { mostrarResto(rapido); },
     reduce: reduce,
   });
   function cuandoSeVea() {

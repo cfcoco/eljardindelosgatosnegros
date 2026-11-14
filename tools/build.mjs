@@ -59,6 +59,9 @@ async function recursosCompartidos(salida) {
   const anim = await im.procesarAnimado(await leer(path.join(SRC, 'compartido/img/isologo-anim.webp')), { cacheDir: path.join(CACHE, 'img') });
   url.catIntro = await salida.conHash('img', 'isologo-intro', 'webp', intro.buf);
   url.catAnim = await salida.conHash('img', 'isologo-anim', 'webp', anim.buf);
+  // Primer cuadro de la intro, quieto y liviano: es lo primero que se ve en la portada.
+  const quieto = await sharp(intro.buf, { page: 0 }).webp({ quality: 88, effort: 6 }).toBuffer();
+  url.catQuieto = await salida.conHash('img', 'isologo-quieto', 'webp', quieto);
 
   const logo = im.logotipoInline(await leerTexto(path.join(SRC, 'compartido/img/logotipo-negro.svg')));
   const logoCrema = im.svgOptimizado(await leerTexto(path.join(SRC, 'compartido/img/logotipo-crema.svg')));
@@ -125,7 +128,7 @@ async function prepararMedios(salida, lista) {
       const buf = await leer(path.join(CONTENIDO, m.src));
       const nombre = path.parse(m.src).name;
       if (/\.webp$/i.test(m.src) && (await im.medidas(buf)).pages > 1) {
-        const a = await im.procesarAnimado(buf, { cacheDir: path.join(CACHE, 'img') });
+        const a = await im.procesarAnimado(buf, { cacheDir: path.join(CACHE, 'img'), maxAncho: m.ancho || null, calidad: 72 });
         mapa.set(m.src, { width: a.width, height: a.height, variantes: [{ w: a.width, url: await salida.conHash('img', nombre, 'webp', a.buf) }] });
       } else {
         const f = await im.procesarFoto(buf, { cacheDir: path.join(CACHE, 'img') });
@@ -145,7 +148,7 @@ function mediaRenderer(mapa, esc) {
     if (m.video) {
       const v = mapa.get(m.video);
       const wh = v.poster ? ` width="${v.poster.width}" height="${v.poster.height}"` : '';
-      return `<video src="${v.url}"${wh}${v.poster ? ` poster="${v.poster.url}"` : ''} autoplay muted loop playsinline preload="metadata"${m.alt ? ` aria-label="${esc(m.alt)}"` : ''}></video>`;
+      return `<video src="${v.url}"${wh}${v.poster ? ` poster="${v.poster.url}"` : ''} muted loop playsinline preload="none"${m.alt ? ` aria-label="${esc(m.alt)}"` : ''}></video>`;
     }
     const f = mapa.get(m.src);
     const defecto = f.variantes.find((v) => v.w >= 1080) || f.variantes[f.variantes.length - 1];

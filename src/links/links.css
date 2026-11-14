@@ -11,8 +11,10 @@ main{width:100%;max-width:440px;margin:0 auto;padding:28px 16px 0;display:flex;f
 /* ---------- cabecera ---------- */
 .eyebrow{font-weight:500;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--bordo);text-align:center;line-height:1.6}
 .mark{width:min(64vw,250px);margin-top:22px;cursor:pointer}
-.mark .cat{width:100%;display:block;opacity:0;transition:opacity .7s ease}
-.mark .cat.ve{opacity:1}
+.mark .cat{width:100%;display:block}
+.mark .cat-box{position:relative;display:block;width:100%}
+.cat-box .cat-anim{position:absolute;inset:0;margin:auto;width:99%;height:auto;display:block}
+.cat-box .cat-anim[hidden]{display:none}
 .mark svg.name{width:100%;display:block;height:auto;margin-top:10%;overflow:visible;color:var(--negro)}
 .lw-wait .mark svg.name{visibility:hidden}
 .fit{white-space:nowrap;width:100%}

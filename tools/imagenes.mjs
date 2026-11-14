@@ -9,8 +9,8 @@ import sharp from 'sharp';
 import subsetFont from 'subset-font';
 import { optimize as svgoOptimize } from 'svgo';
 
-export const ANCHOS = [640, 1080, 1600, 2400];
-const CALIDAD_WEBP = 82;
+export const ANCHOS = [640, 800, 1080, 1600, 2400];
+const CALIDAD_WEBP = 78;
 const CALIDAD_POSTER = 75;
 
 export function hashCorto(buf, n = 8) {
@@ -105,7 +105,7 @@ export function logotipoInline(svgTexto) {
     multipass: true,
     floatPrecision: 2,
     plugins: [
-      { name: 'preset-default', params: { overrides: { cleanupIds: false } } },
+      { name: 'preset-default', params: { overrides: { cleanupIds: false, mergePaths: false } } },
       { name: 'removeAttrs', params: { attrs: ['path:(fill|stroke|stroke-width|stroke-linejoin)', 'svg:(width|height)'] } },
     ],
   }).data;
