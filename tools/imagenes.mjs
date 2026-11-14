@@ -135,7 +135,11 @@ const execFileP = promisify(execFile);
 
 export async function procesarVideo(buf, { cacheDir, maxAncho = 1600, crf = 27 } = {}) {
   const base = hashCorto(buf, 16);
-  return conCache(cacheDir, `${base}-w${maxAncho}-crf${crf}`, 'mp4', async () => {
+  // Salida determinista: el mismo original tiene que dar los mismos bytes en cualquier
+  // máquina (GitHub Actions no tiene caché y publica el archivo con hash en el nombre).
+  // x264 cambia el resultado según la cantidad de hilos, y ffmpeg graba su versión en
+  // los metadatos; por eso un solo hilo, sin metadatos y en modo "bitexact".
+  return conCache(cacheDir, `${base}-w${maxAncho}-crf${crf}-det`, 'mp4', async () => {
     const ffmpeg = createRequire(import.meta.url)('ffmpeg-static');
     await fs.mkdir(cacheDir, { recursive: true });
     const entrada = path.join(cacheDir, `${base}.in.mp4`), salida = path.join(cacheDir, `${base}.out.mp4`);
@@ -144,6 +148,7 @@ export async function procesarVideo(buf, { cacheDir, maxAncho = 1600, crf = 27 }
       '-y', '-hide_banner', '-loglevel', 'error', '-i', entrada, '-an',
       '-vf', `scale='min(${maxAncho},iw)':-2`,
       '-c:v', 'libx264', '-profile:v', 'high', '-preset', 'veryfast', '-crf', String(crf), '-pix_fmt', 'yuv420p',
+      '-threads', '1', '-map_metadata', '-1', '-fflags', '+bitexact', '-flags:v', '+bitexact',
       '-movflags', '+faststart', salida,
     ]);
     const out = await fs.readFile(salida);
