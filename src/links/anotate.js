@@ -23,6 +23,13 @@ export function iniciarAnotate() {
   const gracias = (n) => nom(n) ? esc(F.gracias || '¡Listo, {nombre}, gracias!').replace('{nombre}', esc(nom(n))) : esc(F.graciasSinNombre || '¡Listo, gracias!');
   const okHTML = (n) => (setTimeout(fitGr, 0), `<div class="ok"><p class="gr">${gracias(n)}</p><p class="big">${esc(F.texto)}</p><div class="end"><p class="ver">${esc(F.frase)}</p>${cfg.foto || ''}</div></div>`);
   addEventListener('resize', fitGr);
+  /* Al llegar a la pantalla final se esconde la despedida del pie (frase + Tábata), que ya
+     está en el recuadro; la firma "Por Luz A. Zapata" queda. Pedido de Luz, 14/11/2026. */
+  const mostrarFinal = (n) => {
+    caja.innerHTML = okHTML(n);
+    document.querySelectorAll('footer .chau').forEach((el) => { el.style.display = 'none'; });
+    document.querySelectorAll('footer .credit').forEach((el) => { el.style.marginTop = '0'; });
+  };
 
   /* --- pasos --- */
   const data = { n: '', c: '', l: '', b: '' };
@@ -54,7 +61,7 @@ export function iniciarAnotate() {
 
   function show(i) {
     paso = i;
-    if (i >= steps.length) { caja.innerHTML = okHTML(data.n); return; }
+    if (i >= steps.length) { mostrarFinal(data.n); return; }
     const dots = i > 0 ? `<div class="dots" aria-hidden="true">${[1, 2, 3, 4].map((k) => `<i class="${k <= i ? 'on' : ''}"></i>`).join('')}</div>` : '';
     const nav = i > 0
       ? `<div class="nav"><button type="button" class="cta back" id="bk" aria-label="Volver">←</button><button type="button" class="cta" id="nx">${esc(i === 4 ? (B.enviar || 'Avisame primero') : (B.seguir || 'Seguir'))}</button></div>${i >= 3 ? `<div class="skipw"><button type="button" class="skip" id="sk">${esc(B.saltear || 'Saltear')}</button></div>` : ''}<div class="err" id="e" aria-live="polite"></div>`
@@ -87,7 +94,7 @@ export function iniciarAnotate() {
         body: JSON.stringify({ nombre: data.n, canal: via, contacto: data.c, quiere_leer: data.l, bar_recomendado: data.b, origen: cfg.origen, web: hp ? hp.value : '', t: Date.now() - t0 }),
       });
       const j = await r.json().catch(() => ({}));
-      if (r.ok && j && j.ok) { caja.innerHTML = okHTML(data.n); return; }
+      if (r.ok && j && j.ok) { mostrarFinal(data.n); return; }
       if (j && j.campo === 'nombre') { show(1); $('e').textContent = E.nombre || ''; return; }
       if (j && j.campo === 'contacto') { show(2); $('e').textContent = via === 'mail' ? (E.mail || '') : (E.whatsapp || ''); return; }
       err.textContent = j && j.error === 'limite' ? (E.limite || E.envio || '') : (E.envio || 'No pudimos guardar tus datos.');
