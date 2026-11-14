@@ -1,0 +1,57 @@
+# El Jardín de los Gatos Negros · generado por tools/build.mjs (no editar a mano en el servidor)
+AddDefaultCharset UTF-8
+Options -Indexes
+ServerSignature Off
+
+# Tipos de archivo
+AddType font/woff2 .woff2
+AddType image/webp .webp
+AddType image/svg+xml .svg
+AddType application/manifest+json .webmanifest
+AddType video/mp4 .mp4
+
+# Nunca servir la carpeta .git ni archivos ocultos (salvo .well-known, que usa el certificado SSL)
+RedirectMatch 404 /\.(?!well-known/)
+
+# Siempre https y en el host exacto (sin www ni dominios temporales)
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} !=on [OR]
+  RewriteCond %{HTTP_HOST} !^bios.eljardindelosgatosnegros.com.ar$ [NC]
+  RewriteRule ^ https://bios.eljardindelosgatosnegros.com.ar/ [L,R=301]
+</IfModule>
+
+# Página de error propia
+ErrorDocument 404 /404.html
+
+# Compresión
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/css text/javascript application/javascript application/json application/manifest+json application/xml image/svg+xml
+</IfModule>
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/javascript application/javascript application/json application/manifest+json application/xml image/svg+xml
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Archivos con hash en el nombre: caché de un año
+  <FilesMatch "\.(css|js|woff2|webp|jpg|jpeg|png|svg|mp4)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  # Íconos e imagen para compartir (sin hash): un día
+  <FilesMatch "^(favicon\.(ico|svg)|favicon-32\.png|apple-touch-icon\.png|icon-\d+\.png|og-[a-z]+\.jpg)$">
+    Header set Cache-Control "public, max-age=86400"
+  </FilesMatch>
+  # HTML y archivos de configuración: siempre revalidar
+  <FilesMatch "\.(html|webmanifest|xml|txt)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+
+  # Seguridad
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-97XwfTT6bcYo4EpAazoP+AlqLfQVG1aDSuY35aqo81A='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me; object-src 'none'; upgrade-insecure-requests"
+  Header always set Cross-Origin-Opener-Policy "same-origin"
+</IfModule>

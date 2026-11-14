@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bios.eljardindelosgatosnegros.com.ar/sitemap.xml
