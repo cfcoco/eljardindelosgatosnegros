@@ -47,14 +47,16 @@ import { iniciarAnotate } from './anotate.js';
     });
   }
 
-  /* Logotipo: igual que en el dossier, pero arranca 1 s después y el gato pasa
-     al loop 1,4 s después de la última letra. */
+  /* Logotipo: igual que en el dossier, pero empieza a escribirse apenas aparece el
+     gato, un poco más rápido (toda la entrada dura unos 2 s), y el gato pasa al
+     loop 1,4 s después de la última letra. */
   var logo = escritorDeLogo({
     svg: doc.querySelector('.mark svg.name'),
     cat: cat,
     catAnim: doc.querySelector('.mark .cat-anim'),
     intro: CAT.intro, anim: CAT.anim,
-    retraso: 1000,
+    retraso: 0,
+    velocidad: 0.75,
     cambioGato: { alTerminar: 1400 },
     alEmpezar: function (rapido) { mostrarResto(rapido); },
     reduce: reduce,

@@ -17,8 +17,17 @@ export function iniciarAnotate() {
   const inicio = caja.innerHTML; // paso 0: el bloque tal como vino del build
   const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-  /* --- pantalla final: copiado del ejemplo aprobado, no cambiar medidas --- */
-  const fitGr = () => { const g = document.querySelector('.ok .gr'); if (!g) return; let f = 32; g.style.fontSize = f + 'px'; const w = g.parentNode.clientWidth; while (g.scrollWidth > w && f > 18) { f--; g.style.fontSize = f + 'px'; } };
+  /* --- pantalla final (medidas del ejemplo aprobado; fila de cierre ajustada el 17/11/2026) --- */
+  const fitGr = () => {
+    const g = document.querySelector('.ok .gr'); if (!g) return;
+    let f = 32; g.style.fontSize = f + 'px'; const w = g.parentNode.clientWidth;
+    while (g.scrollWidth > w && f > 18) { f--; g.style.fontSize = f + 'px'; }
+    /* "Nos vemos entre las flores" + Tábata: si la fila no entra en el recuadro, se achica la frase (hasta 16 px). */
+    const end = document.querySelector('.ok .end'), ver = document.querySelector('.ok .ver'); if (!end || !ver) return;
+    ver.style.fontSize = '';
+    let fv = parseFloat(getComputedStyle(ver).fontSize);
+    while (end.scrollWidth > end.clientWidth && fv > 16) { fv--; ver.style.fontSize = fv + 'px'; }
+  };
   const nom = (n) => { n = (n || '').trim().split(/\s+/)[0] || ''; return n ? n[0].toUpperCase() + n.slice(1) : ''; };
   const gracias = (n) => nom(n) ? esc(F.gracias || '¡Listo, {nombre}, gracias!').replace('{nombre}', esc(nom(n))) : esc(F.graciasSinNombre || '¡Listo, gracias!');
   const okHTML = (n) => (setTimeout(fitGr, 0), `<div class="ok"><p class="gr">${gracias(n)}</p><p class="big">${esc(F.texto)}</p><div class="end"><p class="ver">${esc(F.frase)}</p>${cfg.foto || ''}</div></div>`);

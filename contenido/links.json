@@ -2,7 +2,7 @@
   "_ayuda": "Página de links para la bio de Instagram. Si un campo queda vacío (\"\"), esa línea no aparece. El botón del dossier lleva al dominio raíz automáticamente.",
   "cabecera": {
     "eb": "Club de lectura · Villa Allende, Córdoba",
-    "bienvenida": "¡Bienvenidos al jardín!"
+    "bienvenida": ""
   },
   "encuentro": {
     "_ayuda": "Bloque bordó del próximo encuentro. Mientras no haya libro, autor/a, fecha ni lugar, dejá esos campos vacíos (\"\") y se muestra el titular con el botón que abre el formulario. Cuando se confirme el encuentro, completá libro/autor/fecha/lugar y aparecen debajo del titular.",
@@ -72,7 +72,7 @@
     },
     "dossier": {
       "titulo": "Colaborá con el club",
-      "bajada": "Librerías, editoriales y espacios · dossier"
+      "bajada": "Escritores/as, librerías/editoriales y espacios"
     },
     "email": {
       "titulo": "Email",

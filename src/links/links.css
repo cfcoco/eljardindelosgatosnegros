@@ -4,29 +4,31 @@
 
 *{margin:0;padding:0}
 html,body{background:var(--negro);color:var(--crema)}
-body{min-height:100vh;-webkit-font-smoothing:antialiased}
-.cab{background:var(--crema);padding:34px 16px 34px;display:flex;flex-direction:column;align-items:center}
+body{min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+/* Abajo van 29 px y no 34 porque el SVG del logotipo tiene ~5 px vacíos debajo de la "g":
+   así la distancia visible de la "g" al borde crema es igual a la de arriba (34 px). */
+.cab{background:var(--crema);padding:34px 16px 29px;display:flex;flex-direction:column;align-items:center}
 main{width:100%;max-width:440px;margin:0 auto;padding:28px 16px 0;display:flex;flex-direction:column;align-items:center}
 
 /* ---------- cabecera ---------- */
 .eyebrow{font-weight:500;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--bordo);text-align:center;line-height:1.6}
-.mark{width:min(64vw,250px);margin-top:22px;cursor:pointer}
+.mark{width:min(55vw,215px);margin-top:22px;cursor:pointer}
 .mark .cat{width:100%;display:block}
 .mark .cat-box{position:relative;display:block;width:100%}
 .cat-box .cat-anim{position:absolute;inset:0;margin:auto;width:99%;height:auto;display:block}
 .cat-box .cat-anim[hidden]{display:none}
 .mark svg.name{width:100%;display:block;height:auto;margin-top:10%;overflow:visible;color:var(--negro)}
 .lw-wait .mark svg.name{visibility:hidden}
-.fit{white-space:nowrap;width:100%}
+.fit{white-space:nowrap;width:100%;max-width:100%;overflow:hidden}
 .eyebrow.fit{text-align:center}
-.bienvenida{font-family:Trazo,serif;color:var(--bordo);font-size:34px;line-height:1.1;text-align:center;margin-top:28px}
+.bienvenida{font-weight:800;color:var(--bordo);font-size:clamp(18px,6.2vw,26px);line-height:1.15;letter-spacing:-.01em;text-align:center;margin-top:26px}
 
 /* ---------- bloques de color (próximo encuentro y links) ---------- */
 .bloques{width:100%;display:grid;gap:10px}
 .bloque{border-radius:6px;color:var(--crema)}
 .bordo{background:var(--bordo);color:var(--crema)}
 
-.encuentro{padding:28px 22px 26px}
+.encuentro{padding:28px 22px}
 .encuentro .serie{display:flex;align-items:baseline;gap:10px;white-space:nowrap}
 .encuentro .serie .tz,.encuentro .serie .n{font-family:Trazo,serif;color:var(--rosa);font-size:clamp(24px,7.4vw,32px);line-height:1}
 .encuentro h2{font-weight:800;font-size:28px;line-height:1.08;margin-top:14px}
@@ -70,20 +72,21 @@ main{width:100%;max-width:440px;margin:0 auto;padding:28px 16px 0;display:flex;f
 .encuentro .skip{background:none;border:0;color:#d9c4cb;font-family:inherit;font-weight:400;font-size:14px;text-decoration:underline;margin-top:12px;cursor:pointer;padding:6px}
 .encuentro .err{color:#ffd9e1;font-size:14px;line-height:1.4;margin-top:10px;min-height:1em}
 .encuentro .priv{color:#d9c4cb;font-size:12px;line-height:1.4;margin-top:10px}
-/* pantalla final (copiada del ejemplo, no tocar medidas) */
-.ok{text-align:center;padding:4px 0;animation:in .7s cubic-bezier(.16,1,.3,1)}
+/* pantalla final (medidas del ejemplo aprobado; la fila de cierre se ajustó el 17/11/2026
+   para que no se corte en los bordes: sin margen negativo y con tamaños según el ancho) */
+.ok{text-align:center;padding:0;animation:in .7s cubic-bezier(.16,1,.3,1)}
 .ok .gr{font-family:Trazo,serif;font-weight:400;font-size:32px;line-height:1.08;color:var(--crema);margin:0;white-space:nowrap}
 .ok .big{font-weight:500;font-size:20px;line-height:1.3;color:var(--crema);margin:30px auto 4px;max-width:290px}
-.ok .end{display:flex;align-items:center;justify-content:center;gap:6px;margin:0 -8px}
-.ok .ver{font-family:Trazo,serif;font-weight:400;font-size:24px;line-height:1.1;color:var(--rosa);margin:0;white-space:nowrap}
-.ok .end img{width:88px;height:auto;flex:0 0 auto}
+.ok .end{display:flex;align-items:center;justify-content:center;gap:6px;margin:0;min-width:0;max-width:100%}
+.ok .ver{font-family:Trazo,serif;font-weight:400;font-size:clamp(18px,6vw,24px);line-height:1.1;color:var(--rosa);margin:0;white-space:nowrap;min-width:0}
+.ok .end img{width:clamp(60px,20vw,88px);height:auto;flex:0 0 auto}
 @keyframes in{from{opacity:0;transform:translateY(16px)}}
 @media (prefers-reduced-motion:reduce){.encuentro .step,.ok{animation:none}}
 
 a.link{display:flex;align-items:center;gap:16px;padding:22px 22px;text-decoration:none;transition:transform .18s ease}
 a.link .ico{width:30px;height:30px;flex:none;color:var(--rosa)}
 a.link .txt{flex:1;display:flex;flex-direction:column;gap:4px;min-width:0}
-a.link .t{font-weight:500;font-size:15px;letter-spacing:.14em;text-transform:uppercase}
+a.link .t{font-weight:500;font-size:clamp(13px,3.9vw,15px);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
 a.link .s{font-size:14px;opacity:.85}
 a.link .fl{width:22px;height:22px;flex:none;transition:transform .18s ease}
 a.link:hover .fl{transform:translateX(5px)}
@@ -93,9 +96,9 @@ a:focus-visible{outline:3px solid var(--verde);outline-offset:3px}
 footer{width:100%;background:var(--crema);color:var(--negro);text-align:center;padding:34px 22px 30px;margin-top:40px}
 .pie{width:100%;max-width:440px;margin:0 auto}
 .chau{display:flex;align-items:flex-end;justify-content:center;gap:4px}
-.chau p{font-family:Trazo,serif;font-size:32px;line-height:1.05;color:var(--bordo);text-align:right;padding-bottom:14px}
-.chau img{width:132px;height:auto;flex:none;margin-right:-6px}
-.credit{margin-top:26px;text-align:left;font-size:13px;line-height:1.6;color:var(--negro)}
+.chau p{font-family:Trazo,serif;font-size:clamp(26px,8.2vw,32px);line-height:1.05;color:var(--bordo);text-align:right;padding-bottom:14px}
+.chau img{width:132px;height:auto;flex:none;margin-right:0}
+.credit{margin-top:26px;text-align:left;font-size:14px;line-height:1.6;color:var(--negro)}
 .credit .por{font-family:Trazo,serif;font-size:19px;color:var(--negro);line-height:1}
 
 /* ---------- entrada suave ---------- */

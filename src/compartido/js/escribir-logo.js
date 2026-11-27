@@ -15,7 +15,7 @@
 
    uso:
      var logo = escritorDeLogo({ svg, cat, catAnim, intro, anim, retraso: 380,
-                                 cambioGato: { fijo: 9665 } | { alTerminar: 1400 },
+                                 velocidad: 1, cambioGato: { fijo: 9665 } | { alTerminar: 1400 },
                                  alEmpezar: fn, reduce: bool });
      logo.escribir();
    ========================================================================== */
@@ -50,6 +50,7 @@ export function escritorDeLogo(o) {
      Primero se miden todas las letras y después se crean las máscaras (un solo reflow). */
   function preparar() {
     if (!svg) return false;
+    var v = o.velocidad || 1; // factor de tiempo: 1 = normal, 0.75 = un 25 % más rápido
     var paths = [].slice.call(svg.querySelectorAll('path'));
     var medidas = paths.map(function (p) { return { bb: p.getBBox(), sw: p.getBoundingClientRect().width || 20 }; });
     var defs = document.createElementNS(NS, 'defs');
@@ -64,12 +65,12 @@ export function escritorDeLogo(o) {
       r.setAttribute('x', bb.x - pad); r.setAttribute('y', bb.y - pad);
       r.setAttribute('height', bb.height + 2 * pad); r.setAttribute('width', bb.width + 2 * pad); r.setAttribute('fill', '#fff');
       m.appendChild(r); defs.appendChild(m); p.setAttribute('mask', 'url(#lw' + k + ')');
-      letras.push({ r: r, w: bb.width + 2 * pad, dur: 90 + medidas[k].sw * 2.4 });
+      letras.push({ r: r, w: bb.width + 2 * pad, dur: (90 + medidas[k].sw * 2.4) * v });
     });
     /* palabras: El | jardín | de | los // gatos | negros (pausas entre palabras y al cambiar de renglón) */
     var gapAfter = { 1: 70, 7: 70, 9: 70, 12: 170, 17: 70 };
     var t = 0;
-    letras.forEach(function (l, k) { l.start = t; t += l.dur * 0.55 + (gapAfter[k] || 0); });
+    letras.forEach(function (l, k) { l.start = t; t += l.dur * 0.55 + (gapAfter[k] || 0) * v; });
     return letras.length > 0;
   }
 

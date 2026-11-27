@@ -16,7 +16,8 @@ export const RAIZ = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '
 const CACHE = path.join(RAIZ, '.cache');
 const CONTENIDO = path.join(RAIZ, 'contenido');
 const SRC = path.join(RAIZ, 'src');
-export const DIST = path.join(RAIZ, 'dist');
+// JARDIN_DIST permite armar en otra carpeta (por ejemplo una vista previa) sin tocar dist/.
+export const DIST = process.env.JARDIN_DIST ? path.resolve(process.env.JARDIN_DIST) : path.join(RAIZ, 'dist');
 
 const leer = (p) => fs.readFile(p);
 const leerTexto = (p) => fs.readFile(p, 'utf8');

@@ -52,7 +52,7 @@ export function renderLinks(c, sitio, ctx) {
   }).replace(/</g, '\\u003c') : '';
   const mensajeWa = e.mensajeReserva || (b.whatsapp && b.whatsapp.mensaje) || '';
   const encuentro = (e.titular || e.libro || e.autor || e.fecha) ? `
-    <section class="bloque bordo encuentro sube" data-d="3500" aria-label="${esc(e.titulo || 'Próximo encuentro')}">
+    <section class="bloque bordo encuentro sube" data-d="900" aria-label="${esc(e.titulo || 'Próximo encuentro')}">
       <div class="caja" id="anotate">
       <p class="serie"><span class="tz">${esc(e.titulo || 'Próximo encuentro')}</span>${e.numero ? `<span class="n">${esc(e.numero)}</span>` : ''}</p>
       ${e.titular ? `<h2 class="t">${esc(e.titular)}</h2>` : ''}
@@ -70,17 +70,17 @@ export function renderLinks(c, sitio, ctx) {
 
   const botones = [
     b.whatsapp && sitio.whatsapp ? `
-    <a class="bloque bordo link sube" data-d="3650" href="${esc(wa(sitio.whatsapp, b.whatsapp.mensaje))}" target="_blank" rel="noopener">
+    <a class="bloque bordo link sube" data-d="1000" href="${esc(wa(sitio.whatsapp, b.whatsapp.mensaje))}" target="_blank" rel="noopener">
       ${icono('wa', 'ico')}
       <span class="txt"><span class="t">${esc(b.whatsapp.titulo || 'WhatsApp')}</span>${b.whatsapp.bajada ? `<span class="s">${esc(b.whatsapp.bajada)}</span>` : ''}</span>
       ${icono('fl', 'fl')}</a>` : '',
     b.dossier ? `
-    <a class="bloque bordo link sube" data-d="3750" href="${dossierUrl}">
+    <a class="bloque bordo link sube" data-d="1100" href="${dossierUrl}">
       ${icono('libro', 'ico')}
       <span class="txt"><span class="t">${esc(b.dossier.titulo || 'Colaborá con el club')}</span>${b.dossier.bajada ? `<span class="s">${esc(b.dossier.bajada)}</span>` : ''}</span>
       ${icono('fl', 'fl')}</a>` : '',
     b.email && sitio.email ? `
-    <a class="bloque bordo link sube" data-d="3850" href="mailto:${esc(sitio.email)}?subject=${encodeURIComponent(b.email.asunto || '')}">
+    <a class="bloque bordo link sube" data-d="1200" href="mailto:${esc(sitio.email)}?subject=${encodeURIComponent(b.email.asunto || '')}">
       ${icono('carta', 'ico')}
       <span class="txt"><span class="t">${esc(b.email.titulo || 'Email')}</span><span class="s">${emailHtml}</span></span>
       ${icono('fl', 'fl')}</a>` : '',
@@ -133,15 +133,15 @@ ${ctx.head.iconos}
     <span class="cat-box"><img class="cat" src="${ctx.url.catQuieto}" alt="Gato negro del Jardín" width="${ctx.cat.width}" height="${ctx.cat.height}" fetchpriority="high"><img class="cat-anim" alt="" aria-hidden="true" width="${ctx.cat.width}" height="${ctx.cat.height}" hidden></span>
     <svg class="name" role="img" aria-label="El jardín de los gatos negros" viewBox="${ctx.logo.viewBox}" fill="currentColor">${ctx.logo.interior}</svg>
   </div>
-  ${cab.bienvenida ? `<p class="bienvenida sube" data-d="3200">${esc(cab.bienvenida)}</p>` : ''}
+  ${cab.bienvenida ? `<p class="bienvenida fit sube" data-d="700">${esc(cab.bienvenida)}</p>` : ''}
 </header>
 <main>
   <div class="bloques">${encuentro}${botones}
   </div>
 </main>
-<footer><div class="pie sube" data-d="4100">
+<footer><div class="pie sube" data-d="1300">
   <div class="chau">${pie.frase ? `<p>${esc(pie.frase).replace(/\n/g, '<br>')}</p>` : ''}${pie.foto ? ctx.media(pie.foto, { lazy: true }) : ''}</div>
-  ${pie.firma ? `<p class="credit fit"><span class="por">${esc(pie.firma)}</span>${pie.rol ? ` · <span>${esc(pie.rol)}</span>` : ''}</p>` : ''}
+  ${pie.firma ? `<p class="credit"><span class="por">${esc(pie.firma)}</span>${pie.rol ? ` · <span>${esc(pie.rol)}</span>` : ''}</p>` : ''}
 </div></footer>
 <noscript><style>.sube{opacity:1;transform:none}</style></noscript>
 </body>
