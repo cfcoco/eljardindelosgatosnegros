@@ -77,5 +77,11 @@ import { iniciarAnotate } from './anotate.js';
       }).observe(mark);
     }
   }
-  if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(cuandoSeVea); else cuandoSeVea();
+  var video = doc.querySelector('.cab .intro-video');
+  if (video) {
+    /* Con video en la cabecera no hay logotipo que escribir: el video corre una vez y
+       queda en su último cuadro; los bloques entran escalonados enseguida. */
+    var p = video.play(); if (p && p.catch) p.catch(function () {});
+    mostrarResto(false);
+  } else if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(cuandoSeVea); else cuandoSeVea();
 })();

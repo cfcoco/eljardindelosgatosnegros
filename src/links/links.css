@@ -23,6 +23,11 @@ main{width:100%;max-width:440px;margin:0 auto;padding:28px 16px 0;display:flex;f
 .eyebrow.fit{text-align:center}
 .bienvenida{font-weight:800;color:var(--bordo);font-size:clamp(18px,6.2vw,26px);line-height:1.15;letter-spacing:-.01em;text-align:center;margin-top:26px}
 
+/* Cabecera con video (gato + logotipo animados sobre bordó): va de borde a borde debajo del renglón "Club de lectura". */
+.cab.con-video{padding-bottom:0}
+.cab .intro{width:calc(100% + 32px);margin:22px -16px 0;background:var(--bordo)}
+.cab .intro video{display:block;width:100%;height:auto;aspect-ratio:1/1}
+
 /* ---------- bloques de color (próximo encuentro y links) ---------- */
 .bloques{width:100%;display:grid;gap:10px}
 .bloque{border-radius:6px;color:var(--crema)}

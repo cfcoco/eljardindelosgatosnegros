@@ -127,12 +127,12 @@ ${ctx.head.iconos}
 <script type="application/ld+json">${JSON.stringify(ld)}</script>
 </head>
 <body data-cat='${JSON.stringify({ intro: ctx.url.catIntro, anim: ctx.url.catAnim })}'>
-<header class="cab">
+<header class="cab${cab.video ? ' con-video' : ''}">
   ${cab.eb ? `<p class="eyebrow fit">${esc(cab.eb)}</p>` : ''}
-  <div class="mark" title="Tocá para verlo escribirse de nuevo">
+  ${cab.video ? `<div class="intro">${ctx.media(cab.video, { loop: false, preload: 'auto', clase: 'intro-video' })}</div>` : `<div class="mark" title="Tocá para verlo escribirse de nuevo">
     <span class="cat-box"><img class="cat" src="${ctx.url.catQuieto}" alt="Gato negro del Jardín" width="${ctx.cat.width}" height="${ctx.cat.height}" fetchpriority="high"><img class="cat-anim" alt="" aria-hidden="true" width="${ctx.cat.width}" height="${ctx.cat.height}" hidden></span>
     <svg class="name" role="img" aria-label="El jardín de los gatos negros" viewBox="${ctx.logo.viewBox}" fill="currentColor">${ctx.logo.interior}</svg>
-  </div>
+  </div>`}
   ${cab.bienvenida ? `<p class="bienvenida fit sube" data-d="700">${esc(cab.bienvenida)}</p>` : ''}
 </header>
 <main>
@@ -156,7 +156,7 @@ export async function construirLinks(t) {
   const salida = new t.Salida(path.join(t.DIST, 'links'));
   await salida.limpiar();
   const comp = await t.recursosCompartidos(salida);
-  const medios = [c.pie && c.pie.foto, c.formulario && c.formulario.foto].filter(Boolean);
+  const medios = [c.cabecera && c.cabecera.video, c.pie && c.pie.foto, c.formulario && c.formulario.foto].filter(Boolean);
   const mapa = await t.prepararMedios(salida, medios);
   /* Backend en PHP (api/ y admin/): se copia tal cual, sin hash, porque son direcciones fijas. */
   const phpDir = path.join(t.SRC, 'links/php');

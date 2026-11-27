@@ -2,7 +2,13 @@
   "_ayuda": "Página de links para la bio de Instagram. Si un campo queda vacío (\"\"), esa línea no aparece. El botón del dossier lleva al dominio raíz automáticamente.",
   "cabecera": {
     "eb": "Club de lectura · Villa Allende, Córdoba",
-    "bienvenida": ""
+    "bienvenida": "",
+    "video": {
+      "video": "img/gato-logo.mp4",
+      "poster": "img/gato-logo-poster.jpg",
+      "alt": "Gato negro del club y logotipo El Jardín de los Gatos Negros, animados"
+    },
+    "_ayuda": "Si hay \"video\", la cabecera muestra ese video (una sola vez, sin sonido) en lugar del gato y el logotipo que se escribe. Para volver al gato animado, borrá el campo video."
   },
   "encuentro": {
     "_ayuda": "Bloque bordó del próximo encuentro. Mientras no haya libro, autor/a, fecha ni lugar, dejá esos campos vacíos (\"\") y se muestra el titular con el botón que abre el formulario. Cuando se confirme el encuentro, completá libro/autor/fecha/lugar y aparecen debajo del titular.",

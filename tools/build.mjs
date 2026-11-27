@@ -144,12 +144,12 @@ async function prepararMedios(salida, lista) {
 
 /** Devuelve la función ctx.media(m, opts) que usa la plantilla. */
 function mediaRenderer(mapa, esc) {
-  return (m, { sizes = '100vw', lazy = false, prioridad = false } = {}) => {
+  return (m, { sizes = '100vw', lazy = false, prioridad = false, loop = true, preload = 'none', clase = '' } = {}) => {
     if (!m || (!m.src && !m.video)) return '';
     if (m.video) {
       const v = mapa.get(m.video);
       const wh = v.poster ? ` width="${v.poster.width}" height="${v.poster.height}"` : '';
-      return `<video src="${v.url}"${wh}${v.poster ? ` poster="${v.poster.url}"` : ''} muted loop playsinline preload="none"${m.alt ? ` aria-label="${esc(m.alt)}"` : ''}></video>`;
+      return `<video src="${v.url}"${wh}${v.poster ? ` poster="${v.poster.url}"` : ''} ${clase ? ` class="${clase}"` : ''} muted${loop ? ' loop' : ''} playsinline preload="${preload}"${m.alt ? ` aria-label="${esc(m.alt)}"` : ''}></video>`;
     }
     const f = mapa.get(m.src);
     const defecto = f.variantes.find((v) => v.w >= 1080) || f.variantes[f.variantes.length - 1];
