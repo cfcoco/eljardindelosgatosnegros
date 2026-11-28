@@ -52,6 +52,6 @@ ErrorDocument 404 /404.html
   Header always set X-Frame-Options "SAMEORIGIN"
   Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
   Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
-  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-97XwfTT6bcYo4EpAazoP+AlqLfQVG1aDSuY35aqo81A='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me; object-src 'none'; upgrade-insecure-requests"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-+Ja7Z5FPWJMlUVJufdKHqE+U7CNC/ceYjgNR2N/qFow='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me; object-src 'none'; upgrade-insecure-requests"
   Header always set Cross-Origin-Opener-Policy "same-origin"
 </IfModule>
