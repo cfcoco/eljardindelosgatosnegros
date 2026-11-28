@@ -20,7 +20,7 @@ export function iniciarAnotate() {
   /* --- pantalla final (medidas del ejemplo aprobado; fila de cierre ajustada el 17/11/2026) --- */
   const fitGr = () => {
     const g = document.querySelector('.ok .gr'); if (!g) return;
-    let f = 32; g.style.fontSize = f + 'px'; const w = g.parentNode.clientWidth;
+    let f = 30; g.style.fontSize = f + 'px'; const w = g.parentNode.clientWidth;
     while (g.scrollWidth > w && f > 18) { f--; g.style.fontSize = f + 'px'; }
     /* "Nos vemos entre las flores" + Tábata: si la fila no entra en el recuadro, se achica la frase (hasta 16 px). */
     const end = document.querySelector('.ok .end'), ver = document.querySelector('.ok .ver'); if (!end || !ver) return;
@@ -42,7 +42,7 @@ export function iniciarAnotate() {
     const ratio = (+sticker.getAttribute('height') || 984) / (+sticker.getAttribute('width') || 1080);
     sticker.style.width = '0px';
     const ancho = sec.clientWidth, sinSticker = sec.offsetHeight;
-    const alto = Math.max(96, Math.min(200, ancho - sinSticker));
+    const alto = Math.max(144, Math.min(200, ancho - sinSticker));
     sticker.style.width = Math.round(alto / ratio) + 'px';
     const mostrar = () => { if (hecho) return; hecho = true; sticker.classList.add('ve'); if (sticker.tagName === 'VIDEO') { const p = sticker.play(); if (p && p.catch) p.catch(() => {}); } };
     if (!ver || reduce) return mostrar();
