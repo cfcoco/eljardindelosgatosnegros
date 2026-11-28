@@ -48,7 +48,7 @@ export function renderLinks(c, sitio, ctx) {
       <div class="caja" id="anotate">
       <p class="serie"><span class="tz">${esc(e.titulo || 'Próximo encuentro')}</span>${e.numero ? `<span class="n">${esc(e.numero)}</span>` : ''}</p>
       ${e.titular ? `<h2 class="t fit">${esc(e.titular)}</h2>` : ''}
-      ${e.texto ? `<p class="d">${esc(e.texto)}</p>` : ''}
+      ${e.texto ? `<p class="d">${esc(e.texto).replace(/Villa Allende/g, 'Villa&nbsp;Allende')}</p>` : ''}
       ${e.libro ? `<p class="libro">${esc(e.libro)}</p>` : ''}
       ${e.autor ? `<p class="autor">${esc(e.autor)}</p>` : ''}
       ${(e.fecha || e.lugar) ? `<ul class="datos">${e.fecha ? `<li><b>Cuándo</b><span>${esc(e.fecha)}</span></li>` : ''}${e.lugar ? `<li><b>Dónde</b><span>${esc(e.lugar)}</span></li>` : ''}</ul>` : ''}
@@ -125,7 +125,7 @@ ${ctx.head.iconos}
 </head>
 <body data-cat='${JSON.stringify({ intro: ctx.url.catIntro, anim: ctx.url.catAnim })}'>
 <header class="cab${cab.video ? ' con-video' : ''}">
-  ${cab.eb ? `<p class="eyebrow fit">${esc(cab.eb)}</p>` : ''}
+  ${cab.eb ? `<p class="eyebrow">${esc(cab.eb)}</p>` : ''}
   ${cab.video ? `<div class="intro">${ctx.media(cab.video, { loop: false, preload: 'auto', clase: 'intro-video', autoplay: true })}</div>` : `<div class="mark" title="Tocá para verlo escribirse de nuevo">
     <span class="cat-box"><img class="cat" src="${ctx.url.catQuieto}" alt="Gato negro del Jardín" width="${ctx.cat.width}" height="${ctx.cat.height}" fetchpriority="high"><img class="cat-anim" alt="" aria-hidden="true" width="${ctx.cat.width}" height="${ctx.cat.height}" hidden></span>
     <svg class="name" role="img" aria-label="El jardín de los gatos negros" viewBox="${ctx.logo.viewBox}" fill="currentColor">${ctx.logo.interior}</svg>

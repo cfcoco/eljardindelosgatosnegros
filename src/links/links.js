@@ -21,14 +21,16 @@ import { iniciarAnotate } from './anotate.js';
     doc.querySelectorAll('.fit').forEach(function (el) {
       el.style.fontSize = '';
       el.querySelectorAll('.por').forEach(function (p) { p.style.fontSize = ''; });
-      var base = parseFloat(getComputedStyle(el).fontSize);
       var ancho = el.clientWidth; if (!ancho) return;
-      el.style.display = 'inline-block'; el.style.width = 'auto';
-      var real = el.scrollWidth; el.style.display = ''; el.style.width = '';
-      if (real > ancho) {
-        var k = ancho / real;
-        el.style.fontSize = (base * k * 0.99) + 'px';
-        el.querySelectorAll('.por').forEach(function (p) { var pb = parseFloat(getComputedStyle(p).fontSize); p.style.fontSize = (pb * k * 0.99) + 'px'; });
+      var medir = function () { el.style.display = 'inline-block'; el.style.width = 'auto'; var r = el.scrollWidth; el.style.display = ''; el.style.width = ''; return r; };
+      /* Se repite hasta que entra: así funciona también cuando el celular agranda la letra
+         por su cuenta (Samsung, navegador de Instagram), donde una sola cuenta no alcanza. */
+      var f = parseFloat(getComputedStyle(el).fontSize), pores = el.querySelectorAll('.por'), fp = [].map.call(pores, function (p) { return parseFloat(getComputedStyle(p).fontSize); });
+      for (var i = 0; i < 6; i++) {
+        var real = medir(); if (real <= ancho) break;
+        var k = (ancho / real) * 0.99; f *= k;
+        el.style.fontSize = f + 'px';
+        pores.forEach(function (p, j) { fp[j] *= k; p.style.fontSize = fp[j] + 'px'; });
       }
     });
   }
@@ -119,6 +121,10 @@ import { iniciarAnotate } from './anotate.js';
     reproducir();
     mostrarResto(false);
     addEventListener('pageshow', function (e) { if (e.persisted) reproducir(); });
+    /* Algunos navegadores (el de Instagram, por ejemplo) no dejan arrancar el video solo: se intenta al primer toque. */
+    var alPrimerToque = function () { if (video.paused) { var p = video.play(); if (p && p.catch) p.catch(function () {}); } doc.removeEventListener('pointerdown', alPrimerToque); doc.removeEventListener('touchstart', alPrimerToque); };
+    doc.addEventListener('pointerdown', alPrimerToque, { passive: true });
+    doc.addEventListener('touchstart', alPrimerToque, { passive: true });
     if ('IntersectionObserver' in window) {
       var seFue = false;
       new IntersectionObserver(function (es) {
