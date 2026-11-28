@@ -146,12 +146,15 @@ ErrorDocument 404 /404.html
 `;
 }
 
-/** Escribe todos los extras del dossier en su carpeta de salida. */
-export async function extrasDossier(salida, sitio, { hashScriptInicial, ctx }) {
+// Ruta absoluta desde la raíz del sitio (el dossier ya las trae con "/", la página de links no).
+const raiz = (u) => (u.startsWith('/') ? u : '/' + u);
+
+/** Escribe todos los extras del dossier en su carpeta de salida. `rutas` son las páginas del sitemap. */
+export async function extrasDossier(salida, sitio, { hashScriptInicial, ctx, rutas = ['/'] }) {
   const base = `https://${sitio.dominio}/`;
-  await salida.fijo('404.html', Buffer.from(pagina404(sitio, { base, urlGabarito: '/' + ctx.url.gabarito, urlTrazo: '/' + ctx.url.trazo, urlIsologo: '/' + ctx.url.isologo, volverA: '/' })));
+  await salida.fijo('404.html', Buffer.from(pagina404(sitio, { base, urlGabarito: raiz(ctx.url.gabarito), urlTrazo: raiz(ctx.url.trazo), urlIsologo: raiz(ctx.url.isologo), volverA: '/' })));
   await salida.fijo('robots.txt', Buffer.from(robots(base)));
-  await salida.fijo('sitemap.xml', Buffer.from(sitemap([base])));
+  await salida.fijo('sitemap.xml', Buffer.from(sitemap(rutas.map((r) => new URL(r, base).href))));
   await salida.fijo('site.webmanifest', Buffer.from(webmanifest(sitio, iconosDe(salida))));
   await salida.fijo('.htaccess', Buffer.from(htaccess(sitio, { host: sitio.dominio, hashesScript: [hashScriptInicial] })));
 }

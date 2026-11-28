@@ -19,8 +19,13 @@ const args = process.argv.slice(2);
 const BASE = args.includes('--base') ? args[args.indexOf('--base') + 1] : 'http://localhost:5173';
 const SOLO_NUEVO = args.includes('--solo-nuevo');
 const ANCHOS = [390, 1280];
+// El inicio del dossier se compara con el original solo hasta el manifiesto: desde ahí el
+// contenido se repartió en páginas (/encuentros/, …), que no tienen original y solo se capturan.
 const SITIOS = [
   { nombre: 'dossier', original: '/_origen/dossier/', nuevo: '/' },
+  { nombre: 'dossier-encuentros', original: null, nuevo: '/encuentros/' },
+  { nombre: 'dossier-detalles', original: null, nuevo: '/detalles/' },
+  { nombre: 'dossier-alianzas', original: null, nuevo: '/alianzas/' },
   { nombre: 'links', original: '/_origen/links/', nuevo: '/links/' },
 ];
 
@@ -78,7 +83,7 @@ const browser = await chromium.launch();
 try {
   for (const sitio of SITIOS) for (const ancho of ANCHOS) {
     const pngs = {};
-    const paginas = SOLO_NUEVO ? { nuevo: sitio.nuevo } : { original: sitio.original, nuevo: sitio.nuevo };
+    const paginas = SOLO_NUEVO || !sitio.original ? { nuevo: sitio.nuevo } : { original: sitio.original, nuevo: sitio.nuevo };
     for (const [nombre, ruta] of Object.entries(paginas)) {
       const ctx = await browser.newContext({ viewport: { width: ancho, height: 900 }, deviceScaleFactor: 1, reducedMotion: 'reduce', locale: 'es-AR' });
       const page = await ctx.newPage();

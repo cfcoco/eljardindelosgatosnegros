@@ -4,6 +4,56 @@
     "eb": "Club de lectura",
     "place": "Villa Allende · Córdoba"
   },
+  "recorrido": {
+    "_ayuda": "El dossier se reparte en el inicio y estas páginas, en cadena: el inicio termina con un recuadro que lleva a la primera, cada página termina con el recuadro de la siguiente y la última termina en el contacto. Cada bloque dice en qué página va con \"pagina\" (sin ese campo, queda en el inicio). El recuadro de cada página (rótulo, frase, texto y botón) es el que lleva HACIA ella; \"intro\" es el título que va arriba de ese recuadro, si lo tiene.",
+    "volver": "Volver al inicio",
+    "paginas": [
+      {
+        "slug": "encuentros",
+        "nombre": "Encuentros",
+        "theme": "crema",
+        "phrase": "Mirá lo que hacemos",
+        "eb": "¿Te interesa sumarte?",
+        "body": "Cómo son los encuentros, qué leemos cada trimestre y en qué cafés nos vemos.",
+        "boton": "Conocer los encuentros",
+        "seo": {
+          "titulo": "Encuentros y ciclos de lectura · El Jardín de los Gatos Negros",
+          "descripcion": "Cómo son los encuentros del club de lectura de Villa Allende: un libro por ciclo, mesas de 5 a 10 personas, cafés con encanto en Sierras Chicas y tres miradas para elegir las lecturas."
+        }
+      },
+      {
+        "slug": "detalles",
+        "nombre": "Detalles",
+        "theme": "bordo",
+        "intro": {
+          "eb": "¿Por dónde seguís?",
+          "h2": "El jardín tiene más rincones para recorrer."
+        },
+        "phrase": "Mirá lo que te podés llevar en cada encuentro",
+        "eb": "Detalles del jardín",
+        "body": "Señaladores, stickers, libretas y sorteos para que el club siga después del encuentro.",
+        "boton": "Ver los detalles",
+        "seo": {
+          "titulo": "Detalles del jardín · El Jardín de los Gatos Negros",
+          "descripcion": "Señaladores, stickers, libretas, bolsas y sorteos con la estética del club de lectura de Villa Allende, para que la experiencia siga en tu casa."
+        }
+      },
+      {
+        "slug": "alianzas",
+        "nombre": "Alianzas",
+        "theme": "negro",
+        "mk": "gato",
+        "phrase": "Saltá el muro con nosotros",
+        "eb": "Alianzas & colaboraciones",
+        "body": "Si escribís, tenés una librería, una editorial o un café, hay un lugar para tu marca en el jardín.",
+        "boton": "Quiero colaborar",
+        "seo": {
+          "titulo": "Alianzas y colaboraciones · El Jardín de los Gatos Negros",
+          "descripcion": "Escritores, editoriales, librerías y cafés de Villa Allende y Sierras Chicas: cómo colaborar con el club de lectura El Jardín de los Gatos Negros."
+        }
+      }
+    ]
+  },
   "blocks": [
     {
       "id": "b1",
@@ -71,6 +121,11 @@
       }
     },
     {
+      "id": "brec",
+      "type": "seguir",
+      "_ayuda": "Recuadro que lleva a la primera página del recorrido."
+    },
+    {
       "id": "b5",
       "type": "text",
       "theme": "crema",
@@ -95,7 +150,8 @@
           "d": "Elegimos cafés y bares acogedores en Villa Allende y cercanías de Sierras Chicas, para que tanto el desayuno como la merienda también se disfruten."
         }
       ],
-      "mk": "num"
+      "mk": "num",
+      "pagina": "encuentros"
     },
     {
       "id": "b21",
@@ -105,7 +161,8 @@
           "src": "img/cartel.jpg",
           "alt": "Cartel del club en un jardín: nos vemos adentro"
         }
-      ]
+      ],
+      "pagina": "encuentros"
     },
     {
       "id": "b6",
@@ -120,7 +177,8 @@
           "src": "img/pases.jpg",
           "alt": "Pases, tarjetas y stickers del club sobre una mesa de café"
         }
-      ]
+      ],
+      "pagina": "encuentros"
     },
     {
       "id": "b894456",
@@ -143,7 +201,8 @@
           "d": "Lecturas profundas y existenciales que nos interpelan y nos representan, con nuestra parte gatuna incluida."
         }
       ],
-      "mk": "punto"
+      "mk": "punto",
+      "pagina": "encuentros"
     },
     {
       "id": "b15",
@@ -153,7 +212,8 @@
           "src": "img/senalador-libro.jpg",
           "alt": "Señalador del club dentro de un libro"
         }
-      ]
+      ],
+      "pagina": "encuentros"
     },
     {
       "id": "b13",
@@ -161,7 +221,8 @@
       "theme": "bordo",
       "eb": "DETALLES DEL JARDÍN",
       "phrase": "Lo que a los gatos negros les gusta",
-      "body": "Señaladores, stickers, libretas y sorteos diseñados con la estética de la marca para acompañar la lectura y para que la experiencia del club siga en tu casa."
+      "body": "Señaladores, stickers, libretas y sorteos diseñados con la estética de la marca para acompañar la lectura y para que la experiencia del club siga en tu casa.",
+      "pagina": "detalles"
     },
     {
       "id": "b14",
@@ -177,7 +238,8 @@
           "src": "img/sobre-sorteo-v2.jpg",
           "alt": "Sobre del sorteo con stickers y sello del club"
         }
-      ]
+      ],
+      "pagina": "detalles"
     },
     {
       "id": "b19",
@@ -192,7 +254,8 @@
           "src": "img/tote.jpg",
           "alt": "Tote bordó con el logo, en el pasto junto a un gato negro"
         }
-      ]
+      ],
+      "pagina": "detalles"
     },
     {
       "id": "bmerch",
@@ -207,7 +270,8 @@
           "src": "img/libretas.jpg",
           "alt": "Libretas bordó, rosa y verde con el gato del club"
         }
-      ]
+      ],
+      "pagina": "detalles"
     },
     {
       "id": "b16",
@@ -217,7 +281,8 @@
           "src": "img/remera-v2.jpg",
           "alt": "Remera bordó del club colgada entre cactus"
         }
-      ]
+      ],
+      "pagina": "detalles"
     },
     {
       "id": "b22",
@@ -242,7 +307,8 @@
       ],
       "mk": "gato",
       "after": "El jardín apenas está floreciendo. Todavía no tenemos una gran comunidad para ofrecerte, pero sí un proyecto joven, cuidado y con muchísimas ganas de sumar gatos negros.",
-      "note": "También buscamos emprendimientos para merchandising o que quieran potenciar la experiencia."
+      "note": "También buscamos emprendimientos para merchandising o que quieran potenciar la experiencia.",
+      "pagina": "alianzas"
     },
     {
       "id": "bmarq",
@@ -255,7 +321,8 @@
         }
       ],
       "bleed": true,
-      "flush": true
+      "flush": true,
+      "pagina": "alianzas"
     },
     {
       "id": "bweb",
@@ -265,7 +332,8 @@
           "src": "img/web-etiqueta.jpg",
           "alt": "Web del club en una notebook sobre una silla de esterilla"
         }
-      ]
+      ],
+      "pagina": "alianzas"
     }
   ],
   "close": {

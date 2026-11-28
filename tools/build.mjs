@@ -10,7 +10,7 @@ import esbuild from 'esbuild';
 import sharp from 'sharp';
 import * as im from './imagenes.mjs';
 import { extrasDossier } from '../src/compartido/extras.mjs';
-import { renderDossier, mediosDossier, seccionesMenu } from '../src/dossier/plantilla.mjs';
+import { renderDossier, mediosDossier, seccionesMenu, paginasDossier, rutaPagina } from '../src/dossier/plantilla.mjs';
 
 export const RAIZ = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const CACHE = path.join(RAIZ, '.cache');
@@ -142,19 +142,20 @@ async function prepararMedios(salida, lista) {
   return mapa;
 }
 
-/** Devuelve la función ctx.media(m, opts) que usa la plantilla. */
-function mediaRenderer(mapa, esc) {
+/** Devuelve la función ctx.media(m, opts) que usa la plantilla.
+    `prefijo` ('/' en el dossier) hace absolutas las rutas, así sirven desde /encuentros/ y las demás páginas. */
+function mediaRenderer(mapa, esc, prefijo = '') {
   return (m, { sizes = '100vw', lazy = false, prioridad = false, loop = true, preload = 'none', clase = '' } = {}) => {
     if (!m || (!m.src && !m.video)) return '';
     if (m.video) {
       const v = mapa.get(m.video);
       const wh = v.poster ? ` width="${v.poster.width}" height="${v.poster.height}"` : '';
-      return `<video src="${v.url}"${wh}${v.poster ? ` poster="${v.poster.url}"` : ''} ${clase ? ` class="${clase}"` : ''} muted${loop ? ' loop' : ''} playsinline preload="${preload}"${m.alt ? ` aria-label="${esc(m.alt)}"` : ''}></video>`;
+      return `<video src="${prefijo}${v.url}"${wh}${v.poster ? ` poster="${prefijo}${v.poster.url}"` : ''} ${clase ? ` class="${clase}"` : ''} muted${loop ? ' loop' : ''} playsinline preload="${preload}"${m.alt ? ` aria-label="${esc(m.alt)}"` : ''}></video>`;
     }
     const f = mapa.get(m.src);
     const defecto = f.variantes.find((v) => v.w >= 1080) || f.variantes[f.variantes.length - 1];
-    const srcset = f.variantes.length > 1 ? ` srcset="${f.variantes.map((v) => `${v.url} ${v.w}w`).join(', ')}" sizes="${sizes}"` : '';
-    return `<img src="${defecto.url}"${srcset} alt="${esc(m.alt || '')}" width="${f.width}" height="${f.height}"` +
+    const srcset = f.variantes.length > 1 ? ` srcset="${f.variantes.map((v) => `${prefijo}${v.url} ${v.w}w`).join(', ')}" sizes="${sizes}"` : '';
+    return `<img src="${prefijo}${defecto.url}"${srcset} alt="${esc(m.alt || '')}" width="${f.width}" height="${f.height}"` +
       (lazy ? ' loading="lazy"' : '') + (prioridad ? ' fetchpriority="high"' : '') + ' decoding="async">';
   };
 }
@@ -177,11 +178,11 @@ async function jsConHash(salida, entrada, nombre) {
 const SCRIPT_INICIAL = "(function(){try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('lw-wait');setTimeout(function(){document.documentElement.classList.remove('lw-wait')},2500)}catch(e){}})()";
 export const hashScriptInicial = () => 'sha256-' + createHash('sha256').update(SCRIPT_INICIAL).digest('base64');
 
-function headIconos(ic, sitio) {
-  return `<link rel="icon" href="${ic.ico}" sizes="32x32">
-<link rel="icon" href="${ic.svg}" type="image/svg+xml">
-<link rel="apple-touch-icon" href="${ic.apple}">
-<link rel="manifest" href="site.webmanifest">`;
+function headIconos(ic, sitio, prefijo = '') {
+  return `<link rel="icon" href="${prefijo}${ic.ico}" sizes="32x32">
+<link rel="icon" href="${prefijo}${ic.svg}" type="image/svg+xml">
+<link rel="apple-touch-icon" href="${prefijo}${ic.apple}">
+<link rel="manifest" href="${prefijo}site.webmanifest">`;
 }
 
 /* ---------- el dossier ---------- */
@@ -199,16 +200,23 @@ export async function construirDossier() {
   try { url.og = await salida.fijo('og-dossier.jpg', await leer(path.join(SRC, 'dossier/og-dossier.jpg'))); }
   catch { console.warn('  (aviso) falta src/dossier/og-dossier.jpg: la vista previa al compartir queda sin imagen. Corré node tools/og.mjs'); }
 
+  // El dossier tiene varias páginas (/, /encuentros/, …) que comparten los mismos archivos,
+  // así que todas las rutas van absolutas desde la raíz del sitio.
+  const abs = Object.fromEntries(Object.entries(url).map(([k, v]) => [k, '/' + v]));
   const ctx = {
-    url, cat: comp.cat, logo: comp.logo,
-    media: mediaRenderer(mapa, esc),
-    css: await cssInline([path.join(SRC, 'compartido/css/base.css'), path.join(SRC, 'dossier/dossier.css')], url),
+    url: abs, cat: comp.cat, logo: comp.logo,
+    media: mediaRenderer(mapa, esc, '/'),
+    css: await cssInline([path.join(SRC, 'compartido/css/base.css'), path.join(SRC, 'dossier/dossier.css')], abs),
     scriptInicial: SCRIPT_INICIAL,
-    head: { iconos: headIconos(comp.iconos, sitio) },
+    head: { iconos: headIconos(comp.iconos, sitio, '/') },
   };
-  const html = renderDossier(c, sitio, ctx);
-  await salida.fijo('index.html', Buffer.from(html));
-  await extrasDossier(salida, sitio, { hashScriptInicial: hashScriptInicial(), ctx, secciones: seccionesMenu(c) });
+  await salida.fijo('index.html', Buffer.from(renderDossier(c, sitio, ctx)));
+  const paginas = paginasDossier(c);
+  for (const p of paginas) {
+    if (!/^[a-z0-9-]+$/.test(p.slug || '')) throw new Error(`recorrido.paginas: el slug "${p.slug}" tiene que ser minúsculas, números y guiones`);
+    await salida.fijo(`${p.slug}/index.html`, Buffer.from(renderDossier(c, sitio, ctx, p)));
+  }
+  await extrasDossier(salida, sitio, { hashScriptInicial: hashScriptInicial(), ctx, secciones: seccionesMenu(c), rutas: ['/', ...paginas.map((p) => rutaPagina(p.slug))] });
   return salida;
 }
 

@@ -26,7 +26,7 @@ npm install        # una sola vez
 npm run dev        # servidor local con rebuild automático
 ```
 
-- Dossier: http://localhost:5173/
+- Dossier: http://localhost:5173/ (y sus páginas: /encuentros/, /detalles/, /alianzas/)
 - Links: http://localhost:5173/links/
 - Desde el celular (misma red wifi): la dirección `http://IP:5173/` que muestra la consola.
 - `npm run build` arma `dist/` sin levantar el servidor.
@@ -42,7 +42,7 @@ node tools/og.mjs         # vuelve a generar las imágenes para compartir (og-do
 
 ```
 contenido/            textos, fotos y datos (lo único que se edita para cambiar contenido)
-  dossier.json        bloques del dossier
+  dossier.json        bloques del dossier y páginas del recorrido (`recorrido.paginas`; cada bloque dice con `pagina` dónde va)
   links.json          página de links
   sitio.json          dominio, subdominio, redes, SEO
   img/                fotos, videos y pósters

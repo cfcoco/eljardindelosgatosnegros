@@ -59,6 +59,11 @@ async function servir(req, res) {
     res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
     return res.end('{"ok":true}');
   }
+  // Como en Apache: /encuentros pasa a /encuentros/ (y de ahí a su index.html).
+  if (!ruta.endsWith('/') && !path.extname(ruta)) {
+    res.writeHead(301, { Location: u.pathname + '/' + u.search });
+    return res.end();
+  }
   if (ruta.endsWith('/')) ruta += 'index.html';
   const abs = path.join(raizDir, base, ruta);
   if (!abs.startsWith(path.join(raizDir, base))) { res.writeHead(403); return res.end(); }

@@ -23,7 +23,7 @@ Club de lectura en **Villa Allende, Córdoba (Argentina)**. Se leen clásicos y 
 
 | Dirección | Página | Carpeta publicada |
 |---|---|---|
-| **https://eljardindelosgatosnegros.com.ar** (raíz) | **Dossier** | `dist/dossier/` |
+| **https://eljardindelosgatosnegros.com.ar** (raíz) | **Dossier**: inicio + `/encuentros/`, `/detalles/`, `/alianzas/` | `dist/dossier/` |
 | **https://bios.eljardindelosgatosnegros.com.ar** | **Página de links** para la bio de Instagram | `dist/links/` |
 
 El nombre del subdominio (`bios`) está en un solo lugar: `contenido/sitio.json` → `subdominioLinks`.
@@ -53,6 +53,7 @@ El diseño **ya está aprobado por Luz**. La versión publicada tiene que verse 
 7. **Cierre bordó:** gato animado + logotipo crema (como `<img>`), pregunta (700) y bajada (400), botones de Instagram y WhatsApp, "Nos vemos entre las flores" en Trazo.
 8. **Franja de créditos** crema al final, con "Por Luz A. Zapata" en Trazo bordó.
 9. **Videos:** sin `autoplay` y con `preload="none"`; el JavaScript los reproduce cuando están cerca de la pantalla y los pausa al salir. Siempre muted, loop, `playsinline` y con póster.
+10. **Recorrido en páginas (28/11/2026, prototipo a aprobar por Luz):** es una cadena, pedida así por Coco. El inicio termina después del manifiesto con un bloque `seguir`: un solo recuadro ("¿Te interesa sumarte? · Mirá lo que hacemos") que lleva a `/encuentros/` (La experiencia + Ciclos). Encuentros termina con el título "¿Por dónde seguís? · El jardín tiene más rincones para recorrer." y el recuadro "Mirá lo que te podés llevar en cada encuentro" → `/detalles/` (merch). Detalles termina con "Saltá el muro con nosotros" → `/alianzas/` (Alianzas + marquesina + foto de la web). Alianzas termina en el contacto. Cada página tiene cabecera chica (gato que vuelve al inicio + "Club de lectura · Nombre"), "Volver al inicio" antes del cierre y el mismo cierre bordó. El recuadro de cada página es el que lleva hacia ella y está en `contenido/dossier.json` → `recorrido.paginas` (con `intro` opcional para el título de arriba); cada bloque dice con `pagina` dónde va (sin el campo, va al inicio). El menú es el mismo en todas las páginas y enlaza `/pagina/#id`. Recuadros y botones de Instagram/WhatsApp (ahora con ícono, dos líneas y flecha) se corren 8 px a la derecha al tocarlos, como en la bio (`.tocada`). Todas las rutas del dossier son absolutas (`/img/…`) para que sirvan desde las subcarpetas.
 
 No queda nada de claude.ai: ni modo edición, ni `claude.use`, ni `/_blob/`, ni detección de bots, ni Google Fonts. El build falla en GitHub si reaparece alguna de esas rutas.
 
@@ -81,7 +82,7 @@ dist/                 salida (ignorada por git); la arma GitHub Actions
 ```
 
 - Para cambiar un texto, una foto o el orden solo se toca un `.json` (y se agrega la foto a `contenido/img/`). Explicale a Luz que se edita así.
-- Modelo de bloques: `full` (con `bleed`/`flush`), `duo` (`r` sq/tall, `fit` contain), `text` (`theme` crema/bordo/negro, `mk`, `side`), `manif`, `palette`, `fonts`. Las fotos se referencian como `{ "src": "img/x.jpg", "alt": "…" }` y los videos como `{ "video": "img/x.mp4", "poster": "img/x-poster.jpg", "alt": "…" }`. Las medidas las saca el build.
+- Modelo de bloques: `full` (con `bleed`/`flush`), `duo` (`r` sq/tall, `fit` contain), `text` (`theme` crema/bordo/negro, `mk`, `side`), `manif`, `seguir` (el recuadro del recorrido), `palette`, `fonts`. Cualquier bloque puede llevar `pagina` (slug de `recorrido.paginas`). Las fotos se referencian como `{ "src": "img/x.jpg", "alt": "…" }` y los videos como `{ "video": "img/x.mp4", "poster": "img/x-poster.jpg", "alt": "…" }`. Las medidas las saca el build.
 - CSS: todo inline y minificado en cada página (son ~10 KB). JS: un archivo con `defer` y hash. Nombres con hash para todo lo cacheable.
 - `.htaccess` lleva una CSP: si se agrega un script inline nuevo, hay que sumar su hash en `extras.mjs` (el único actual es el que pone `lw-wait`).
 

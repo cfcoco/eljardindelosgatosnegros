@@ -21,7 +21,7 @@ import { escritorDeLogo } from '../compartido/js/escribir-logo.js';
      todo de la pantalla, así vuelve a moverse al pasar de nuevo. */
   function reveal() {
     var fotos = app.querySelectorAll('.rv');
-    var textos = app.querySelectorAll('.text > *:not(.steps), .text .steps > li, .close .cta, .close .cta-sub, .close .phrase, .close .contact > *');
+    var textos = app.querySelectorAll('.text > *:not(.steps), .text .steps > li, .seguir .card, .seguir .volver, .close .cta, .close .cta-sub, .close .phrase, .close .contact > *');
     if (reduce || !hasIO) {
       fotos.forEach(function (e) { e.classList.add('in'); });
       return;
@@ -123,8 +123,21 @@ import { escritorDeLogo } from '../compartido/js/escribir-logo.js';
     doc.addEventListener('keydown', function (e) { if (e.key === 'Escape') menuOpen(false); });
   }
 
+  /* ---------- recuadros y botones: se corren a la derecha mientras se tocan ----------
+     En el celular no hay hover, así que la clase .tocada reproduce el gesto (igual que en la bio). */
+  function vigilarToques() {
+    app.querySelectorAll('.card, .contact a').forEach(function (a) {
+      var soltar = function () { setTimeout(function () { a.classList.remove('tocada'); }, 180); };
+      a.addEventListener('pointerdown', function () { a.classList.add('tocada'); });
+      a.addEventListener('pointerup', soltar);
+      a.addEventListener('pointercancel', soltar);
+      a.addEventListener('pointerleave', soltar);
+    });
+  }
+
   /* ---------- arranque ---------- */
   reveal();
+  vigilarToques();
   vigilarVideos();
   logo.escribir();
   vigilarPortada();
