@@ -74,18 +74,22 @@
     }
   },
   "botones": {
+    "_ayuda": "Orden de las tarjetas: Contacto (WhatsApp), Email, TikTok y Colaborá. La arroba de TikTok sale de sitio.json → tiktok.",
     "whatsapp": {
       "titulo": "Contacto",
       "bajada": "Consultas y novedades del club",
       "mensaje": "¡Hola Luz! Vengo del Instagram del Jardín y quiero saber más del club."
     },
-    "dossier": {
-      "titulo": "Colaborá con el club",
-      "bajada": "Escritores, librerías, editoriales y espacios gastronómicos"
-    },
     "email": {
       "titulo": "Email",
       "asunto": "Hola desde el Jardín"
+    },
+    "tiktok": {
+      "titulo": "TikTok"
+    },
+    "dossier": {
+      "titulo": "Colaborá con el club",
+      "bajada": "Escritores, librerías, editoriales y espacios gastronómicos"
     }
   },
   "pie": {

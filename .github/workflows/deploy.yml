@@ -63,7 +63,18 @@ jobs:
             else
               git init -q -b "$rama" "$tmp"
             fi
+            # Los archivos con hash (js, img, fonts) de versiones anteriores se conservan 60 días:
+            # un navegador con el HTML viejo en caché (p. ej. el de Instagram) los sigue pidiendo
+            # y, si no están, la página queda sin script o sin fotos.
+            for d in js img fonts .mantener; do git -C "$tmp" checkout -q HEAD -- "$d" 2>/dev/null || true; done
             cp -R "$carpeta"/. "$tmp"/
+            touch "$tmp/.mantener"; : > "$tmp/.mantener.nuevo"; ahora=$(date +%s)
+            find "$tmp/js" "$tmp/img" "$tmp/fonts" -type f 2>/dev/null | sed "s#^$tmp/##" | while read -r f; do
+              [ -f "$carpeta/$f" ] && continue
+              desde=$(awk -v f="$f" '$2==f{print $1; exit}' "$tmp/.mantener"); [ -z "$desde" ] && desde=$ahora
+              if [ $((ahora - desde)) -gt $((60*24*3600)) ]; then rm -f "$tmp/$f"; else echo "$desde $f" >> "$tmp/.mantener.nuevo"; fi
+            done
+            mv "$tmp/.mantener.nuevo" "$tmp/.mantener"
             git -C "$tmp" config user.name "github-actions[bot]"
             git -C "$tmp" config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git -C "$tmp" add -A

@@ -145,12 +145,12 @@ async function prepararMedios(salida, lista) {
 /** Devuelve la función ctx.media(m, opts) que usa la plantilla.
     `prefijo` ('/' en el dossier) hace absolutas las rutas, así sirven desde /encuentros/ y las demás páginas. */
 function mediaRenderer(mapa, esc, prefijo = '') {
-  return (m, { sizes = '100vw', lazy = false, prioridad = false, loop = true, preload = 'none', clase = '' } = {}) => {
+  return (m, { sizes = '100vw', lazy = false, prioridad = false, loop = true, preload = 'none', clase = '', autoplay = false } = {}) => {
     if (!m || (!m.src && !m.video)) return '';
     if (m.video) {
       const v = mapa.get(m.video);
       const wh = v.poster ? ` width="${v.poster.width}" height="${v.poster.height}"` : '';
-      return `<video src="${prefijo}${v.url}"${wh}${v.poster ? ` poster="${prefijo}${v.poster.url}"` : ''} ${clase ? ` class="${clase}"` : ''} muted${loop ? ' loop' : ''} playsinline preload="${preload}"${m.alt ? ` aria-label="${esc(m.alt)}"` : ''}></video>`;
+      return `<video src="${prefijo}${v.url}"${wh}${v.poster ? ` poster="${prefijo}${v.poster.url}"` : ''} ${clase ? ` class="${clase}"` : ''}${autoplay ? ' autoplay' : ''} muted${loop ? ' loop' : ''} playsinline preload="${preload}"${m.alt ? ` aria-label="${esc(m.alt)}"` : ''}></video>`;
     }
     const f = mapa.get(m.src);
     const defecto = f.variantes.find((v) => v.w >= 1080) || f.variantes[f.variantes.length - 1];
@@ -175,7 +175,7 @@ async function jsConHash(salida, entrada, nombre) {
 }
 /* Agrega la clase lw-wait apenas arranca la página (oculta el logotipo hasta que se escribe).
    Si el JavaScript principal no llega a correr, se saca sola a los 2,5 s. */
-const SCRIPT_INICIAL = "(function(){try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('lw-wait');setTimeout(function(){document.documentElement.classList.remove('lw-wait')},2500)}catch(e){}})()";
+const SCRIPT_INICIAL = "(function(){try{document.documentElement.classList.add('js');if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('lw-wait');setTimeout(function(){document.documentElement.classList.remove('lw-wait')},2500)}catch(e){}})()";
 export const hashScriptInicial = () => 'sha256-' + createHash('sha256').update(SCRIPT_INICIAL).digest('base64');
 
 function headIconos(ic, sitio, prefijo = '') {

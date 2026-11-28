@@ -43,7 +43,8 @@ import { iniciarAnotate } from './anotate.js';
   function mostrarResto(rapido) {
     if (restoMostrado) return; restoMostrado = true;
     doc.querySelectorAll('.sube').forEach(function (el) {
-      setTimeout(function () { el.classList.add('in'); }, rapido ? 0 : (+el.getAttribute('data-d') || 0));
+      var d = parseInt((getComputedStyle(el).getPropertyValue('--d') || '0'), 10) || 0;
+      setTimeout(function () { el.classList.add('in'); }, rapido ? 0 : d);
     });
   }
 
