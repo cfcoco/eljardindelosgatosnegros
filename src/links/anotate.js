@@ -30,12 +30,31 @@ export function iniciarAnotate() {
   };
   const nom = (n) => { n = (n || '').trim().split(/\s+/)[0] || ''; return n ? n[0].toUpperCase() + n.slice(1) : ''; };
   const gracias = (n) => nom(n) ? esc(F.gracias || '¡Listo, {nombre}, gracias!').replace('{nombre}', esc(nom(n))) : esc(F.graciasSinNombre || '¡Listo, gracias!');
-  const okHTML = (n) => (setTimeout(fitGr, 0), `<div class="ok"><p class="gr">${gracias(n)}</p><p class="big">${esc(F.texto)}</p><div class="end"><p class="ver">${esc(F.frase)}</p>${cfg.foto || ''}</div></div>`);
+  const okHTML = (n) => (setTimeout(fitGr, 0), `<div class="ok"><p class="gr">${gracias(n)}</p><p class="big">${esc(F.texto)}</p><div class="end${F.frase ? '' : ' solo'}">${F.frase ? `<p class="ver">${esc(F.frase)}</p>` : ''}${cfg.foto || ''}</div></div>`);
+  /* Secuencia del cierre: la frase se revela de izquierda a derecha (CSS) y, cuando termina,
+     aparece el sticker (imagen o video animado) y se reproduce. */
+  const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const secuenciaFinal = () => {
+    const ver = caja.querySelector('.ok .ver'), sticker = caja.querySelector('.ok .end video, .ok .end img');
+    if (!sticker) return;
+    let hecho = false;
+    /* Tamaño del sticker: el que haga falta para que el bloque quede cuadrado (entre 96 y 200 px de alto). */
+    const ratio = (+sticker.getAttribute('height') || 984) / (+sticker.getAttribute('width') || 1080);
+    sticker.style.width = '0px';
+    const ancho = sec.clientWidth, sinSticker = sec.offsetHeight;
+    const alto = Math.max(96, Math.min(200, ancho - sinSticker));
+    sticker.style.width = Math.round(alto / ratio) + 'px';
+    const mostrar = () => { if (hecho) return; hecho = true; sticker.classList.add('ve'); if (sticker.tagName === 'VIDEO') { const p = sticker.play(); if (p && p.catch) p.catch(() => {}); } };
+    if (!ver || reduce) return mostrar();
+    ver.addEventListener('animationend', mostrar, { once: true });
+    setTimeout(mostrar, 2600); // por si la animación no corre
+  };
   addEventListener('resize', fitGr);
   /* Al llegar a la pantalla final se esconde la despedida del pie (frase + Tábata), que ya
      está en el recuadro; la firma "Por Luz A. Zapata" queda. Pedido de Luz, 14/11/2026. */
   const mostrarFinal = (n) => {
     caja.innerHTML = okHTML(n);
+    secuenciaFinal();
     document.querySelectorAll('footer .chau').forEach((el) => { el.style.display = 'none'; });
     document.querySelectorAll('footer .credit').forEach((el) => { el.style.marginTop = '0'; });
   };
@@ -76,6 +95,7 @@ export function iniciarAnotate() {
       ? `<div class="nav"><button type="button" class="cta back" id="bk" aria-label="Volver">←</button><button type="button" class="cta" id="nx">${esc(i === 4 ? (B.enviar || 'Avisame primero') : (B.seguir || 'Seguir'))}</button></div>${i >= 3 ? `<div class="skipw"><button type="button" class="skip" id="sk">${esc(B.saltear || 'Saltear')}</button></div>` : ''}<div class="err" id="e" aria-live="polite"></div>`
       : '';
     caja.innerHTML = `<div class="step">${dots}${steps[i]()}${nav}</div>`;
+    document.dispatchEvent(new CustomEvent('anotate:render'));
     if (i === 0) { const go = $('abrir-anotate'); if (go) go.onclick = () => { t0 = Date.now(); show(1); }; return; }
     if (i === 2) caja.querySelectorAll('.seg button').forEach((bt) => { bt.onclick = () => { via = bt.dataset.v; caja.querySelectorAll('.seg button').forEach((x) => x.setAttribute('aria-pressed', String(x === bt))); $('cw').innerHTML = contactField(''); enganchar(); }; });
     enganchar();

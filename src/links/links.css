@@ -2,6 +2,9 @@
    Página de links (bio de Instagram): estilos propios, sobre la base compartida.
    ========================================================================== */
 
+/* El crema de esta página es el del fondo del sticker animado de Chiquetén (#F2F0EA tal como lo pinta el navegador, un punto
+   distinto del crema de la paleta), para que el video se funda con el bloque. Pedido de Luz, 27/11/2026. */
+:root{--crema:#F2F0EA}
 *{margin:0;padding:0}
 html,body{background:var(--negro);color:var(--crema)}
 body{min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
@@ -24,7 +27,8 @@ main{width:100%;max-width:440px;margin:0 auto;padding:28px 16px 0;display:flex;f
 .bienvenida{font-weight:800;color:var(--bordo);font-size:clamp(18px,6.2vw,26px);line-height:1.15;letter-spacing:-.01em;text-align:center;margin-top:26px}
 
 /* Cabecera con video (gato + logotipo animados sobre bordó): va de borde a borde debajo del renglón "Club de lectura". */
-.cab.con-video{padding-bottom:0}
+.cab.con-video{padding-bottom:0;background:var(--bordo)}
+.cab.con-video .eyebrow{color:var(--crema)}
 .cab .intro{width:calc(100% + 32px);margin:22px -16px 0;background:var(--bordo)}
 .cab .intro video{display:block;width:100%;height:auto;aspect-ratio:1/1}
 
@@ -33,9 +37,9 @@ main{width:100%;max-width:440px;margin:0 auto;padding:28px 16px 0;display:flex;f
 .bloque{border-radius:6px;color:var(--crema)}
 .bordo{background:var(--bordo);color:var(--crema)}
 
-.encuentro{padding:28px 22px}
+.encuentro{padding:28px 22px;background:var(--crema);color:var(--negro)}
 .encuentro .serie{display:flex;align-items:baseline;gap:10px;white-space:nowrap}
-.encuentro .serie .tz,.encuentro .serie .n{font-family:Trazo,serif;color:var(--rosa);font-size:clamp(24px,7.4vw,32px);line-height:1}
+.encuentro .serie .tz,.encuentro .serie .n{font-family:Trazo,serif;color:var(--bordo);font-size:clamp(24px,7.4vw,32px);line-height:1}
 .encuentro h2{font-weight:800;font-size:28px;line-height:1.08;margin-top:14px}
 .encuentro .autor{font-size:16px;margin-top:4px}
 .datos{list-style:none;margin-top:16px;display:grid;gap:6px;font-size:15px}
@@ -49,46 +53,52 @@ main{width:100%;max-width:440px;margin:0 auto;padding:28px 16px 0;display:flex;f
    haya una frase en una sola línea (así fitGr() puede achicarla, como en el ejemplo). */
 .bloques{grid-template-columns:minmax(0,1fr)}
 .encuentro{position:relative;min-width:0;overflow:hidden}
-.encuentro .t{font-weight:800;font-size:24px;line-height:1.15;margin:14px 0 10px}
-.encuentro .d{font-size:17px;line-height:1.5;color:#f3e9ec;margin:0 0 4px}
+.encuentro .t{font-weight:800;font-size:24px;line-height:1.15;margin:14px 0 10px;color:var(--bordo)}
+.encuentro .d{font-size:17px;line-height:1.5;color:#3d3a37;margin:0 0 4px}
 .encuentro .libro{font-weight:800;font-size:22px;line-height:1.1;margin-top:14px}
-.encuentro .cupos{font-weight:500;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--rosa);margin:12px 0 22px}
-.encuentro .cta{display:block;width:100%;border:0;border-radius:999px;background:var(--crema);color:var(--bordo);font-family:inherit;font-weight:500;font-size:14px;letter-spacing:.1em;text-transform:uppercase;line-height:1.2;padding:17px 18px;cursor:pointer;text-align:center;text-decoration:none;transition:transform .2s}
+.encuentro .cupos{font-weight:500;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--frambuesa);margin:12px 0 22px}
+.encuentro .cta{display:block;width:100%;border:0;border-radius:999px;background:var(--bordo);color:var(--crema);font-family:inherit;font-weight:500;font-size:14px;letter-spacing:.1em;text-transform:uppercase;line-height:1.2;padding:17px 18px;cursor:pointer;text-align:center;text-decoration:none;transition:transform .2s}
 .encuentro .cta:active{transform:scale(.98)}
 .encuentro .cta:disabled{opacity:.75;cursor:wait}
-.encuentro .cta:focus-visible,.encuentro .seg button:focus-visible{outline:3px solid var(--rosa);outline-offset:3px}
+.encuentro .cta:focus-visible,.encuentro .seg button:focus-visible{outline:3px solid var(--frambuesa);outline-offset:3px}
 .encuentro .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
 .encuentro .step{animation:in .55s cubic-bezier(.16,1,.3,1)}
-.encuentro .q{font-weight:800;font-size:22px;line-height:1.2;margin:6px 0 14px}
+.encuentro .q{font-weight:800;font-size:22px;line-height:1.2;margin:6px 0 14px;color:var(--bordo)}
 .encuentro .dots{display:flex;gap:6px;margin:0 0 18px}
-.encuentro .dots i{width:22px;height:4px;border-radius:4px;background:rgba(241,240,235,.25)}
-.encuentro .dots i.on{background:var(--crema)}
-.encuentro input,.encuentro textarea{width:100%;background:rgba(241,240,235,.08);border:1px solid rgba(241,240,235,.35);border-radius:14px;color:var(--crema);font-family:inherit;font-weight:400;font-size:17px;line-height:1.4;padding:14px 15px;outline:none;transition:border-color .2s,background .2s}
-.encuentro input:focus,.encuentro textarea:focus{border-color:var(--crema);background:rgba(241,240,235,.14)}
-.encuentro input::placeholder,.encuentro textarea::placeholder{color:#cdb3bb}
+.encuentro .dots i{width:22px;height:4px;border-radius:4px;background:rgba(112,41,60,.2)}
+.encuentro .dots i.on{background:var(--bordo)}
+.encuentro input,.encuentro textarea{width:100%;background:rgba(112,41,60,.06);border:1px solid rgba(112,41,60,.35);border-radius:14px;color:var(--negro);font-family:inherit;font-weight:400;font-size:17px;line-height:1.4;padding:14px 15px;outline:none;transition:border-color .2s,background .2s}
+.encuentro input:focus,.encuentro textarea:focus{border-color:var(--bordo);background:rgba(112,41,60,.1)}
+.encuentro input::placeholder,.encuentro textarea::placeholder{color:#8f7f84}
 .encuentro textarea{resize:none;min-height:76px}
 .encuentro .seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.encuentro .seg button{border:1px solid rgba(241,240,235,.4);background:transparent;color:var(--crema);border-radius:999px;padding:12px;font-family:inherit;font-weight:500;font-size:14px;cursor:pointer}
-.encuentro .seg button[aria-pressed=true]{background:var(--crema);color:var(--bordo);border-color:var(--crema)}
+.encuentro .seg button{border:1px solid rgba(112,41,60,.45);background:transparent;color:var(--bordo);border-radius:999px;padding:12px;font-family:inherit;font-weight:500;font-size:14px;cursor:pointer}
+.encuentro .seg button[aria-pressed=true]{background:var(--bordo);color:var(--crema);border-color:var(--bordo)}
 .encuentro .cw{margin-top:12px}
 .encuentro .nav{display:flex;gap:10px;margin-top:22px}
-.encuentro .nav .back{flex:0 0 auto;width:auto;background:transparent;color:var(--crema);border:1px solid rgba(241,240,235,.4)}
+.encuentro .nav .back{flex:0 0 auto;width:auto;background:transparent;color:var(--bordo);border:1px solid rgba(112,41,60,.45)}
 .encuentro .skipw{text-align:center}
-.encuentro .skip{background:none;border:0;color:#d9c4cb;font-family:inherit;font-weight:400;font-size:14px;text-decoration:underline;margin-top:12px;cursor:pointer;padding:6px}
-.encuentro .err{color:#ffd9e1;font-size:14px;line-height:1.4;margin-top:10px;min-height:1em}
-.encuentro .priv{color:#d9c4cb;font-size:12px;line-height:1.4;margin-top:10px}
+.encuentro .skip{background:none;border:0;color:var(--bordo);font-family:inherit;font-weight:400;font-size:14px;text-decoration:underline;margin-top:12px;cursor:pointer;padding:6px}
+.encuentro .err{color:var(--frambuesa);font-size:14px;line-height:1.4;margin-top:10px;min-height:1em}
+.encuentro .priv{color:#6b655f;font-size:12px;line-height:1.4;margin-top:10px}
 /* pantalla final (medidas del ejemplo aprobado; la fila de cierre se ajustó el 17/11/2026
    para que no se corte en los bordes: sin margen negativo y con tamaños según el ancho) */
 .ok{text-align:center;padding:0;animation:in .7s cubic-bezier(.16,1,.3,1)}
-.ok .gr{font-family:Trazo,serif;font-weight:400;font-size:32px;line-height:1.08;color:var(--crema);margin:0;white-space:nowrap}
-.ok .big{font-weight:500;font-size:20px;line-height:1.3;color:var(--crema);margin:30px auto 4px;max-width:290px}
-.ok .end{display:flex;align-items:center;justify-content:center;gap:6px;margin:0;min-width:0;max-width:100%}
-.ok .ver{font-family:Trazo,serif;font-weight:400;font-size:clamp(18px,6vw,24px);line-height:1.1;color:var(--rosa);margin:0;white-space:nowrap;min-width:0}
-.ok .end img{width:clamp(60px,20vw,88px);height:auto;flex:0 0 auto}
+.ok .gr{font-family:Trazo,serif;font-weight:400;font-size:32px;line-height:1.08;color:var(--bordo);margin:0;white-space:nowrap}
+.ok .big{font-weight:500;font-size:20px;line-height:1.3;color:var(--negro);margin:30px auto 0;max-width:290px;text-align:justify;text-align-last:center}
+/* Cierre: el sticker aparece debajo del texto, a la misma distancia que hay entre el título y el texto (30 px). */
+.ok .end{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;margin:30px 0 0;min-width:0;max-width:100%}
+.ok .ver{font-family:Trazo,serif;font-weight:400;font-size:clamp(18px,6vw,24px);line-height:1.1;color:var(--bordo);margin:0;white-space:nowrap;min-width:0;clip-path:inset(-10% 100% -10% 0);animation:revelar 1.6s cubic-bezier(.2,.7,.2,1) .25s forwards}
+@keyframes revelar{to{clip-path:inset(-10% 0 -10% 0)}}
+.ok .end img,.ok .end video{width:clamp(110px,40vw,200px);height:auto;display:block;margin:0 auto;flex:0 0 auto;opacity:0;transform:translateY(10px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.2,1)}
+.ok .end img.ve,.ok .end video.ve{opacity:1;transform:none}
 @keyframes in{from{opacity:0;transform:translateY(16px)}}
-@media (prefers-reduced-motion:reduce){.encuentro .step,.ok{animation:none}}
+@media (prefers-reduced-motion:reduce){.encuentro .step,.ok,.ok .ver{animation:none}.ok .ver{clip-path:none}.ok .end img,.ok .end video{opacity:1;transform:none;transition:none}}
 
-a.link{display:flex;align-items:center;gap:16px;padding:22px 22px;text-decoration:none;transition:transform .18s ease}
+a.link{display:flex;align-items:center;gap:16px;padding:22px 22px;text-decoration:none;transition:transform .22s cubic-bezier(.2,.7,.2,1)}
+a.link:active,a.link.tocada{transform:translateX(8px)}
+a.link:active .fl,a.link.tocada .fl{transform:translateX(5px)}
+@media (hover:hover){a.link:hover{transform:translateX(4px)}}
 a.link .ico{width:30px;height:30px;flex:none;color:var(--rosa)}
 a.link .txt{flex:1;display:flex;flex-direction:column;gap:4px;min-width:0}
 a.link .t{font-weight:500;font-size:clamp(13px,3.9vw,15px);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
@@ -100,13 +110,16 @@ a:focus-visible{outline:3px solid var(--verde);outline-offset:3px}
 /* ---------- pie ---------- */
 footer{width:100%;background:var(--crema);color:var(--negro);text-align:center;padding:34px 22px 30px;margin-top:40px}
 .pie{width:100%;max-width:440px;margin:0 auto}
-.chau{display:flex;align-items:flex-end;justify-content:center;gap:4px}
-.chau p{font-family:Trazo,serif;font-size:clamp(26px,8.2vw,32px);line-height:1.05;color:var(--bordo);text-align:right;padding-bottom:14px}
-.chau img{width:132px;height:auto;flex:none;margin-right:0}
-.credit{margin-top:26px;text-align:left;font-size:14px;line-height:1.6;color:var(--negro)}
+.chau{display:flex;flex-direction:column;align-items:center;gap:12px}
+/* Al entrar en pantalla, la frase se revela como escrita (1,6 s) y después aparece Tábata (animada). */
+.chau p{font-family:Trazo,serif;font-size:32px;line-height:1.05;color:var(--bordo);text-align:center;padding:0;clip-path:inset(-10% 100% -10% 0)}
+.chau.escribe p{animation:revelar 1.6s cubic-bezier(.2,.7,.2,1) .1s forwards}
+.chau img{width:132px;height:auto;flex:none;margin:0;opacity:0;transform:translateY(10px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.2,1)}
+.chau img.ve{opacity:1;transform:none}
+.credit{margin-top:26px;text-align:justify;font-size:14px;line-height:1.55;color:var(--negro)}
 .credit .por{font-family:Trazo,serif;font-size:19px;color:var(--negro);line-height:1}
 
 /* ---------- entrada suave ---------- */
 .sube{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
 .sube.in{opacity:1;transform:none}
-@media (prefers-reduced-motion:reduce){.sube{opacity:1;transform:none;transition:none}.reserva:hover,a.link:hover .fl{transform:none}}
+@media (prefers-reduced-motion:reduce){.sube{opacity:1;transform:none;transition:none}.reserva:hover,a.link:hover .fl{transform:none}.chau p{clip-path:none;animation:none}.chau img{opacity:1;transform:none;transition:none}}

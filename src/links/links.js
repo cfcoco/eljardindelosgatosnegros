@@ -77,11 +77,52 @@ import { iniciarAnotate } from './anotate.js';
       }).observe(mark);
     }
   }
+  /* Tarjetas (Contacto, Colaborá, Email): al apoyar el dedo se corren apenas a la derecha.
+     Se hace con pointerdown porque en el celular el :active solo aparece después de un rato. */
+  doc.querySelectorAll('a.link').forEach(function (a) {
+    var soltar = function () { setTimeout(function () { a.classList.remove('tocada'); }, 180); };
+    a.addEventListener('pointerdown', function () { a.classList.add('tocada'); });
+    ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (ev) { a.addEventListener(ev, soltar); });
+  });
+
+  /* Pie: cuando "Nos vemos entre las flores" entra en pantalla se escribe y, al terminar, aparece Tábata.
+     Si sale del todo de la pantalla, se rearma para repetirse la próxima vez. */
+  var chau = doc.querySelector('footer .chau');
+  if (chau && 'IntersectionObserver' in window) {
+    var fraseChau = chau.querySelector('p'), gata = chau.querySelector('img'), timerChau = null;
+    var mostrarGata = function () { if (gata) gata.classList.add('ve'); };
+    if (fraseChau) fraseChau.addEventListener('animationend', mostrarGata);
+    new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (e.isIntersecting) {
+          if (chau.classList.contains('escribe')) return;
+          chau.classList.add('escribe');
+          if (reduce || !fraseChau) mostrarGata(); else timerChau = setTimeout(mostrarGata, 2200);
+        } else if (e.intersectionRatio === 0) {
+          clearTimeout(timerChau); chau.classList.remove('escribe'); if (gata) gata.classList.remove('ve');
+        }
+      });
+    }, { threshold: [0, 0.35] }).observe(chau);
+  } else if (chau) { chau.classList.add('escribe'); var g = chau.querySelector('img'); if (g) g.classList.add('ve'); }
+
+  /* Cuando el formulario cambia de pantalla vuelve a haber renglones .fit nuevos. */
+  doc.addEventListener('anotate:render', function () { ajustar(); });
+
   var video = doc.querySelector('.cab .intro-video');
   if (video) {
     /* Con video en la cabecera no hay logotipo que escribir: el video corre una vez y
-       queda en su último cuadro; los bloques entran escalonados enseguida. */
-    var p = video.play(); if (p && p.catch) p.catch(function () {});
+       queda en su último cuadro; los bloques entran escalonados enseguida.
+       Vuelve a arrancar de cero al recargar, al volver con "atrás" y cuando la
+       cabecera sale de la pantalla y vuelve a entrar. */
+    var reproducir = function () { try { video.currentTime = 0; } catch (_) {} var p = video.play(); if (p && p.catch) p.catch(function () {}); };
+    reproducir();
     mostrarResto(false);
+    addEventListener('pageshow', function (e) { if (e.persisted) reproducir(); });
+    if ('IntersectionObserver' in window) {
+      var seFue = false;
+      new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (!e.isIntersecting) seFue = true; else if (seFue) { seFue = false; reproducir(); } });
+      }, { threshold: 0.2 }).observe(video);
+    }
   } else if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(cuandoSeVea); else cuandoSeVea();
 })();

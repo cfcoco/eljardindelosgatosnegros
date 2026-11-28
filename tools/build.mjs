@@ -117,7 +117,7 @@ async function prepararMedios(salida, lista) {
   for (const m of lista) {
     if (m.video && !mapa.has(m.video)) {
       const original = await leer(path.join(CONTENIDO, m.video));
-      const buf = await im.procesarVideo(original, { cacheDir: path.join(CACHE, 'video'), maxAncho: 1920 });
+      const buf = await im.procesarVideo(original, { cacheDir: path.join(CACHE, 'video'), maxAncho: 1920, crf: m.crf || 27 });
       const url = await salida.conHash('img', path.parse(m.video).name, 'mp4', buf);
       let poster = null;
       if (m.poster) {

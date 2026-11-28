@@ -6,7 +6,8 @@
     "video": {
       "video": "img/gato-logo.mp4",
       "poster": "img/gato-logo-poster.jpg",
-      "alt": "Gato negro del club y logotipo El Jardín de los Gatos Negros, animados"
+      "alt": "Gato negro del club y logotipo El Jardín de los Gatos Negros, animados",
+      "crf": 20
     },
     "_ayuda": "Si hay \"video\", la cabecera muestra ese video (una sola vez, sin sonido) en lugar del gato y el logotipo que se escribe. Para volver al gato animado, borrá el campo video."
   },
@@ -15,8 +16,8 @@
     "titulo": "Próximo encuentro",
     "numero": "Nº 01",
     "titular": "La primera flor se revela pronto",
-    "texto": "Un libro y una buena tarde en un bar de Villa Allende.",
-    "cupos": "Cupos limitados",
+    "texto": "Leemos un libro en uno de los bares lindos de Villa Allende.",
+    "cupos": "¡Cupos limitados!",
     "libro": "",
     "autor": "",
     "fecha": "",
@@ -61,24 +62,26 @@
     "final": {
       "gracias": "¡Listo, {nombre}, gracias!",
       "graciasSinNombre": "¡Listo, gracias!",
-      "texto": "Vas a ser de las primeras personas en enterarte.",
-      "frase": "Nos vemos entre las flores"
+      "texto": "Vas a ser de las primeras personas en enterarte del encuentro.",
+      "frase": ""
     },
     "foto": {
-      "src": "img/tabata-hd.webp",
-      "alt": "Tábata, la gata del club, leyendo con lentes",
-      "ancho": 220
+      "video": "img/chiqueten.mp4",
+      "poster": "img/chiqueten-poster.jpg",
+      "alt": "Chiquetén, el gato del club, asomado detrás de una pila de libros",
+      "crf": 24,
+      "_ayuda": "Sticker animado de la pantalla final. Si se pone \"src\" con una imagen en vez de \"video\", se muestra esa imagen."
     }
   },
   "botones": {
     "whatsapp": {
-      "titulo": "WhatsApp",
+      "titulo": "Contacto",
       "bajada": "Consultas y novedades del club",
       "mensaje": "¡Hola Luz! Vengo del Instagram del Jardín y quiero saber más del club."
     },
     "dossier": {
       "titulo": "Colaborá con el club",
-      "bajada": "Escritores/as, librerías/editoriales y espacios"
+      "bajada": "Escritores, librerías, editoriales y espacios gastronómicos"
     },
     "email": {
       "titulo": "Email",
@@ -86,7 +89,7 @@
     }
   },
   "pie": {
-    "frase": "Nos vemos\nentre las flores",
+    "frase": "Nos vemos entre las flores",
     "foto": {
       "src": "img/tabata-lentes.webp",
       "alt": "Tabata, gata negra con lentes, leyendo",

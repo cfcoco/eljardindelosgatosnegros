@@ -55,7 +55,7 @@ export function renderLinks(c, sitio, ctx) {
     <section class="bloque bordo encuentro sube" data-d="900" aria-label="${esc(e.titulo || 'Próximo encuentro')}">
       <div class="caja" id="anotate">
       <p class="serie"><span class="tz">${esc(e.titulo || 'Próximo encuentro')}</span>${e.numero ? `<span class="n">${esc(e.numero)}</span>` : ''}</p>
-      ${e.titular ? `<h2 class="t">${esc(e.titular)}</h2>` : ''}
+      ${e.titular ? `<h2 class="t fit">${esc(e.titular)}</h2>` : ''}
       ${e.texto ? `<p class="d">${esc(e.texto)}</p>` : ''}
       ${e.libro ? `<p class="libro">${esc(e.libro)}</p>` : ''}
       ${e.autor ? `<p class="autor">${esc(e.autor)}</p>` : ''}
@@ -82,7 +82,7 @@ export function renderLinks(c, sitio, ctx) {
     b.email && sitio.email ? `
     <a class="bloque bordo link sube" data-d="1200" href="mailto:${esc(sitio.email)}?subject=${encodeURIComponent(b.email.asunto || '')}">
       ${icono('carta', 'ico')}
-      <span class="txt"><span class="t">${esc(b.email.titulo || 'Email')}</span><span class="s">${emailHtml}</span></span>
+      <span class="txt"><span class="t">${esc(b.email.titulo || 'Email')}</span><span class="s fit">${esc(sitio.email)}</span></span>
       ${icono('fl', 'fl')}</a>` : '',
   ].join('');
 
@@ -140,10 +140,10 @@ ${ctx.head.iconos}
   </div>
 </main>
 <footer><div class="pie sube" data-d="1300">
-  <div class="chau">${pie.frase ? `<p>${esc(pie.frase).replace(/\n/g, '<br>')}</p>` : ''}${pie.foto ? ctx.media(pie.foto, { lazy: true }) : ''}</div>
+  <div class="chau">${pie.frase ? `<p class="fit">${esc(pie.frase).replace(/\n/g, ' ')}</p>` : ''}${pie.foto ? ctx.media(pie.foto, { lazy: true }) : ''}</div>
   ${pie.firma ? `<p class="credit"><span class="por">${esc(pie.firma)}</span>${pie.rol ? ` · <span>${esc(pie.rol)}</span>` : ''}</p>` : ''}
 </div></footer>
-<noscript><style>.sube{opacity:1;transform:none}</style></noscript>
+<noscript><style>.sube{opacity:1;transform:none}.chau p{clip-path:none}.chau img{opacity:1;transform:none}</style></noscript>
 </body>
 </html>
 `;
