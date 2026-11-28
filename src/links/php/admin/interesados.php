@@ -54,31 +54,47 @@ $entro = !empty($_SESSION['entro']);
 
 /* ---------- datos ---------- */
 $filas = [];
+$mensajes = [];
 $aviso = '';
 if ($entro) {
   try {
     $pdo = jardin_pdo();
     jardin_preparar_tablas($pdo);
     $filas = $pdo->query('SELECT id, creado, nombre, canal, contacto, quiere_leer, bar_recomendado, origen FROM interesados ORDER BY creado DESC, id DESC')->fetchAll();
+    $mensajes = $pdo->query('SELECT id, creado, nombre, contacto, mensaje, origen FROM mensajes ORDER BY creado DESC, id DESC')->fetchAll();
   } catch (Throwable $e) {
     error_log('interesados.php: ' . $e->getMessage());
     $aviso = 'No se pudo leer la base de datos. Probá de nuevo en un momento.';
   }
 
-  /* CSV para Excel / Google Sheets (con BOM y punto y coma, como espera Excel en español). */
+  /* CSV para Excel / Google Sheets (con BOM y punto y coma, como espera Excel en español).
+     ?csv=1 baja las personas anotadas; ?csv=mensajes, los mensajes de Alianzas. */
   if (isset($_GET['csv']) && $aviso === '') {
+    $esMensajes = $_GET['csv'] === 'mensajes';
     header('Content-Type: text/csv; charset=utf-8');
-    header('Content-Disposition: attachment; filename="interesados-' . date('Y-m-d') . '.csv"');
+    header('Content-Disposition: attachment; filename="' . ($esMensajes ? 'mensajes' : 'interesados') . '-' . date('Y-m-d') . '.csv"');
     $salida = fopen('php://output', 'w');
     fwrite($salida, "\xEF\xBB\xBF");
-    fputcsv($salida, ['Fecha', 'Nombre', 'Avisar por', 'Contacto', 'Qué quiere leer', 'Bar recomendado', 'Desde'], ';');
-    foreach ($filas as $f) {
-      fputcsv($salida, [$f['creado'], $f['nombre'], $f['canal'] === 'whatsapp' ? 'WhatsApp' : 'Mail', $f['contacto'], $f['quiere_leer'] ?? '', $f['bar_recomendado'] ?? '', $f['origen']], ';');
+    if ($esMensajes) {
+      fputcsv($salida, ['Fecha', 'Nombre', 'Contacto', 'Mensaje', 'Desde'], ';');
+      foreach ($mensajes as $m) fputcsv($salida, [$m['creado'], $m['nombre'], $m['contacto'], $m['mensaje'], $m['origen']], ';');
+    } else {
+      fputcsv($salida, ['Fecha', 'Nombre', 'Avisar por', 'Contacto', 'Qué quiere leer', 'Bar recomendado', 'Desde'], ';');
+      foreach ($filas as $f) {
+        fputcsv($salida, [$f['creado'], $f['nombre'], $f['canal'] === 'whatsapp' ? 'WhatsApp' : 'Mail', $f['contacto'], $f['quiere_leer'] ?? '', $f['bar_recomendado'] ?? '', $f['origen']], ';');
+      }
     }
     fclose($salida);
     exit;
   }
 }
+/* Mail o teléfono, según lo que haya escrito la persona. */
+$contactoLibreHtml = function (string $c) use ($h): string {
+  if (filter_var($c, FILTER_VALIDATE_EMAIL)) return '<a href="mailto:' . $h($c) . '">' . $h($c) . '</a>';
+  $n = preg_replace('/\D+/', '', $c) ?? '';
+  $wa = (strlen($n) === 10 ? '549' . $n : $n);
+  return $n ? '<a href="https://wa.me/' . $h($wa) . '" target="_blank" rel="noopener">' . $h($c) . '</a>' : $h($c);
+};
 
 $fecha = function (string $s): string {
   $t = strtotime($s);
@@ -165,6 +181,31 @@ input:focus{outline:2px solid var(--verde);border-color:var(--verde)}
           <td><?= $h($f['quiere_leer'] ?? '') ?></td>
           <td><?= $h($f['bar_recomendado'] ?? '') ?></td>
           <td><?= $h($f['origen']) ?></td>
+        </tr>
+      <?php endforeach; ?>
+      </tbody>
+    </table>
+  <?php endif; ?>
+  </div>
+
+  <div class="barra" style="margin-top:34px">
+    <span class="total"><?= count($mensajes) ?> <?= count($mensajes) === 1 ? 'mensaje desde el dossier' : 'mensajes desde el dossier' ?></span>
+    <span><a class="btn" href="interesados.php?csv=mensajes">Descargar CSV</a></span>
+  </div>
+  <div class="tabla">
+  <?php if (!$mensajes): ?>
+    <p class="vacio">Todavía no llegó ningún mensaje.</p>
+  <?php else: ?>
+    <table>
+      <thead><tr><th>Fecha</th><th>Nombre</th><th>Contacto</th><th>Mensaje</th><th>Desde</th></tr></thead>
+      <tbody>
+      <?php foreach ($mensajes as $m): ?>
+        <tr>
+          <td><?= $h($fecha($m['creado'])) ?></td>
+          <td><?= $h($m['nombre']) ?></td>
+          <td><?= $contactoLibreHtml($m['contacto']) ?></td>
+          <td style="white-space:pre-wrap;max-width:460px"><?= $h($m['mensaje']) ?></td>
+          <td><?= $h($m['origen']) ?></td>
         </tr>
       <?php endforeach; ?>
       </tbody>

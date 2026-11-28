@@ -50,11 +50,12 @@ async function servir(req, res) {
   if (ruta === '/links' || ruta.startsWith('/links/')) { base = 'links'; ruta = ruta.slice('/links'.length) || '/'; }
   // Solo en desarrollo: el original de claude.ai, para comparar lado a lado (no se publica).
   if (ruta.startsWith('/_origen/')) { raizDir = RAIZ; base = '_origen'; ruta = ruta.slice('/_origen'.length); }
-  // Solo en desarrollo: acá no hay PHP, así que el formulario "Quiero enterarme primero"
-  // recibe un {ok:true} de mentira (no guarda nada). En Hostinger corre api/anotate.php de verdad.
-  if (req.method === 'POST' && base === 'links' && ruta === '/api/anotate.php') {
+  // Solo en desarrollo: acá no hay PHP, así que los formularios ("Quiero enterarme primero" en la
+  // bio y en el dossier, y el mensaje de Alianzas) reciben un {ok:true} de mentira (no guardan nada).
+  // En Hostinger corren api/anotate.php y api/mensaje.php de verdad.
+  if (req.method === 'POST' && (ruta === '/api/anotate.php' || ruta === '/api/mensaje.php')) {
     let cuerpo = ''; for await (const trozo of req) cuerpo += trozo;
-    console.log('  (dev) POST api/anotate.php (simulado, no se guarda):', cuerpo.slice(0, 400));
+    console.log(`  (dev) POST ${base}${ruta} (simulado, no se guarda):`, cuerpo.slice(0, 400));
     await new Promise((r) => setTimeout(r, 700));
     res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
     return res.end('{"ok":true}');

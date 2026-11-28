@@ -29,22 +29,28 @@ export function mediosDossier(c) {
   return lista;
 }
 
-/** Secciones que van al menú: Inicio, cada bloque de texto con etiqueta (con la
-    página en la que está), Contacto. El menú es el mismo en todas las páginas. */
+/** Menú de tres puntitos: Inicio y una entrada por página del recorrido (pedido de Coco,
+    28/11/2026: Inicio · Sobre el club · Detalles · Alianzas). Igual en todas las páginas. */
 export function seccionesMenu(c) {
-  const usados = new Set(['inicio', 'contacto']);
   const items = [{ t: 'Inicio', id: 'inicio', pagina: null }];
+  for (const p of paginasDossier(c)) items.push({ t: p.menu || p.nombre, id: 'inicio', pagina: p.slug });
+  return items;
+}
+
+/** Ancla de cada bloque de texto con etiqueta (#sobre-el-club, #la-experiencia…), única por página. */
+function anclas(c) {
+  const usados = new Set(['inicio', 'contacto', 'sumate', 'recorrido']);
+  const mapa = new Map();
   c.blocks.forEach((b, i) => {
     const t = limpio(b.eb);
     if ((b.type === 'text' || b.type === 'manif') && t) {
       let id = slug(t) || 'seccion-' + i, base = id, n = 2;
       while (usados.has(id)) id = base + '-' + n++;
       usados.add(id);
-      items.push({ t, id, i, pagina: b.pagina || null });
+      mapa.set(i, id);
     }
   });
-  items.push({ t: 'Contacto', id: 'contacto', pagina: 'actual' });
-  return items;
+  return mapa;
 }
 
 const SIZES = {
@@ -77,7 +83,12 @@ function textBlock(b, id, ctx) {
   }
   h += parrafos(b.after).map((p) => `<p class="honest">${esc(p)}</p>`).join('');
   if (b.note) h += `<p class="note">${esc(b.note)}</p>`;
-  const side = b.side ? `<figure class="side rv">${ctx.media(b.side, { sizes: SIZES.side, lazy: true })}</figure>` : '';
+  /* Botones de web dentro del bloque (`botones`: [{ t, href, estilo: 'linea' }]): llevan a otra página o sección. */
+  if (Array.isArray(b.botones) && b.botones.length) {
+    h += `<div class="acciones">${b.botones.map((x) => `<a class="btn${x.estilo === 'linea' ? ' linea' : ''}" href="${esc(x.href || '#')}">${esc(x.t || '')} ${icono('fl', 'fl')}</a>`).join('')}</div>`;
+  }
+  // `sideEntera`: la foto del costado se ve completa y más chica (sin recorte), sobre el fondo del bloque.
+  const side = b.side ? `<figure class="side rv${b.sideEntera ? ' entera' : ''}">${ctx.media(b.side, { sizes: b.sideEntera ? '(min-width:860px) 420px, 72vw' : SIZES.side, lazy: true })}</figure>` : '';
   const cls = side ? ' has-side' : '';
   const idAttr = id ? ` id="${id}"` : '';
   if (th === 'negro') return `<section class="offer${cls}"${idAttr}><div class="text">${h}</div>${side}</section>`;
@@ -86,11 +97,19 @@ function textBlock(b, id, ctx) {
   return `<section class="text"${idAttr}>${h}</section>`;
 }
 
-function manifBlock(b, id) {
+/* Cita. Opciones: theme "negro" (fondo negro, firma rosa), cita (en Trazo y entre comillas),
+   chico (menos aire, como un corte) y firma "credito" (la misma firma del pie: "Por Luz A. Zapata · …"). */
+function manifBlock(b, id, c) {
   const idAttr = id ? ` id="${id}"` : '';
-  return `<section class="manif"${idAttr}><div class="text">${b.eb ? `<div class="eyebrow">${esc(b.eb)}</div>` : ''}` +
-    `<blockquote>${esc(b.q || '')}${b.qa ? ` <em>${esc(b.qa)}</em>` : ''}</blockquote>` +
-    `${b.firma ? `<div class="firma">${esc(b.firma)}</div>` : ''}</div></section>`;
+  const cls = 'manif' + (b.theme === 'negro' ? ' negro' : '') + (b.chico ? ' chico' : '') + (b.cita ? ' cita' : '');
+  const texto = b.cita ? `“${esc(b.q || '')}”` : esc(b.q || '');
+  const z = (c && c.close) || {};
+  const firma = b.firma === 'credito'
+    ? `<div class="firma credito">${z.name ? '<span class="por">Por </span>' : ''}<b class="who">${esc(z.name || '')}</b>${z.name && z.role ? '<span> · </span>' : ''}<span>${esc(z.role || '')}</span></div>`
+    : (b.firma ? `<div class="firma">${esc(b.firma)}</div>` : '');
+  return `<section class="${cls}"${idAttr}><div class="text">${b.eb ? `<div class="eyebrow">${esc(b.eb)}</div>` : ''}` +
+    `<blockquote${b.cita ? ' class="trazo"' : ''}>${texto}${b.qa ? ` <em>${esc(b.qa)}</em>` : ''}</blockquote>` +
+    `${firma}</div></section>`;
 }
 
 /* ---------- recorrido: un recuadro que lleva a la página siguiente ----------
@@ -114,7 +133,9 @@ function seguirBlock(c, pagina, ctx) {
   const pags = paginasDossier(c);
   const k = pagina ? pags.findIndex((p) => p.slug === pagina.slug) : -1;
   const sig = pags[k + 1];
-  if (!sig && !pagina) return '';
+  // Sin página siguiente no va nada: en el inicio no corresponde y en la última (Alianzas) la foto
+  // tiene que quedar pegada al pie, sin la franja de "Volver al inicio" (pedido de Coco).
+  if (!sig) return '';
   let h = `<section class="seguir" id="recorrido">`;
   if (sig) {
     if (sig.intro && (sig.intro.eb || sig.intro.h2)) {
@@ -153,27 +174,75 @@ function cabecera(c, pagina, ctx) {
     `<div class="eyebrow">${esc(c.cover.eb || '')}${c.cover.eb && pagina.nombre ? ' · ' : ''}${esc(pagina.nombre || '')}</div></header>\n`;
 }
 
-/* Cierre bordó: gato animado, logotipo crema, pregunta, botones y "Nos vemos entre las flores". */
-function cierre(c, sitio, ctx) {
-  const z = c.close;
-  const ig = sitio.instagram, wa = sitio.whatsapp;
-  const waUrl = `https://wa.me/${wa}?text=${encodeURIComponent(z.waMensaje || '')}`;
-  const boton = (href, ico, t, s) => `<a href="${href}" target="_blank" rel="noopener">${icono(ico, 'ico')}<span class="txt"><span class="t">${esc(t)}</span><span class="s">${esc(s)}</span></span>${icono('fl', 'fl')}</a>`;
-  let h = `<footer class="close" id="contacto"><div class="mark"><img class="cat" src="${ctx.url.catAnim}" alt="Gato negro del club" width="${ctx.cat.width}" height="${ctx.cat.height}" loading="lazy">` +
-    `<img class="name" src="${ctx.url.logoCrema}" alt="El jardín de los gatos negros" width="${ctx.logo.width}" height="${ctx.logo.height}" loading="lazy"></div>` +
+/* ---------- "¿Te gustaría sumarte?": el formulario paso a paso de la bio ----------
+   Mismo código (src/links/anotate.js) y mismos textos de preguntas (links.json → formulario,
+   que el build pasa en ctx.formulario), guardando en la misma base vía /api/anotate.php. */
+function sumateBlock(b, sitio, ctx) {
+  const f = ctx.formulario;
+  if (!f || !f.endpoint) return '';
+  const cfg = JSON.stringify({
+    endpoint: f.endpoint, origen: f.origen || 'dossier',
+    textos: { privacidad: f.privacidad || '', preguntas: f.preguntas || {}, ayudas: f.ayudas || {}, botones: f.botones || {}, errores: f.errores || {}, final: f.final || {} },
+    foto: f.foto ? ctx.media(f.foto, { lazy: true }) : '',
+  }).replace(/</g, '\\u003c');
+  const waUrl = `https://wa.me/${sitio.whatsapp}?text=${encodeURIComponent(b.waMensaje || 'Hola Luz, quiero enterarme primero del próximo encuentro del club.')}`;
+  return `<section class="sumate rv${b.theme === 'negro' ? ' negro' : ''}" id="sumate"><div class="encuentro" aria-label="${esc(b.eb || 'Sumate al club')}"><div class="caja" id="anotate">` +
+    (b.eb ? `<div class="eyebrow">${esc(b.eb)}</div>` : '') +
+    (b.h2 ? `<h2>${esc(b.h2)}</h2>` : '') +
+    (b.texto ? `<p class="d">${esc(b.texto)}</p>` : '') +
+    (b.cupos ? `<p class="cupos">${esc(b.cupos)}</p>` : '') +
+    `<button class="cta" type="button" id="abrir-anotate">${esc(b.boton || 'Quiero enterarme primero')}</button>` +
+    `<noscript><a class="cta" href="${esc(waUrl)}" target="_blank" rel="noopener">${esc(b.boton || 'Quiero enterarme primero')}</a></noscript>` +
+    `</div><input class="hp" type="text" name="web" tabindex="-1" autocomplete="off" aria-hidden="true">` +
+    `<script type="application/json" id="anotate-cfg">${cfg}</script></div></section>`;
+}
+
+/* Bloque de contacto (tipo `contacto`, en Alianzas, en negro, entre la marquesina y la foto de la web):
+   la pregunta para aliados y un formulario simple de mensaje (nombre, mail o teléfono, mensaje). */
+function contactoBlock(c, ctx) {
+  const z = c.close, m = z.mensaje || {};
+  const cfg = JSON.stringify({
+    endpoint: '/api/mensaje.php',
+    textos: { enviando: m.enviando || '', ok: m.ok || '', error: m.error || '', limite: m.limite || '', errores: m.errores || {} },
+  }).replace(/</g, '\\u003c');
+  return `<section class="contacto" id="contacto">` +
     (z.q ? `<p class="cta">${esc(z.q)}</p>` : '') + (z.qs ? `<p class="cta-sub">${esc(z.qs)}</p>` : '') +
+    `<form class="mensaje" id="mensaje" novalidate>` +
+    `<input name="nombre" autocomplete="name" maxlength="80" placeholder="${esc(m.nombre || 'Tu nombre')}" aria-label="${esc(m.nombre || 'Tu nombre')}">` +
+    `<input name="contacto" autocomplete="email" inputmode="email" maxlength="120" placeholder="${esc(m.contacto || 'Mail o teléfono')}" aria-label="${esc(m.contacto || 'Mail o teléfono')}">` +
+    `<textarea name="mensaje" rows="4" maxlength="3000" placeholder="${esc(m.texto || 'Tu mensaje')}" aria-label="${esc(m.texto || 'Tu mensaje')}"></textarea>` +
+    `<input class="hp" type="text" name="web" tabindex="-1" autocomplete="off" aria-hidden="true">` +
+    `<button class="enviar" type="submit">${esc(m.boton || 'Enviar mensaje')}</button>` +
+    `<p class="err" aria-live="polite"></p>` +
+    (m.privacidad ? `<p class="priv">${esc(m.privacidad)}</p>` : '') +
+    `</form><script type="application/json" id="mensaje-cfg">${cfg}</script></section>\n`;
+}
+
+/* Pie fijo de todas las páginas (bordó, como el cierre original): logotipo, Instagram · WhatsApp ·
+   TikTok · Email, "Nos vemos entre las flores" y la franja de créditos. */
+function pie(c, sitio, ctx, { conMarca = false } = {}) {
+  const z = c.close;
+  const ig = sitio.instagram, wa = sitio.whatsapp, tt = sitio.tiktok, mail = sitio.email;
+  const waUrl = `https://wa.me/${wa}?text=${encodeURIComponent(z.waMensaje || '')}`;
+  const boton = (href, ico, t, s, externo = true) => `<a href="${href}"${externo ? ' target="_blank" rel="noopener"' : ''}>${icono(ico, 'ico')}<span class="txt"><span class="t">${esc(t)}</span><span class="s">${esc(s)}</span></span>${icono('fl', 'fl')}</a>`;
+  // Solo al final del recorrido (última página) va el gato animado con el logotipo, como en el cierre original.
+  const marca = conMarca ? `<div class="mark"><img class="cat" src="${ctx.url.catAnim}" alt="Gato negro del club" width="${ctx.cat.width}" height="${ctx.cat.height}" loading="lazy">` +
+    `<img class="name" src="${ctx.url.logoCrema}" alt="El jardín de los gatos negros" width="${ctx.logo.width}" height="${ctx.logo.height}" loading="lazy"></div>` : '';
+  let h = `<footer class="pie${conMarca ? ' con-marca' : ''}">${marca}` +
     `<div class="contact">` +
     (ig ? boton(`https://www.instagram.com/${esc(ig)}/`, 'ig', 'Instagram', '@' + ig) : '') +
     (wa ? boton(esc(waUrl), 'wa', 'WhatsApp', sitio.whatsappVisible || wa) : '') +
+    (tt ? boton(`https://www.tiktok.com/@${esc(tt)}`, 'tt', 'TikTok', '@' + tt) : '') +
+    (mail ? boton(`mailto:${esc(mail)}?subject=${encodeURIComponent(z.mailAsunto || 'Vi el dossier de El Jardín de los Gatos Negros')}`, 'carta', 'Email', mail, false) : '') +
     `</div>` + (z.phrase ? `<p class="trazo phrase">${esc(z.phrase)}</p>` : '') + `</footer>\n`;
-  h += `<div class="credit">${z.name ? '<span class="por">Por </span>' : ''}<b class="who">${esc(z.name)}</b>${z.name && z.role ? '<span> · </span>' : ''}<span class="what">${esc(z.role)}</span></div>`;
+  h += `<div class="credit"><p>${z.name ? '<span class="por">Por </span>' : ''}<b class="who">${esc(z.name)}</b>${z.name && z.role ? '<span> · </span>' : ''}<span class="what">${esc(z.role)}</span></p></div>`;
   return h;
 }
 
 /** Cuerpo de una página. `pagina` es null para el inicio. */
 export function cuerpoDossier(c, sitio, ctx, pagina = null) {
   const menu = seccionesMenu(c);
-  const idDe = new Map(menu.filter((m) => m.i != null).map((m) => [m.i, m.id]));
+  const idDe = anclas(c);
   const actual = pagina ? pagina.slug : null;
   let h = pagina ? cabecera(c, pagina, ctx) : portada(c, ctx);
 
@@ -182,14 +251,17 @@ export function cuerpoDossier(c, sitio, ctx, pagina = null) {
     if ((b.pagina || null) !== actual) return;
     const id = idDe.get(i);
     if (b.type === 'text') h += textBlock(b, id, ctx);
-    else if (b.type === 'manif') h += manifBlock(b, id);
+    else if (b.type === 'manif') h += manifBlock(b, id, c);
     else if (b.type === 'seguir') h += seguirBlock(c, null, ctx);
+    else if (b.type === 'sumate') h += sumateBlock(b, sitio, ctx);
+    else if (b.type === 'contacto') h += contactoBlock(c, ctx);
     else if (b.type === 'palette') h += `<div class="wrap">${PALETTE}</div>`;
     else if (b.type === 'fonts') h += `<div class="wrap">${FONTS}</div>`;
     else if (b.type === 'full') {
       const m = b.imgs && b.imgs[0];
-      h += `<div class="wrap${b.bleed ? ' bleed' : ''}"><figure class="full${b.flush ? '' : ' rv'}${k === 0 || b.flush ? ' first' : ''}">` +
-        ctx.media(m, { sizes: b.bleed ? SIZES.bleed : SIZES.full, lazy: k > 1, prioridad: k === 0 }) + '</figure></div>';
+      // `chico`: la foto o el video se ven enteros y más chicos, centrados (no de borde a borde).
+      h += `<div class="wrap${b.bleed ? ' bleed' : ''}"><figure class="full${b.flush ? '' : ' rv'}${k === 0 || b.flush ? ' first' : ''}${b.chico ? ' chico' : ''}">` +
+        ctx.media(m, { sizes: b.chico ? '(min-width:760px) 640px, 72vw' : b.bleed ? SIZES.bleed : SIZES.full, lazy: k > 1, prioridad: k === 0 }) + '</figure></div>';
     } else if (b.type === 'duo') {
       h += `<div class="wrap"><div class="duo ${b.r === 'sq' ? 'sq' : 'tall'} rv">`;
       for (let j = 0; j < 2; j++) {
@@ -203,14 +275,12 @@ export function cuerpoDossier(c, sitio, ctx, pagina = null) {
   });
 
   if (pagina) h += seguirBlock(c, pagina, ctx) + '\n';
-  h += cierre(c, sitio, ctx);
+  const pags = paginasDossier(c);
+  const esUltima = pagina ? pags.length && pags[pags.length - 1].slug === pagina.slug : !pags.length;
+  h += pie(c, sitio, ctx, { conMarca: !!esUltima });
 
-  // Menú: ancla en la misma página (#id) o en otra (/pagina/#id). Contacto siempre es el de la página actual.
-  const href = (m) => {
-    const destino = m.pagina === 'actual' ? actual : m.pagina;
-    if (destino === actual) return `#${m.id}`;
-    return m.id === 'inicio' ? rutaPagina(destino) : `${rutaPagina(destino)}#${m.id}`;
-  };
+  // Menú: la página actual se enlaza con ancla al principio (#inicio); las demás, por su ruta.
+  const href = (m) => (m.pagina === actual ? `#${m.id}` : rutaPagina(m.pagina));
   const nav = `<button class="menu-btn" id="mb" type="button" aria-label="Ir a una sección" aria-expanded="false" aria-controls="mn"><span></span><span></span><span></span></button>\n` +
     `<nav class="menu" id="mn" hidden aria-label="Secciones">${menu.map((m) => `<a href="${href(m)}">${esc(m.t)}</a>`).join('')}</nav>`;
   return { cuerpo: h, nav };

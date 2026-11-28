@@ -5,34 +5,28 @@
     "place": "Villa Allende · Córdoba"
   },
   "recorrido": {
-    "_ayuda": "El dossier se reparte en el inicio y estas páginas, en cadena: el inicio termina con un recuadro que lleva a la primera, cada página termina con el recuadro de la siguiente y la última termina en el contacto. Cada bloque dice en qué página va con \"pagina\" (sin ese campo, queda en el inicio). El recuadro de cada página (rótulo, frase, texto y botón) es el que lleva HACIA ella; \"intro\" es el título que va arriba de ese recuadro, si lo tiene.",
+    "_ayuda": "El dossier se reparte en el inicio y estas páginas, en cadena: el inicio termina con un recuadro que lleva a la primera, cada página termina con el recuadro de la siguiente y la última termina en el contacto. Cada bloque dice en qué página va con \"pagina\" (sin ese campo, queda en el inicio). El recuadro de cada página (rótulo, frase, texto y botón) es el que lleva HACIA ella; \"intro\" es el título que va arriba de ese recuadro, si lo tiene. El menú de tres puntitos se arma con Inicio + el nombre de cada página.",
     "volver": "Volver al inicio",
     "paginas": [
       {
-        "slug": "encuentros",
-        "nombre": "Encuentros",
+        "slug": "sobre-el-club",
+        "nombre": "Sobre el club",
         "theme": "crema",
-        "phrase": "Mirá lo que hacemos",
-        "eb": "¿Te interesa sumarte?",
-        "body": "Cómo son los encuentros, qué leemos cada trimestre y en qué cafés nos vemos.",
-        "boton": "Conocer los encuentros",
+        "eb": "¿Querés saber más?",
+        "phrase": "Conocé el club por dentro",
+        "boton": "Conocer más sobre el club",
         "seo": {
-          "titulo": "Encuentros y ciclos de lectura · El Jardín de los Gatos Negros",
-          "descripcion": "Cómo son los encuentros del club de lectura de Villa Allende: un libro por ciclo, mesas de 5 a 10 personas, cafés con encanto en Sierras Chicas y tres miradas para elegir las lecturas."
+          "titulo": "Sobre el club · Club de lectura en Villa Allende · El Jardín de los Gatos Negros",
+          "descripcion": "Cómo es El Jardín de los Gatos Negros, club de lectura presencial en Villa Allende, Córdoba: manifiesto, encuentros en cafés de Sierras Chicas, mesas de 5 a 10 personas y tres miradas para elegir las lecturas de cada trimestre."
         }
       },
       {
         "slug": "detalles",
         "nombre": "Detalles",
         "theme": "bordo",
-        "intro": {
-          "eb": "¿Por dónde seguís?",
-          "h2": "El jardín tiene más rincones para recorrer."
-        },
-        "phrase": "Mirá lo que te podés llevar en cada encuentro",
-        "eb": "Detalles del jardín",
-        "body": "Señaladores, stickers, libretas y sorteos para que el club siga después del encuentro.",
-        "boton": "Ver los detalles",
+        "eb": "Además, tenemos merch",
+        "phrase": "Mirá lo que te podés llevar",
+        "boton": "Quiero ver",
         "seo": {
           "titulo": "Detalles del jardín · El Jardín de los Gatos Negros",
           "descripcion": "Señaladores, stickers, libretas, bolsas y sorteos con la estética del club de lectura de Villa Allende, para que la experiencia siga en tu casa."
@@ -43,10 +37,9 @@
         "nombre": "Alianzas",
         "theme": "negro",
         "mk": "gato",
-        "phrase": "Saltá el muro con nosotros",
-        "eb": "Alianzas & colaboraciones",
-        "body": "Si escribís, tenés una librería, una editorial o un café, hay un lugar para tu marca en el jardín.",
-        "boton": "Quiero colaborar",
+        "eb": "Para autores, editoriales, librerías y cafés",
+        "phrase": "Quiero colaborar",
+        "boton": "Ver las alianzas",
         "seo": {
           "titulo": "Alianzas y colaboraciones · El Jardín de los Gatos Negros",
           "descripcion": "Escritores, editoriales, librerías y cafés de Villa Allende y Sierras Chicas: cómo colaborar con el club de lectura El Jardín de los Gatos Negros."
@@ -70,31 +63,23 @@
       "type": "text",
       "theme": "crema",
       "phrase": "Quizás usted también sea un gato negro.",
-      "h2": "Te damos la bienvenida al jardín."
-    },
-    {
-      "id": "b64587",
-      "type": "text",
-      "theme": "bordo",
-      "eb": "SOBRE EL CLUB",
-      "h2": "Un club de lectura (y quizás algo más)",
-      "body": "Queremos crear un espacio de encuentro presencial en Villa Allende donde disfrutar del buen gusto por la literatura y todo aquello que florece alrededor de un buen libro."
-    },
-    {
-      "id": "b7",
-      "type": "full",
-      "imgs": [
-        {
-          "src": "img/afiche.jpg",
-          "alt": "Afiche del club entre amapolas"
-        }
-      ]
+      "h2": "Te damos la bienvenida al jardín.",
+      "side": {
+        "src": "img/afiche.jpg",
+        "alt": "Afiche del club entre amapolas"
+      },
+      "_ayuda": "Bienvenida con el afiche al costado: en compu entero y más chico, en celu grande como antes.",
+      "sideEntera": true
     },
     {
       "id": "b894455",
       "type": "manif",
       "q": "Abrir un libro es sostener un jardín.",
-      "firma": "POR LUZ ALTAMIRANO ZAPATA"
+      "firma": "credito",
+      "theme": "negro",
+      "cita": true,
+      "chico": true,
+      "_ayuda": "Cita en negro, chica, en Trazo con comillas; la firma es la misma del pie (close.name + close.role)."
     },
     {
       "id": "bstk",
@@ -104,6 +89,22 @@
           "video": "img/stickers-v3.mp4",
           "poster": "img/stickers-poster.jpg",
           "alt": "Stickers animados del club, de a dos"
+        }
+      ],
+      "chico": true,
+      "_ayuda": "Stickers más chicos y enteros (chico), debajo de la bienvenida."
+    },
+    {
+      "id": "b64587",
+      "type": "text",
+      "theme": "bordo",
+      "eb": "SOBRE EL CLUB",
+      "h2": "Un club de lectura (y quizás algo más)",
+      "body": "Queremos crear un espacio de encuentro presencial en Villa Allende donde disfrutar del buen gusto por la literatura y todo aquello que florece alrededor de un buen libro.",
+      "botones": [
+        {
+          "t": "Quiero conocer el club",
+          "href": "/sobre-el-club/"
         }
       ]
     },
@@ -118,12 +119,8 @@
       "side": {
         "src": "img/gata-manifiesto-v2.jpg",
         "alt": "Gata negra de Luz, de perfil, con collar rojo"
-      }
-    },
-    {
-      "id": "brec",
-      "type": "seguir",
-      "_ayuda": "Recuadro que lleva a la primera página del recorrido."
+      },
+      "pagina": "sobre-el-club"
     },
     {
       "id": "b5",
@@ -151,7 +148,7 @@
         }
       ],
       "mk": "num",
-      "pagina": "encuentros"
+      "pagina": "sobre-el-club"
     },
     {
       "id": "b21",
@@ -162,7 +159,7 @@
           "alt": "Cartel del club en un jardín: nos vemos adentro"
         }
       ],
-      "pagina": "encuentros"
+      "pagina": "sobre-el-club"
     },
     {
       "id": "b6",
@@ -178,7 +175,7 @@
           "alt": "Pases, tarjetas y stickers del club sobre una mesa de café"
         }
       ],
-      "pagina": "encuentros"
+      "pagina": "sobre-el-club"
     },
     {
       "id": "b894456",
@@ -202,7 +199,7 @@
         }
       ],
       "mk": "punto",
-      "pagina": "encuentros"
+      "pagina": "sobre-el-club"
     },
     {
       "id": "b15",
@@ -213,7 +210,18 @@
           "alt": "Señalador del club dentro de un libro"
         }
       ],
-      "pagina": "encuentros"
+      "pagina": "sobre-el-club"
+    },
+    {
+      "id": "bsumate",
+      "type": "sumate",
+      "_ayuda": "Formulario \"Quiero enterarme primero\": es el mismo de la bio (los textos de las preguntas salen de links.json → formulario) y guarda en la misma base. Acá van solo los textos del recuadro antes de abrirlo. Va en negro con letra rosa (theme).",
+      "h2": "¿Te gustaría sumarte?",
+      "texto": "Anotate y te avisamos con anticipación todo sobre el primer encuentro en Villa Allende.",
+      "cupos": "¡Cupos limitados!",
+      "boton": "Quiero estar en el jardín",
+      "pagina": "sobre-el-club",
+      "theme": "negro"
     },
     {
       "id": "b13",
@@ -325,6 +333,12 @@
       "pagina": "alianzas"
     },
     {
+      "id": "bcontacto",
+      "type": "contacto",
+      "pagina": "alianzas",
+      "_ayuda": "La pregunta para aliados y el formulario de mensaje (textos en close). En negro, entre la marquesina y la foto de la web."
+    },
+    {
       "id": "bweb",
       "type": "full",
       "imgs": [
@@ -343,6 +357,23 @@
     "q": "¿Te gustaría que tu obra, catálogo o espacio formen parte de nuestros encuentros?",
     "qs": "¡Escribinos y coordinemos juntos!",
     "waMensaje": "Hola Luz, vi el dossier de El Jardín de los Gatos Negros.",
-    "_ayuda": "Cierre bordó. El Instagram y el WhatsApp salen de sitio.json."
+    "_ayuda": "Cierre bordó. El Instagram y el WhatsApp salen de sitio.json.",
+    "mensaje": {
+      "_ayuda": "Formulario de mensaje del cierre de Alianzas (api/mensaje.php). Los textos de los campos son lo que se ve adentro de cada casillero.",
+      "nombre": "Tu nombre",
+      "contacto": "Mail o teléfono",
+      "texto": "Contanos qué tenés en mente: tu libro, tu catálogo, tu espacio…",
+      "boton": "Enviar mensaje",
+      "enviando": "Un momento…",
+      "ok": "¡Gracias! Leemos tu mensaje y te respondemos a la brevedad.",
+      "error": "No pudimos enviar el mensaje. Probá de nuevo en un momento o escribinos por WhatsApp.",
+      "limite": "Ya recibimos varios mensajes desde tu conexión. Probá de nuevo más tarde.",
+      "errores": {
+        "nombre": "Contanos tu nombre.",
+        "contacto": "Dejanos un mail o un teléfono para responderte.",
+        "mensaje": "Contanos un poco más en el mensaje."
+      },
+      "privacidad": "Usamos tus datos solo para responderte."
+    }
   }
 }

@@ -188,12 +188,19 @@ function headIconos(ic, sitio, prefijo = '') {
 /* ---------- el dossier ---------- */
 export async function construirDossier() {
   const sitio = await leerJson(path.join(CONTENIDO, 'sitio.json'));
-  const c = await leerJson(path.join(CONTENIDO, 'dossier.json'));
+  // JARDIN_DOSSIER_JSON permite armar una variante del dossier (por ejemplo, para comparar opciones) sin tocar contenido/.
+  const c = await leerJson(process.env.JARDIN_DOSSIER_JSON ? path.resolve(process.env.JARDIN_DOSSIER_JSON) : path.join(CONTENIDO, 'dossier.json'));
   const salida = new Salida(path.join(DIST, 'dossier'));
   await salida.limpiar();
 
   const comp = await recursosCompartidos(salida);
-  const mapa = await prepararMedios(salida, mediosDossier(c));
+  // El formulario "Quiero enterarme primero" del inicio es el mismo de la bio: textos de links.json,
+  // mismo script (src/links/anotate.js) y misma API, publicada también acá en /api/.
+  const links = await leerJson(path.join(CONTENIDO, 'links.json')).catch(() => ({}));
+  const formulario = links.formulario ? { ...links.formulario, endpoint: '/api/anotate.php', origen: 'dossier' } : null;
+  const mapa = await prepararMedios(salida, [...mediosDossier(c), ...(formulario && formulario.foto ? [formulario.foto] : [])]);
+  const apiDir = path.join(SRC, 'links/php/api');
+  for (const f of await fs.readdir(apiDir)) await salida.fijo(`api/${f}`, await leer(path.join(apiDir, f)));
   const { esc } = await import('../src/dossier/plantilla.mjs');
   const url = { ...comp.url };
   url.js = await jsConHash(salida, path.join(SRC, 'dossier/dossier.js'), 'dossier');
@@ -209,6 +216,7 @@ export async function construirDossier() {
     css: await cssInline([path.join(SRC, 'compartido/css/base.css'), path.join(SRC, 'dossier/dossier.css')], abs),
     scriptInicial: SCRIPT_INICIAL,
     head: { iconos: headIconos(comp.iconos, sitio, '/') },
+    formulario,
   };
   await salida.fijo('index.html', Buffer.from(renderDossier(c, sitio, ctx)));
   const paginas = paginasDossier(c);

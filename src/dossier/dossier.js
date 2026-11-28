@@ -4,12 +4,14 @@
    el menú de secciones y el control de los videos.
    ========================================================================== */
 import { escritorDeLogo } from '../compartido/js/escribir-logo.js';
+import { iniciarAnotate } from '../links/anotate.js';
 
 (function () {
   'use strict';
 
   var doc = document, root = doc.documentElement, app = doc.getElementById('app');
   if (!app) return;
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
 
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var hasIO = 'IntersectionObserver' in window;
@@ -21,7 +23,7 @@ import { escritorDeLogo } from '../compartido/js/escribir-logo.js';
      todo de la pantalla, así vuelve a moverse al pasar de nuevo. */
   function reveal() {
     var fotos = app.querySelectorAll('.rv');
-    var textos = app.querySelectorAll('.text > *:not(.steps), .text .steps > li, .seguir .card, .seguir .volver, .close .cta, .close .cta-sub, .close .phrase, .close .contact > *');
+    var textos = app.querySelectorAll('.text > *:not(.steps), .text .steps > li, .seguir .card, .seguir .volver, .contacto .cta, .contacto .cta-sub, .contacto .mensaje, .pie .contact > *, .pie .phrase');
     if (reduce || !hasIO) {
       fotos.forEach(function (e) { e.classList.add('in'); });
       return;
@@ -126,7 +128,7 @@ import { escritorDeLogo } from '../compartido/js/escribir-logo.js';
   /* ---------- recuadros y botones: se corren a la derecha mientras se tocan ----------
      En el celular no hay hover, así que la clase .tocada reproduce el gesto (igual que en la bio). */
   function vigilarToques() {
-    app.querySelectorAll('.card, .contact a').forEach(function (a) {
+    app.querySelectorAll('.card, .contact a, .text .btn').forEach(function (a) {
       var soltar = function () { setTimeout(function () { a.classList.remove('tocada'); }, 180); };
       a.addEventListener('pointerdown', function () { a.classList.add('tocada'); });
       a.addEventListener('pointerup', soltar);
@@ -135,9 +137,59 @@ import { escritorDeLogo } from '../compartido/js/escribir-logo.js';
     });
   }
 
+  /* ---------- formulario de mensaje del cierre (Alianzas) ----------
+     Manda nombre, mail o teléfono y mensaje a /api/mensaje.php y muestra el agradecimiento. */
+  function iniciarMensaje() {
+    var f = doc.getElementById('mensaje'), cfgEl = doc.getElementById('mensaje-cfg');
+    if (!f || !cfgEl) return;
+    var cfg; try { cfg = JSON.parse(cfgEl.textContent); } catch (_) { return; }
+    var T = cfg.textos || {}, E = T.errores || {}, t0 = Date.now(), enviando = false;
+    var err = f.querySelector('.err'), btn = f.querySelector('.enviar');
+    var fallo = function (msg, campo) { err.textContent = msg || ''; if (campo) campo.focus({ preventScroll: true }); };
+    f.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (enviando) return;
+      var nombre = f.nombre.value.trim(), contacto = f.contacto.value.trim(), mensaje = f.mensaje.value.trim();
+      if (!nombre) return fallo(E.nombre || 'Contanos tu nombre.', f.nombre);
+      var esMail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(contacto), dig = contacto.replace(/\D+/g, '');
+      if (!contacto || (!esMail && (dig.length < 8 || dig.length > 15))) return fallo(E.contacto || 'Dejanos un mail o un teléfono.', f.contacto);
+      if (mensaje.length < 5) return fallo(E.mensaje || 'Contanos un poco más.', f.mensaje);
+      enviando = true; btn.disabled = true; err.textContent = '';
+      var etiqueta = btn.textContent; btn.textContent = T.enviando || 'Un momento…';
+      var listo = function () { enviando = false; if (doc.body.contains(btn)) { btn.disabled = false; btn.textContent = etiqueta; } };
+      fetch(cfg.endpoint, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nombre: nombre, contacto: contacto, mensaje: mensaje, origen: 'dossier', web: f.web ? f.web.value : '', t: Date.now() - t0 }),
+      }).then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (j) {
+          if (r.ok && j && j.ok) { f.innerHTML = '<p class="gracias">' + esc(T.ok || '¡Gracias! Te respondemos a la brevedad.') + '</p>'; return; }
+          fallo(j && j.error === 'limite' ? (T.limite || T.error) : (T.error || 'No pudimos enviar el mensaje.'));
+          listo();
+        });
+      }).catch(function () { fallo(T.error || 'No pudimos enviar el mensaje.'); listo(); });
+    });
+  }
+
+  /* ---------- créditos en dos líneas completas ----------
+     "Por Luz A. Zapata · comunicadora social…" va justificado; se achica la letra (de 15 a 11 px)
+     hasta que entre en dos renglones, y se vuelve a calcular si cambia el ancho. */
+  function ajustarCreditos() {
+    var p = doc.querySelector('.credit p');
+    if (!p) return;
+    var fs = 15;
+    p.style.fontSize = fs + 'px';
+    var lh = parseFloat(getComputedStyle(p).lineHeight) || fs * 1.5;
+    while (p.offsetHeight > lh * 2 + 3 && fs > 11) { fs -= 0.5; p.style.fontSize = fs + 'px'; lh = parseFloat(getComputedStyle(p).lineHeight) || fs * 1.5; }
+  }
+  addEventListener('resize', ajustarCreditos);
+  if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(ajustarCreditos);
+
   /* ---------- arranque ---------- */
   reveal();
   vigilarToques();
+  iniciarAnotate();
+  iniciarMensaje();
+  ajustarCreditos();
   vigilarVideos();
   logo.escribir();
   vigilarPortada();
