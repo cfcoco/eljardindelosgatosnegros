@@ -37,9 +37,10 @@
         "nombre": "Alianzas",
         "theme": "negro",
         "mk": "gato",
-        "eb": "Para autores, editoriales, librerías y cafés",
-        "phrase": "Quiero colaborar",
-        "boton": "Ver las alianzas",
+        "phrase": "Ser parte del jardín",
+        "eb": "Alianzas & colaboraciones",
+        "body": "¿Tenés una idea o una propuesta para hacer crecer el club? Tenemos un lugar para vos.",
+        "boton": "Quiero colaborar",
         "seo": {
           "titulo": "Alianzas y colaboraciones · El Jardín de los Gatos Negros",
           "descripcion": "Escritores, editoriales, librerías y cafés de Villa Allende y Sierras Chicas: cómo colaborar con el club de lectura El Jardín de los Gatos Negros."
@@ -72,14 +73,19 @@
       "sideEntera": true
     },
     {
-      "id": "b894455",
-      "type": "manif",
-      "q": "Abrir un libro es sostener un jardín.",
-      "firma": "credito",
-      "theme": "negro",
-      "cita": true,
-      "chico": true,
-      "_ayuda": "Cita en negro, chica, en Trazo con comillas; la firma es la misma del pie (close.name + close.role)."
+      "id": "b64587",
+      "type": "text",
+      "theme": "frambuesa",
+      "eb": "SOBRE EL PROYECTO",
+      "h2": "Un club de lectura (y quizás algo más)",
+      "body": "Queremos crear un espacio de encuentro presencial en Villa Allende donde disfrutar del buen gusto por la literatura y todo aquello que florece alrededor de un buen libro.",
+      "botones": [
+        {
+          "t": "Quiero saber más",
+          "href": "/sobre-el-club/"
+        }
+      ],
+      "_ayuda": "Bloque en frambuesa (#953651) para que contraste con el pie bordó."
     },
     {
       "id": "bstk",
@@ -92,21 +98,7 @@
         }
       ],
       "chico": true,
-      "_ayuda": "Stickers más chicos y enteros (chico), debajo de la bienvenida."
-    },
-    {
-      "id": "b64587",
-      "type": "text",
-      "theme": "bordo",
-      "eb": "SOBRE EL CLUB",
-      "h2": "Un club de lectura (y quizás algo más)",
-      "body": "Queremos crear un espacio de encuentro presencial en Villa Allende donde disfrutar del buen gusto por la literatura y todo aquello que florece alrededor de un buen libro.",
-      "botones": [
-        {
-          "t": "Quiero conocer el club",
-          "href": "/sobre-el-club/"
-        }
-      ]
+      "_ayuda": "Stickers animados, enteros y más grandes en celu. Van en el inicio, debajo de \"Sobre el proyecto\"."
     },
     {
       "id": "b685641",
@@ -120,6 +112,21 @@
         "src": "img/gata-manifiesto-v2.jpg",
         "alt": "Gata negra de Luz, de perfil, con collar rojo"
       },
+      "pagina": "sobre-el-club"
+    },
+    {
+      "id": "b894455",
+      "type": "manif",
+      "q": "Abrir un libro es sostener un jardín.",
+      "firma": "Por Luz A. Zapata",
+      "theme": "negro",
+      "cita": true,
+      "chico": true,
+      "foto": {
+        "src": "img/luz.jpg",
+        "alt": "Luz Altamirano Zapata, creadora del club"
+      },
+      "_ayuda": "Corte negro con la frase en Trazo (entre comillas, en 2 líneas), la firma en una línea y el retrato cuadrado de Luz al costado. Va en Sobre el club, justo debajo del manifiesto (\"Una invitación a saltar el muro\"). Para cambiar la foto, reemplazá contenido/img/luz.jpg por otra foto cuadrada.",
       "pagina": "sobre-el-club"
     },
     {
@@ -354,10 +361,10 @@
     "phrase": "Nos vemos entre las flores",
     "name": "Luz A.Zapata",
     "role": "comunicadora social, dueña de cuatro hermosos gatos negros y creadora del club.",
-    "q": "¿Te gustaría que tu obra, catálogo o espacio formen parte de nuestros encuentros?",
-    "qs": "¡Escribinos y coordinemos juntos!",
+    "q": "Nos encantaría saber tu propuesta.",
+    "qs": "¡Escribinos!",
     "waMensaje": "Hola Luz, vi el dossier de El Jardín de los Gatos Negros.",
-    "_ayuda": "Cierre bordó. El Instagram y el WhatsApp salen de sitio.json.",
+    "_ayuda": "Datos del pie de todas las páginas: \"Nos vemos entre las flores\" (phrase) y la firma de abajo (name + role). El Instagram, el WhatsApp, el TikTok y el mail salen de sitio.json. La pregunta y el formulario de mensaje de Alianzas están en q, qs y mensaje.",
     "mensaje": {
       "_ayuda": "Formulario de mensaje del cierre de Alianzas (api/mensaje.php). Los textos de los campos son lo que se ve adentro de cada casillero.",
       "nombre": "Tu nombre",

@@ -89,6 +89,7 @@ body{background:var(--crema);color:var(--negro);font-size:18px;line-height:1.55}
 
 /* ---------- texto sobre fondo bordó ---------- */
 .tbordo{background:var(--bordo);color:var(--crema);margin-top:var(--gap)}
+.tbordo.fram{background:var(--frambuesa)}
 .tbordo .text{padding:84px 24px}
 .tbordo .eyebrow,.tbordo .big-phrase{color:var(--crema)}
 .tbordo .steps li{border-color:rgba(241,240,235,.22)}
@@ -112,7 +113,11 @@ body{background:var(--crema);color:var(--negro);font-size:18px;line-height:1.55}
    al costado) hay más aire entre la frase en Trazo y el título. */
 .has-side .side.entera{background:transparent;display:flex;align-items:center;justify-content:center;padding:0}
 .has-side .side.entera img,.has-side .side.entera video{width:100%;height:auto;aspect-ratio:auto;min-height:0;object-fit:contain}
-.full.chico{max-width:min(72vw,640px);margin-left:auto;margin-right:auto;padding:28px 0 20px}
+.full.chico{max-width:none;padding:14px 0 6px;overflow:hidden}
+/* El video de stickers trae mucho aire cremoso alrededor: un acercamiento del 20 % (centrado en los
+   stickers) los muestra más grandes sin cortar ninguno. */
+.full.chico video,.full.chico img{transform:scale(1.2);transform-origin:48.4% 50%}
+@media (min-width:760px){.full.chico{max-width:760px;margin-left:auto;margin-right:auto;padding:28px 0 20px}}
 .tcrema.has-side .big-phrase{margin-bottom:44px}
 @media (min-width:860px){
   /* En compu la foto del costado va entera y más chica; en celu, grande como antes. */
@@ -121,12 +126,27 @@ body{background:var(--crema);color:var(--negro);font-size:18px;line-height:1.55}
   .tcrema.has-side .big-phrase{margin-bottom:52px}
 }
 /* Cita en negro, chica, en Trazo con comillas y la firma del pie (antes de los stickers del inicio). */
+/* Bienvenida compacta (`compacto` en el JSON): la frase en Trazo en una sola línea arriba y, debajo, el saludo a la izquierda y el
+   afiche entero a la derecha, también en celu (como la cita con la foto). Solo se usa si el bloque lleva `compacto: true`. */
+.has-side.compacto{display:grid;grid-template-columns:minmax(0,1fr) clamp(128px,40vw,380px);column-gap:18px;row-gap:16px;align-items:center;padding:44px 24px 48px}
+.has-side.compacto .text{display:contents}
+.has-side.compacto .big-phrase{grid-column:1/-1;grid-row:1;margin:0;font-size:min(4.7vw,46px);white-space:nowrap}
+.has-side.compacto h2{grid-column:1;grid-row:2;margin:0;font-size:clamp(20px,5.6vw,36px);line-height:1.1}
+.has-side.compacto .side{grid-column:2;grid-row:2}
+.has-side.compacto .side.entera{padding:0}
+.has-side.compacto .side.entera img{width:100%}
+@media (min-width:860px){.has-side.compacto{max-width:1000px;margin-left:auto;margin-right:auto;column-gap:56px;padding:72px 24px}.has-side.compacto .side.entera{padding:0}.has-side.compacto .side.entera img{width:100%}}
 .manif.negro{background:var(--negro)}
 .manif.negro .firma{color:var(--rosa)}
 .manif.chico .text{padding:52px 26px 48px}
+.manif.con-foto .text{display:grid;grid-template-columns:minmax(0,1fr) clamp(96px,29vw,300px);gap:16px;align-items:center}
+.manif.con-foto .firma{margin-top:14px;font-size:12px;letter-spacing:.1em;white-space:nowrap}
+/* En celu la frase se achica para que entre en 2 líneas y la firma en 1; en compu vuelve al tamaño grande. */
+.manif.con-foto.cita blockquote{font-size:clamp(16px,5.3vw,42px);line-height:1.15;text-wrap:balance}
+.manif .foto-autora{margin:0;aspect-ratio:1/1;overflow:hidden;background:#1a1a1a}
+.manif .foto-autora img{width:100%;height:100%;object-fit:cover}
+@media (min-width:760px){.manif.con-foto .text{max-width:860px;gap:48px;grid-template-columns:minmax(0,1fr) 300px}.manif.con-foto.chico .text{padding:64px 24px}.manif.con-foto.cita blockquote{font-size:42px}.manif.con-foto .firma{font-size:14px;letter-spacing:.14em}}
 .manif.cita blockquote{font-size:clamp(28px,7.4vw,42px);line-height:1.15;color:var(--crema)}
-.manif .firma.credito{text-transform:none;letter-spacing:0;font-weight:400;font-size:14px;line-height:1.5;color:var(--rosa);margin-top:18px}
-.manif .firma.credito .por,.manif .firma.credito .who{font-family:Trazo,Gabarito,serif;font-weight:400;font-size:20px;line-height:1;color:var(--rosa)}
 /* "¿Te gustaría sumarte?" en negro con letra rosa (Sobre el club), como un cambio de ritmo. */
 .sumate.negro .encuentro{background:var(--negro);color:var(--crema);box-shadow:none}
 .sumate.negro .encuentro .eyebrow,.sumate.negro .encuentro h2,.sumate.negro .encuentro .q,.sumate.negro .encuentro .cupos,.sumate.negro .ok .gr,.sumate.negro .ok .ver{color:var(--rosa)}
@@ -148,6 +168,11 @@ body{background:var(--crema);color:var(--negro);font-size:18px;line-height:1.55}
 
 /* ---------- contacto (Alianzas, en negro): pregunta + formulario de mensaje ---------- */
 .contacto{position:relative;background:var(--negro);color:var(--crema);margin-top:var(--gap);text-align:center;padding:84px 24px 80px}
+/* En Alianzas el formulario queda pegado a la marquesina, sin la línea crema del medio. */
+.wrap+.contacto{margin-top:0}
+/* La marquesina (video pegado a otros bloques) se recorta 2 px abajo: en el celular el video dejaba una raya clara de 1 px en su borde. */
+.wrap.bleed .full.first{overflow:hidden}
+.wrap.bleed .full.first video{margin-bottom:-2px}
 .contacto .mensaje{max-width:460px;margin:0 auto;display:grid;gap:12px;text-align:left}
 .contacto .mensaje input,.contacto .mensaje textarea{width:100%;background:rgba(241,240,235,.08);border:1px solid rgba(241,240,235,.45);border-radius:14px;color:var(--crema);font-family:inherit;font-weight:400;font-size:17px;line-height:1.4;padding:14px 15px;outline:none;transition:border-color .2s,background .2s}
 .contacto .mensaje input:focus,.contacto .mensaje textarea:focus{border-color:var(--crema);background:rgba(241,240,235,.14)}
@@ -168,11 +193,26 @@ body{background:var(--crema);color:var(--negro);font-size:18px;line-height:1.55}
 .pie.con-marca{padding-top:90px}
 /* En Alianzas la foto de la web queda pegada al bloque bordó, sin franja crema en el medio. */
 .wrap+.pie.con-marca{margin-top:0}
-.pie .mark{width:min(52vw,260px);margin:0 auto 64px}
+.pie .mark{width:min(52vw,260px);margin:0 auto 44px}
 .pie .mark .cat{width:100%;display:block}
 .pie .mark .name{width:100%;display:block;margin-top:10%}
 .pie .phrase{font-size:clamp(30px,8vw,44px);margin:52px 0 0;color:var(--crema)}
 @media (min-width:1100px){.pie .contact{grid-template-columns:repeat(4,1fr);max-width:1180px}}
+/* Fila de íconos (pie de Inicio, Sobre el club y Detalles): WhatsApp · Instagram · TikTok · Email, uno al lado del otro,
+   solo el ícono en un círculo (sin el nombre), también en compu. */
+.pie .contact.iconos{display:flex;flex-wrap:nowrap;justify-content:center;gap:14px;max-width:none;margin:0 auto}
+.pie .contact.iconos a{flex:none;width:58px;height:58px;padding:0;justify-content:center;gap:0;border-radius:50%}
+.pie .contact.iconos .txt,.pie .contact.iconos .fl{display:none}
+.pie .contact.iconos .ico{width:28px;height:28px}
+@media (min-width:760px){.pie .contact.iconos{gap:18px}}
+.pie:not(.con-marca){padding:38px 24px 36px}
+.pie:not(.con-marca) .phrase{margin-top:22px}
+/* Última página (con el gato animado y el logotipo): también solo íconos, y la frase final se "escribe" de izquierda a derecha
+   cuando aparece en pantalla (solo si el navegador permite animaciones; sin JavaScript o con movimiento reducido se ve entera). */
+.pie.con-marca .phrase{margin-top:30px}
+.pie.con-marca .phrase.rv2{clip-path:inset(-12% 100% -12% 0)}
+.pie.con-marca .phrase.rv2.in{clip-path:inset(-12% 0 -12% 0);transition:opacity .9s ease,transform 1.2s cubic-bezier(.16,1,.3,1),clip-path 2.2s cubic-bezier(.2,.7,.2,1) .25s}
+@media (prefers-reduced-motion:reduce){.pie.con-marca .phrase.rv2{clip-path:none}}
 
 /* ---------- "¿Te gustaría sumarte?": el formulario de la bio dentro del dossier ----------
    Copia de las reglas de src/links/links.css (mismas medidas aprobadas), porque anotate.js

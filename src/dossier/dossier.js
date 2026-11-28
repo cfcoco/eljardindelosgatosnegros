@@ -29,7 +29,7 @@ import { iniciarAnotate } from '../links/anotate.js';
       return;
     }
     textos.forEach(function (e) { e.classList.add('rv2'); });
-    var entra = new IntersectionObserver(function (es) {
+    var alEntrar = function (es) {
       var k = 0;
       es.forEach(function (e) {
         var el = e.target;
@@ -42,7 +42,11 @@ import { iniciarAnotate } from '../links/anotate.js';
         }
         el.classList.add('in');
       });
-    }, { rootMargin: '0px 0px -16% 0px' });
+    };
+    var entra = new IntersectionObserver(alEntrar, { rootMargin: '0px 0px -16% 0px' });
+    /* El pie queda pegado al final de la página: en el celular nunca llegaría a subir hasta el 84 % de la
+       pantalla, así que sus elementos aparecen apenas se ven (sin el margen del -16 %). */
+    var entraPie = new IntersectionObserver(alEntrar, { rootMargin: '0px' });
     var sale = new IntersectionObserver(function (es) {
       es.forEach(function (e) {
         var el = e.target;
@@ -54,7 +58,7 @@ import { iniciarAnotate } from '../links/anotate.js';
       });
     }, { rootMargin: '0px' });
     fotos.forEach(function (e) { entra.observe(e); sale.observe(e); });
-    textos.forEach(function (e) { entra.observe(e); sale.observe(e); });
+    textos.forEach(function (e) { (e.closest('.pie') ? entraPie : entra).observe(e); sale.observe(e); });
   }
 
   /* ---------- logotipo de la portada ----------

@@ -25,6 +25,7 @@ export function mediosDossier(c) {
   for (const b of c.blocks) {
     if (b.imgs) lista.push(...b.imgs);
     if (b.side) lista.push(b.side);
+    if (b.foto) lista.push(b.foto);
   }
   return lista;
 }
@@ -88,18 +89,20 @@ function textBlock(b, id, ctx) {
     h += `<div class="acciones">${b.botones.map((x) => `<a class="btn${x.estilo === 'linea' ? ' linea' : ''}" href="${esc(x.href || '#')}">${esc(x.t || '')} ${icono('fl', 'fl')}</a>`).join('')}</div>`;
   }
   // `sideEntera`: la foto del costado se ve completa y más chica (sin recorte), sobre el fondo del bloque.
-  const side = b.side ? `<figure class="side rv${b.sideEntera ? ' entera' : ''}">${ctx.media(b.side, { sizes: b.sideEntera ? '(min-width:860px) 420px, 72vw' : SIZES.side, lazy: true })}</figure>` : '';
-  const cls = side ? ' has-side' : '';
+  const side = b.side ? `<figure class="side rv${b.sideEntera ? ' entera' : ''}">${ctx.media(b.side, { sizes: b.sideEntera ? '(min-width:860px) 420px, 100vw' : SIZES.side, lazy: true })}</figure>` : '';
+  // `compacto`: frase en una línea arriba y, debajo, el saludo a la izquierda y la foto a la derecha (también en celu).
+  const cls = (side ? ' has-side' : '') + (side && b.compacto ? ' compacto' : '');
   const idAttr = id ? ` id="${id}"` : '';
   if (th === 'negro') return `<section class="offer${cls}"${idAttr}><div class="text">${h}</div>${side}</section>`;
-  if (th === 'bordo') return `<section class="tbordo${cls}"${idAttr}><div class="text">${h}</div>${side}</section>`;
+  // frambuesa: mismo bloque que el bordó pero en #953651, para que contraste con el pie bordó.
+  if (th === 'bordo' || th === 'frambuesa') return `<section class="tbordo${th === 'frambuesa' ? ' fram' : ''}${cls}"${idAttr}><div class="text">${h}</div>${side}</section>`;
   if (side) return `<section class="tcrema${cls}"${idAttr}><div class="text">${h}</div>${side}</section>`;
   return `<section class="text"${idAttr}>${h}</section>`;
 }
 
 /* Cita. Opciones: theme "negro" (fondo negro, firma rosa), cita (en Trazo y entre comillas),
    chico (menos aire, como un corte) y firma "credito" (la misma firma del pie: "Por Luz A. Zapata · …"). */
-function manifBlock(b, id, c) {
+function manifBlock(b, id, c, ctx) {
   const idAttr = id ? ` id="${id}"` : '';
   const cls = 'manif' + (b.theme === 'negro' ? ' negro' : '') + (b.chico ? ' chico' : '') + (b.cita ? ' cita' : '');
   const texto = b.cita ? `“${esc(b.q || '')}”` : esc(b.q || '');
@@ -107,9 +110,12 @@ function manifBlock(b, id, c) {
   const firma = b.firma === 'credito'
     ? `<div class="firma credito">${z.name ? '<span class="por">Por </span>' : ''}<b class="who">${esc(z.name || '')}</b>${z.name && z.role ? '<span> · </span>' : ''}<span>${esc(z.role || '')}</span></div>`
     : (b.firma ? `<div class="firma">${esc(b.firma)}</div>` : '');
-  return `<section class="${cls}"${idAttr}><div class="text">${b.eb ? `<div class="eyebrow">${esc(b.eb)}</div>` : ''}` +
-    `<blockquote${b.cita ? ' class="trazo"' : ''}>${texto}${b.qa ? ` <em>${esc(b.qa)}</em>` : ''}</blockquote>` +
-    `${firma}</div></section>`;
+  // `foto`: retrato cuadrado de quien firma, al costado del texto (si no hay foto, el bloque queda como antes).
+  const conFoto = !!(b.foto && ctx);
+  const cuerpo = `${b.eb ? `<div class="eyebrow">${esc(b.eb)}</div>` : ''}` +
+    `<blockquote${b.cita ? ' class="trazo"' : ''}>${texto}${b.qa ? ` <em>${esc(b.qa)}</em>` : ''}</blockquote>${firma}`;
+  const foto = conFoto ? `<figure class="foto-autora rv">${ctx.media(b.foto, { sizes: '(min-width:760px) 300px, 40vw', lazy: true })}</figure>` : '';
+  return `<section class="${cls}${conFoto ? ' con-foto' : ''}"${idAttr}><div class="text">${conFoto ? `<div class="cuerpo">${cuerpo}</div>` : cuerpo}${foto}</div></section>`;
 }
 
 /* ---------- recorrido: un recuadro que lleva a la página siguiente ----------
@@ -218,23 +224,26 @@ function contactoBlock(c, ctx) {
     `</form><script type="application/json" id="mensaje-cfg">${cfg}</script></section>\n`;
 }
 
-/* Pie fijo de todas las páginas (bordó, como el cierre original): logotipo, Instagram · WhatsApp ·
-   TikTok · Email, "Nos vemos entre las flores" y la franja de créditos. */
+/* Pie fijo de todas las páginas (bordó, como el cierre original): WhatsApp · Instagram · TikTok · Email,
+   "Nos vemos entre las flores" y la franja de créditos. En las páginas comunes los links van en una sola
+   fila de íconos (en compu, con el nombre al lado); en la última (con el gato animado y el logotipo)
+   se ven completos, con usuario y flecha. */
 function pie(c, sitio, ctx, { conMarca = false } = {}) {
   const z = c.close;
   const ig = sitio.instagram, wa = sitio.whatsapp, tt = sitio.tiktok, mail = sitio.email;
   const waUrl = `https://wa.me/${wa}?text=${encodeURIComponent(z.waMensaje || '')}`;
-  const boton = (href, ico, t, s, externo = true) => `<a href="${href}"${externo ? ' target="_blank" rel="noopener"' : ''}>${icono(ico, 'ico')}<span class="txt"><span class="t">${esc(t)}</span><span class="s">${esc(s)}</span></span>${icono('fl', 'fl')}</a>`;
+  const boton = (href, ico, t, s, externo = true) => `<a href="${href}"${externo ? ' target="_blank" rel="noopener"' : ''} aria-label="${esc(t)}: ${esc(s)}" title="${esc(t)}">${icono(ico, 'ico')}<span class="txt"><span class="t">${esc(t)}</span><span class="s">${esc(s)}</span></span>${icono('fl', 'fl')}</a>`;
   // Solo al final del recorrido (última página) va el gato animado con el logotipo, como en el cierre original.
   const marca = conMarca ? `<div class="mark"><img class="cat" src="${ctx.url.catAnim}" alt="Gato negro del club" width="${ctx.cat.width}" height="${ctx.cat.height}" loading="lazy">` +
     `<img class="name" src="${ctx.url.logoCrema}" alt="El jardín de los gatos negros" width="${ctx.logo.width}" height="${ctx.logo.height}" loading="lazy"></div>` : '';
   let h = `<footer class="pie${conMarca ? ' con-marca' : ''}">${marca}` +
-    `<div class="contact">` +
-    (ig ? boton(`https://www.instagram.com/${esc(ig)}/`, 'ig', 'Instagram', '@' + ig) : '') +
+    `<div class="contact iconos">` +
     (wa ? boton(esc(waUrl), 'wa', 'WhatsApp', sitio.whatsappVisible || wa) : '') +
+    (ig ? boton(`https://www.instagram.com/${esc(ig)}/`, 'ig', 'Instagram', '@' + ig) : '') +
     (tt ? boton(`https://www.tiktok.com/@${esc(tt)}`, 'tt', 'TikTok', '@' + tt) : '') +
     (mail ? boton(`mailto:${esc(mail)}?subject=${encodeURIComponent(z.mailAsunto || 'Vi el dossier de El Jardín de los Gatos Negros')}`, 'carta', 'Email', mail, false) : '') +
-    `</div>` + (z.phrase ? `<p class="trazo phrase">${esc(z.phrase)}</p>` : '') + `</footer>\n`;
+    // "Nos vemos entre las flores" va solo en el pie de la última página (Alianzas), para no repetirla en todas.
+    `</div>` + (conMarca && z.phrase ? `<p class="trazo phrase">${esc(z.phrase)}</p>` : '') + `</footer>\n`;
   h += `<div class="credit"><p>${z.name ? '<span class="por">Por </span>' : ''}<b class="who">${esc(z.name)}</b>${z.name && z.role ? '<span> · </span>' : ''}<span class="what">${esc(z.role)}</span></p></div>`;
   return h;
 }
@@ -251,7 +260,7 @@ export function cuerpoDossier(c, sitio, ctx, pagina = null) {
     if ((b.pagina || null) !== actual) return;
     const id = idDe.get(i);
     if (b.type === 'text') h += textBlock(b, id, ctx);
-    else if (b.type === 'manif') h += manifBlock(b, id, c);
+    else if (b.type === 'manif') h += manifBlock(b, id, c, ctx);
     else if (b.type === 'seguir') h += seguirBlock(c, null, ctx);
     else if (b.type === 'sumate') h += sumateBlock(b, sitio, ctx);
     else if (b.type === 'contacto') h += contactoBlock(c, ctx);
@@ -261,7 +270,7 @@ export function cuerpoDossier(c, sitio, ctx, pagina = null) {
       const m = b.imgs && b.imgs[0];
       // `chico`: la foto o el video se ven enteros y más chicos, centrados (no de borde a borde).
       h += `<div class="wrap${b.bleed ? ' bleed' : ''}"><figure class="full${b.flush ? '' : ' rv'}${k === 0 || b.flush ? ' first' : ''}${b.chico ? ' chico' : ''}">` +
-        ctx.media(m, { sizes: b.chico ? '(min-width:760px) 640px, 72vw' : b.bleed ? SIZES.bleed : SIZES.full, lazy: k > 1, prioridad: k === 0 }) + '</figure></div>';
+        ctx.media(m, { sizes: b.chico ? '(min-width:760px) 760px, 100vw' : b.bleed ? SIZES.bleed : SIZES.full, lazy: k > 1, prioridad: k === 0 }) + '</figure></div>';
     } else if (b.type === 'duo') {
       h += `<div class="wrap"><div class="duo ${b.r === 'sq' ? 'sq' : 'tall'} rv">`;
       for (let j = 0; j < 2; j++) {
