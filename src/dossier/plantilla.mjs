@@ -83,7 +83,7 @@ function textBlock(b, id, ctx) {
     h += '</ul>';
   }
   h += parrafos(b.after).map((p) => `<p class="honest">${esc(p)}</p>`).join('');
-  if (b.note) h += `<p class="note">${esc(b.note)}</p>`;
+  if (b.note) h += b.noteCursiva ? `<p class="note cursiva"><span>${esc(b.note)}</span></p>` : `<p class="note">${esc(b.note)}</p>`;
   /* Botones de web dentro del bloque (`botones`: [{ t, href, estilo: 'linea' }]): llevan a otra página o sección. */
   if (Array.isArray(b.botones) && b.botones.length) {
     h += `<div class="acciones">${b.botones.map((x) => `<a class="btn${x.estilo === 'linea' ? ' linea' : ''}" href="${esc(x.href || '#')}">${esc(x.t || '')} ${icono('fl', 'fl')}</a>`).join('')}</div>`;
@@ -104,7 +104,7 @@ function textBlock(b, id, ctx) {
    chico (menos aire, como un corte) y firma "credito" (la misma firma del pie: "Por Luz A. Zapata · …"). */
 function manifBlock(b, id, c, ctx) {
   const idAttr = id ? ` id="${id}"` : '';
-  const cls = 'manif' + (b.theme === 'negro' ? ' negro' : '') + (b.chico ? ' chico' : '') + (b.cita ? ' cita' : '');
+  const cls = 'manif' + (b.theme === 'negro' ? ' negro' : '') + (b.theme === 'crema' ? ' crema' : '') + (b.theme === 'bordo' ? ' bordo' : '') + (b.chico ? ' chico' : '') + (b.cita ? ' cita' : '');
   const texto = b.cita ? `“${esc(b.q || '')}”` : esc(b.q || '');
   const z = (c && c.close) || {};
   const firma = b.firma === 'credito'

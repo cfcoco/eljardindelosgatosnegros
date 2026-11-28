@@ -136,16 +136,35 @@ body{background:var(--crema);color:var(--negro);font-size:18px;line-height:1.55}
 .has-side.compacto .side.entera{padding:0}
 .has-side.compacto .side.entera img{width:100%}
 @media (min-width:860px){.has-side.compacto{max-width:1000px;margin-left:auto;margin-right:auto;column-gap:56px;padding:72px 24px}.has-side.compacto .side.entera{padding:0}.has-side.compacto .side.entera img{width:100%}}
+/* Manifiesto (Sobre el club), pedido de Luz el 28/11/2026: en celu la foto de la gata sube y queda unida al texto; la frase de la nota va en rosa
+   y ladeada (cursiva) en Gabarito; y no hay línea crema entre la foto y el bloque negro de la cita que le sigue. */
+@media (max-width:859px){.offer.has-side .text{padding-bottom:26px}}
+.offer .note.cursiva{color:var(--rosa)}
+.has-side+.manif{margin-top:0}
+/* Manifiesto en crema (`theme: "crema"`, Luz 28/11/2026): la foto de la gata sube y se une al texto, y la frase de la nota va ladeada en rosa oscuro (el rosa claro no se lee sobre crema). */
+@media (max-width:859px){.tcrema.has-side .text{padding-bottom:26px}}
+.tcrema .note.cursiva,.text .note.cursiva{color:var(--frambuesa)}
+/* La frase ladeada se inclina con CSS (no con la cursiva automática de la letra, que se nota poco en algunos celulares). */
+.note.cursiva{font-style:normal;font-weight:700;font-size:16.5px}
+.note.cursiva span{display:block;transform:skewX(-12deg);transform-origin:0 100%}
+/* Cita en bordó (`theme: "bordo"`): frase y firma en crema, que es lo que más contrasta. */
+.manif.bordo .firma{color:var(--crema)}
+/* Cita en crema (`theme: "crema"`): fondo crema hasta el borde de la foto de la gata, texto en negro. */
+.manif.crema{background:var(--crema);color:var(--negro)}
+.manif.crema.cita blockquote{color:var(--negro)}
+.manif.crema .firma{color:#3d3a37}
 .manif.negro{background:var(--negro)}
 .manif.negro .firma{color:var(--rosa)}
 .manif.chico .text{padding:52px 26px 48px}
-.manif.con-foto .text{display:grid;grid-template-columns:minmax(0,1fr) clamp(96px,29vw,300px);gap:16px;align-items:center}
+.manif.con-foto .text{display:grid;grid-template-columns:clamp(96px,29vw,300px) minmax(0,1fr);gap:16px;align-items:center}
+/* La foto va a la izquierda y la frase a la derecha (pedido de Luz, 28/11/2026): se invierte el orden solo visualmente. */
+.manif.con-foto .foto-autora{order:-1}
 .manif.con-foto .firma{margin-top:14px;font-size:12px;letter-spacing:.1em;white-space:nowrap}
 /* En celu la frase se achica para que entre en 2 líneas y la firma en 1; en compu vuelve al tamaño grande. */
 .manif.con-foto.cita blockquote{font-size:clamp(16px,5.3vw,42px);line-height:1.15;text-wrap:balance}
 .manif .foto-autora{margin:0;aspect-ratio:1/1;overflow:hidden;background:#1a1a1a}
 .manif .foto-autora img{width:100%;height:100%;object-fit:cover}
-@media (min-width:760px){.manif.con-foto .text{max-width:860px;gap:48px;grid-template-columns:minmax(0,1fr) 300px}.manif.con-foto.chico .text{padding:64px 24px}.manif.con-foto.cita blockquote{font-size:42px}.manif.con-foto .firma{font-size:14px;letter-spacing:.14em}}
+@media (min-width:760px){.manif.con-foto .text{max-width:860px;gap:48px;grid-template-columns:300px minmax(0,1fr)}.manif.con-foto.chico .text{padding:64px 24px}.manif.con-foto.cita blockquote{font-size:42px}.manif.con-foto .firma{font-size:14px;letter-spacing:.14em}}
 .manif.cita blockquote{font-size:clamp(28px,7.4vw,42px);line-height:1.15;color:var(--crema)}
 /* "¿Te gustaría sumarte?" en negro con letra rosa (Sobre el club), como un cambio de ritmo. */
 .sumate.negro .encuentro{background:var(--negro);color:var(--crema);box-shadow:none}
@@ -256,8 +275,8 @@ body{background:var(--crema);color:var(--negro);font-size:18px;line-height:1.55}
 .ok .end img.ve,.ok .end video.ve{opacity:1;transform:none}
 @keyframes in{from{opacity:0;transform:translateY(16px)}}
 @media (prefers-reduced-motion:reduce){.encuentro .step,.ok,.ok .ver,.contacto .mensaje .gracias{animation:none}.ok .ver{clip-path:none}.ok .end img,.ok .end video{opacity:1;transform:none;transition:none}}
-.contacto .cta{font-weight:700;font-size:clamp(23px,6vw,30px);line-height:1.3;max-width:540px;margin:0 auto 6px;color:var(--crema);text-wrap:balance}
-.contacto .cta-sub{font-size:clamp(23px,6vw,30px);line-height:1.3;color:var(--crema);max-width:540px;margin:0 auto 46px}
+.contacto .cta{font-weight:700;font-size:clamp(23px,6vw,30px);line-height:1.3;max-width:540px;margin:0 auto 6px;color:var(--rosa);text-wrap:balance}
+.contacto .cta-sub{font-size:clamp(23px,6vw,30px);line-height:1.3;color:var(--rosa);max-width:540px;margin:0 auto 46px}
 .contact{display:grid;gap:14px;max-width:460px;margin:0 auto}
 @media (min-width:760px){.contact{grid-template-columns:1fr 1fr;max-width:760px}}
 /* Botones de Instagram y WhatsApp: misma pastilla con borde, con ícono, dos líneas y flecha;

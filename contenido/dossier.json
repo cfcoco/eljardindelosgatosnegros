@@ -103,7 +103,7 @@
     {
       "id": "b685641",
       "type": "text",
-      "theme": "negro",
+      "theme": "crema",
       "eb": "NUESTRO MANIFIESTO",
       "phrase": "Una invitación a saltar el muro",
       "after": "Creemos que nos parecemos mucho a los gatos negros: celosos de nuestra soledad y, muchas veces, incomprendidos. Pero el instinto siempre nos empuja a saltar el muro y encontrarnos en un jardín nuevo, entre flores que no son otra cosa que las lecturas que elegimos para sentirnos menos solos.",
@@ -112,7 +112,8 @@
         "src": "img/gata-manifiesto-v2.jpg",
         "alt": "Gata negra de Luz, de perfil, con collar rojo"
       },
-      "pagina": "sobre-el-club"
+      "pagina": "sobre-el-club",
+      "noteCursiva": true
     },
     {
       "id": "b894455",
@@ -126,7 +127,7 @@
         "src": "img/luz.jpg",
         "alt": "Luz Altamirano Zapata, creadora del club"
       },
-      "_ayuda": "Corte negro con la frase en Trazo (entre comillas, en 2 líneas), la firma en una línea y el retrato cuadrado de Luz al costado. Va en Sobre el club, justo debajo del manifiesto (\"Una invitación a saltar el muro\"). Para cambiar la foto, reemplazá contenido/img/luz.jpg por otra foto cuadrada.",
+      "_ayuda": "Corte negro con la frase en Trazo blanco entre comillas, la firma en rosa y el retrato cuadrado de Luz al costado. Va en Sobre el club, justo debajo del manifiesto (pegado a la foto de la gata, sin línea). Para cambiar la foto, reemplazá contenido/img/luz.jpg por otra foto cuadrada.",
       "pagina": "sobre-el-club"
     },
     {
