@@ -59,6 +59,61 @@ function jardin_preparar_tablas(PDO $pdo): void {
     KEY ip_creado (ip_hash, creado),
     KEY creado (creado)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
+  /* Mensajes del formulario de Alianzas (dossier): nombre, mail o teléfono y texto libre. */
+  $pdo->exec("CREATE TABLE IF NOT EXISTS mensajes (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    creado DATETIME NOT NULL,
+    nombre VARCHAR(80) NOT NULL,
+    contacto VARCHAR(120) NOT NULL,
+    mensaje TEXT NOT NULL,
+    origen VARCHAR(40) NOT NULL DEFAULT 'dossier',
+    ip_hash CHAR(64) NOT NULL,
+    PRIMARY KEY (id),
+    KEY ip_creado (ip_hash, creado),
+    KEY creado (creado)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
+}
+
+/** Solo acepta pedidos del propio sitio: si el navegador manda Origin/Referer, el host tiene que coincidir. */
+function jardin_exigir_mismo_origen(): void {
+  $host = strtolower($_SERVER['HTTP_HOST'] ?? '');
+  foreach (['HTTP_ORIGIN', 'HTTP_REFERER'] as $h) {
+    if (!empty($_SERVER[$h])) {
+      $o = strtolower((string)parse_url($_SERVER[$h], PHP_URL_HOST));
+      if ($o !== '' && $host !== '' && $o !== $host) jardin_json(403, ['ok' => false, 'error' => 'origen']);
+    }
+  }
+}
+
+/** Manda por mail un mensaje recibido desde el formulario de Alianzas. Si falla, no corta el pedido. */
+function jardin_avisar_mensaje(array $m): bool {
+  $c = jardin_config();
+  $para = $c['aviso_email'] ?? '';
+  if (!$para) return false;
+  $de = $c['mail_desde'] ?? ('no-responder@' . ($_SERVER['SERVER_NAME'] ?? 'localhost'));
+  $asunto = 'Nuevo mensaje desde el dossier: ' . $m['nombre'];
+  $lineas = [
+    'Alguien escribió desde el formulario de Alianzas del dossier.',
+    '',
+    'Nombre:   ' . $m['nombre'],
+    'Contacto: ' . $m['contacto'],
+    'Fecha:    ' . $m['creado'],
+    '',
+    'Mensaje:',
+    $m['mensaje'],
+    '',
+    'Listado completo: ' . ($c['admin_url'] ?? ''),
+  ];
+  $cab = [
+    'From: El Jardín de los Gatos Negros <' . $de . '>',
+    'MIME-Version: 1.0',
+    'Content-Type: text/plain; charset=UTF-8',
+    'Content-Transfer-Encoding: 8bit',
+    'X-Mailer: jardin-mensaje',
+  ];
+  if (filter_var($m['contacto'], FILTER_VALIDATE_EMAIL)) $cab[] = 'Reply-To: ' . $m['contacto'];
+  $asuntoCod = '=?UTF-8?B?' . base64_encode($asunto) . '?=';
+  return @mail($para, $asuntoCod, implode("\r\n", $lineas), implode("\r\n", $cab), '-f' . $de);
 }
 
 /** Responde JSON y termina. */
